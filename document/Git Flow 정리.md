@@ -18,7 +18,7 @@ Git-flow : Git으로 소프트웨어 개발을 관리 할때 표준으로 사용
 
 
 
-![git-flow](./document/git-flow.png)
+![git-flow](document/git-flow.png)
 
 
 
