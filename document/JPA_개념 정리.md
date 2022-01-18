@@ -26,7 +26,7 @@
 - 자바 진영의 ORM 기술 표준
 - 자바 애플리케이션과 JDBC 사이에서 동작
 
-![jpa 구조]./photo\jpa 구조.png)
+![jpa 구조](./photo/jpa 구조.png)
 
 
 
