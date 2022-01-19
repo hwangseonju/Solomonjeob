@@ -1,14 +1,14 @@
 - JPA는 애플리케이션과 JDBC 사이에서 동작
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/efe847cd-dee9-410a-8b4f-2a732afc5121/Untitled.png)
+image - 추후 수정
 
 - JPA 동작 - 저장
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76d7861c-3f15-412d-9cae-b9ef6ca596ef/Untitled.png)
+image - 추후 수정
 
 - JPA 소개
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb66e47c-b46f-477d-9d95-eba2e714586e/Untitled.png)
+image - 추후 수정
 
 - 생산성 - CRUD
 
@@ -33,37 +33,37 @@ JPA : 필드만 추가하면 됨, SQL은 JPA가 처리
     
     - JPA와 상속 - 저장
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61ebe97a-bdde-4cac-8c0b-f33745556a98/Untitled.png)
+    image - 추후 수정
     
     - JPA와 상속 - 조회
         - 개발자가 할일
-            
+          
             Album album = jpa.find(Album.class, albumId);
             
         - 나머진 JPA가 처리
-            
+          
             SELECT I.*, A.*
             
             FROM ITEM I
             
             JOIN ALBUM A ON I.ITEM_ID = A.ITEM_ID
-            
+        
     - JPA와 연관관계, 객체 그래프 탐색
         - 연관관계 저장
-            
+          
             member.setTeam(team);
             
             jpa.persist(member);
             
         - 객체 그래프 탐색
-            
+          
             Member member = jpa.find(Member.class, memberId);
             
             Team team = member.getTeam();
-            
+        
     - JPA와 비교하기
         - String memberId = “100”;
-            
+          
             Member member1 = jpa.find(Member.class, memberId);
             
             Member member2 = jpa.find(Member.class, memberId);
@@ -83,7 +83,7 @@ JPA : 필드만 추가하면 됨, SQL은 JPA가 처리
 > 
 - 객체 매핑하기
     - @Entity: JPA가 관리할 객체
-        
+      
         → 엔티티 한다.
         
     - @Id: DB PK와 매핑할 필드
@@ -111,7 +111,7 @@ create table Member (
     - JPA 설정 파일
     - /META-INF/persistence.xml 위치
     - javax.persistence로 시작: JPA 표준 속성
-        
+      
         ```java
         <?xml version="1.0" encoding="UTF-8"?>
         <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
@@ -141,7 +141,7 @@ create table Member (
     
 - 엔티티 매니저 설정
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70ccc472-233e-4991-a83c-7e0931748383/Untitled.png)
+image - 추후 수정
 
 > 필드와 매핑
 > 
@@ -155,7 +155,7 @@ create table Member (
 
 - 매핑 어노테이션
     - @Column
-        
+      
         ```java
         @Entity
         public class Member{
@@ -189,15 +189,15 @@ create table Member (
     - @Temporal
         - 날짜 타입 매핑
         - @Temporal (Temporal Type.DATE)
-            
+          
             private Date date; // 날짜
             
         - @Temporal (Temporal Type.DATE)
-            
+          
             private Date time; // 시간
             
         - @Temporal (Temporal Type.DATE)
-            
+          
             private Date timestamp; // 날짜와 시간
             
     
@@ -206,7 +206,7 @@ create table Member (
         - EnumType.ORDINAL: 순서를 저장(기본값)
         - EnumType.STRING: 열거형 이름을 그대로 저장, 가급적 이것을 사용
         - @Enumerated (EnumType.STRING)
-            
+          
             private RoleType roleType;
             
     
@@ -254,7 +254,7 @@ create table Member (
         - CLOB, BLOB 매핑
         - CLOB: String, char[], java.sql.CLOB
         - BLOB: byte[], java.sql.BLOB
-            
+          
             @Lob
             
             private String lobString;
@@ -267,9 +267,9 @@ create table Member (
     - @Transient
         - 이 필드는 매핑하지 않는다.
         - 애플리케이션에서 DB에 저장하지 않는 필드
-        
-- 식별자 매핑 어노테이션
     
+- 식별자 매핑 어노테이션
+  
     ```java
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
