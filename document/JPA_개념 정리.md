@@ -71,14 +71,14 @@
 
 
 
-:seven: JPA의 성능 최적화 기능
+##### :seven: JPA의 성능 최적화 기능
 
 - 1차 캐시와 동일성 보장 : 같은 트랜잭션 안에서는 같은 엔티티 반환 -> 조회 기능 향상
 - 트랜잭션을 지원하는 쓰기 지연
 - 지연 로딩(Lazy Loading) : 객체가 실제 사용될 때 로딩됨(객체를 가져온다고 해서 쿼리가 바로 실행되는게 아님!)
 
 
-
+<br>
 
 
 ### JPA 기초 & 매핑
@@ -144,7 +144,7 @@ create table User {
 4. 비즈니스 로직(CRUD)
 
 
-
+<br>
 
 
 ### 필드와 컬럼 매핑
@@ -282,14 +282,13 @@ public class Member {
 ```
 
 ![ddl 실습](./photo/h2_ddl_query.PNG)
-
+![dml 결과](./photo/h2_dml.PNG)
 
 
 [ 결과 ]
 
 ![ddl 결과](./photo/h2_ddl.PNG)
 
-![dml 결과](./photo/h2_dml.PNG)
 
 
 
@@ -302,10 +301,10 @@ public class Member {
   - AUTO : DB 방언에 따라 자동 지정(위의 3가지 중 하나를 자동 지정해줌), DEFAULT
 
 
+<br>
 
 
-
-### :star:연관관계 매핑:star: 
+### :star: 연관관계 매핑 :star: 
 
 ---
 
