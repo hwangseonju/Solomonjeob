@@ -175,7 +175,7 @@ create table User {
 ​	:hand: <span style="color:red">주의사항</span>
 
 		- 운영장비에서는 절대 create, create-drop, update 사용하면 안됨!
-
+	
 		- 개발 초기 단계 : create OR update
 		- 테스트 서버 : update OR validate
 		- 스테이징과 운영 서버 : validate OR none
@@ -304,13 +304,13 @@ public class Member {
 <br>
 
 
-### :star: 연관관계 매핑 :star: 
+### :star: 연관관계 매핑1 :star: 
 
 ---
 
 
 
-##### :one: 단방향 매핑(연관관계 O)
+##### :one: 단방향 매핑
 
 - @ManyToOne : 다대일 관계에서 사용
 - @JoinColumn : FK를 매핑할 때 사용
@@ -444,4 +444,287 @@ public class Main {
 [ 결과 ]
 
 ![실습 결과1](./photo/result1.PNG)
+
+
+
+<br>
+
+
+
+### :star: 연관관계 매핑2 :star: 
+
+---
+
+
+
+##### :one: 객체의 양방향 매핑
+
+- 객체의 양방향 관계는 사실 양방향 관계가 아니라 <u>서로 다른 단방향 관계가 2개인 것!</u>
+
+- 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 함
+
+  ex) A → B (a.getB()), B → A(b.getA())
+
+
+
+##### :two: 테이블의 양방향 매핑
+
+- 테이블은 <u>FK 하나</u>로 두 테이블의 연관관계를 관리 가능
+- FK를 이용하여 양쪽 테이블 조인!
+
+
+
+##### :three: 양방향 매핑 규칙
+
+1. 객체의 두 관계 중 하나를 연관관계의 주인으로 지정
+2. 연관관계의 주인만이 FK 관리! 
+3. 주인이 아닌 쪽은 읽기만 가능
+4. 주인은 mappedBy 속성 사용 X
+5. 주인이 아니면 mappedBy 속성으로 주인 지정
+
+
+
+##### :four: 연관관계 주인 정하는 방법
+
+- FK가 있는 곳
+
+
+
+##### :five: 양방향 매핑의 장점
+
+- 단방향 매핑만으로도 이미 연관관계 매핑은 완료
+- 양방향 매핑은 반대 방향으로 조회 기능이 추가된 것 뿐!
+- JPQL에서 역방향으로 탐색할 일 많음
+- 단방향 매핑을 잘하고 양방향은 필요할 때 추가해도 됨(결국 양방향은 단방향 매핑이 2개인 것이기 때문) → 테이블에 영향 X
+
+
+
+##### :six: 연관관계 매핑 어노테이션
+
+- 다대일 : @ManyToOne
+- 일대다 : @OneToMany
+- 일대일 : @OneToOne
+- 다대다 : @ManyToMany
+- @JoinColumn, @JoinTable
+
+
+
+##### :seven: 상속 관계 매핑 어노테이션
+
+- @Inheritance
+- @DiscriminatorColumn
+- @DiscriminatorValue
+- @MappedSuperclass(매핑 속성만 상속)
+
+
+
+##### :eight: 복합키 어노테이션
+
+- @IdClass
+- @EmbeddedId
+- @Embeddable
+- @MapId
+
+
+
+<br>
+
+
+
+### JPA 내부구조
+
+---
+
+
+
+#####  :one: EntitiyManagerFactory & EntityManager
+
+![EntityManager 구조](./photo/entitymanager_구조.PNG)
+
+
+
+##### :two: 영속성 컨텍스트 :star2:
+
+- JAP를 이해하는데 가장 중요!!
+- "<u>Entitiy를 영구 저장하는 환경</u>"
+- EntityManager.persist(entity)
+
+- 논리적인 개념(눈에 보이지 않음) → EntityManager를 통해 접근
+
+
+
+##### :three: 엔티티의 생명주기
+
+- 비영속(new/transient)
+
+  - 영속성 컨텍스트와 전혀 관계가 없는 상태
+
+  ex ) 
+
+  ```java
+  // 객체를 생성한 상태
+  Member member = new Member();
+  member.setId("member1");
+  member.setUsername("회원1");
+  ```
+
+- 영속(managed)
+
+  - 영속성 컨텍스트에 저장된 상태
+
+  ex)
+
+  ```java
+  // 객체를 생성한 상태
+  Member member = new Member();
+  member.setId("member1");
+  member.setUsername("회원1");
+  
+  EntityManager em = emf.createEntityMangaer();
+  em.getTransaction().begin();
+  
+  // 객체를 저장한 상태
+  em.persist(member);
+  ```
+
+- 준영속(detached)
+
+  - 영속성 컨텍스트에 저장되었다가 분리된 상태
+
+- 삭제(removed)
+
+  - 삭제된 상태
+
+
+
+##### :four: 영속성 컨텍스트의 장점
+
+- 1차 캐시
+
+  ⇒ 조회를 할때 캐시를 찾아보고 없으면 그때 DB에서 조회해봄
+
+- 동일성 보장
+
+  ⇒ 1차 캐시로 반복 가능한 읽기 등급의 트랜잭션 격리 수준을 DB가 아닌 애플리케이션 차원에서 제공
+
+- 트랜잭션을 지원하는 쓰기 지연
+
+  ⇒ 쿼리가 발생할 때마다 DB에 접근하는 것이 아닌 커밋 전까지 버퍼 개념처럼 쿼리를 쌓아뒀다가 한번에 반영!
+
+  ⇒ transaction.commit();
+
+- 변경 감지(Dirty Checking)
+
+  ⇒ update 메소드가 따로 없음
+
+  ⇒
+
+- 지연 로딩
+
+
+
+##### :five: 플러시
+
+- 영속성 컨텍스트의 변경내용을 DB에 반영
+- 변경 감지
+- 수정된 Entity 쓰기 지연 SQL 저장소에 등록
+- 쓰기 지연 SQL 저장소의 쿼리를 DB에 전송
+- 플러시 호출 방법
+  1. em.flush() : 직접 호출
+  2. 트랜잭션 커밍 : 플러시 자동 호출
+  3. JPQL 쿼리 실행 : 플러시 자동 호출
+
+- 영속성 컨텍스트를 비우지 개념 X  → 비우는 것은 clear()라고 따로 개념이 존재함
+
+  ⇒ 즉, 영속성 컨텍스트의 변경내용을 DB에 동기화 하는것이 플러쉬!
+
+- 트랜잭션이라는 작업 단위 중요 → **커밋 직전에만 동기화하면 됨**
+
+
+
+##### :six: 프록시와 즉시로딩 주의
+
+- 가급적 지연 로딩 사용(LAZY) → @어노테이션(fetch = FetchType.LAZY)
+
+- 즉시로딩을 적용하면 예상치 못한 SQL 발생하는 문제 생성
+
+- @ManyToOne, @OneToOne은 default가 즉시로딩이기 때문에 LAZY로 따로 설정해줘야함
+
+  (@OneToMany, @ManyToMany는 default가 지연로딩)
+
+
+
+<br>
+
+
+
+### JPA와 객체지향 쿼리
+
+---
+
+
+
+##### :one: JPQL
+
+- JPA를 사용하면 Entity 객체를 중심으로 개발
+- 검색을 할 때도 테이블이 아닌 Entity 객체를 대상으로 검색
+- 모든 DB 데이터를 객체로 변환해서 검색하는 것은 불가능!
+- 애플리케이션이 필요한 데이터만 DB에서 불러오려면 결국 검색 조건이 포함된 SQL 필요
+- <u>객체지향 SQL</u>
+
+
+
+##### :two: JPQL 문법
+
+- 엔티티와 속성은 대소문자 구분(ex. Member, username)
+- JPQL 키워드는 대소문자 구분 안함(ex. SELECT, from)
+- 엔티티 이름을 사용(테이블 이름 X)
+- 별칭은 필수!
+- query.getResultList() : 결과가 하나 이상, 리스트 반환
+- query.getSingleResult() : 결과가 정확히 하나, 단일 객체 반환
+
+
+
+##### :three: ​페이징 API
+
+- setFirstResult(int startPosition) : 조회 시작 위치(0부터 시작)
+- setMaxResults(int maxResult) : 조회할 데이터 수
+
+
+
+##### :four: 조인
+
+- innerJoin
+- outerJoin
+- 세터조인
+- **fetchJoin**
+
+
+
+##### :five: Named 쿼리
+
+- 미리 정의해서 이름을 부여해두고 사용하는 JPQL
+- 어노테이션, XML에 정의
+- 애플리케이션 로딩 시점에 초기화 후 재사용
+- 애플리케이션 로딩 시점에 쿼리를 검증
+
+ex)
+
+```java
+// 정의 방법
+@Entity
+@NamedQuery(
+	name = "Member.findByUsername",
+	query="select m from Member m where m.username = :username")
+public class Member {	
+	...
+}
+
+// 사용 방법
+List<Member> resultList =
+	em.createNamedQuery("Member.findByUsername", Member.class)
+		.setParameter("username", "회원1")
+		.getResultList();
+```
+
 
