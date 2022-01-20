@@ -1,4 +1,4 @@
 package com.ssafy.solomon.api.controller;
 
-public class UserController {
+public class MemberController {
 }
