@@ -1,14 +1,12 @@
 <template>
   <form @submit.prevent="submitForm">
       <div>
-          <label for="useremail">email: </label>
-          <input id="useremail" type="text" v-model="useremail" />    
+          <input id="useremail" placeholder="email" type="text" v-model="useremail" />    
       </div>
       <div>
-          <label for="password">password: </label>
-          <input id="password" type="text" v-model="password" />    
+          <input id="password" placeholder="password" type="password" v-model="password" />    
       </div>
-    <button type="submit">회원 가입</button>
+    <button type="submit" class="btn">회원 가입</button>
     <p>{{ logMessage }}</p>
   </form>
 </template>
@@ -43,6 +41,40 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.btn {
+  font-size: 18px;
+  padding: 15px 25px;
+  font-weight: 700;
+  font-family: 'Jua', sans-serif;
+  
+  border: 3px solid #6667AB;
+  color: #6e70ef;
+  cursor: pointer;
+  background-color: transparent;
+  position: relative;
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.btn:focus {
+  outline: none;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 1px;
+  background-image: linear-gradient(to right, #6667AB, #6e70ef);
+  top: 100%;
+  left: 0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+.btn:hover::before {
+  transform: translateY(-100%);
+}
+.btn:hover {
+  color: white;
+}
 </style>
