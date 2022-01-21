@@ -284,3 +284,321 @@ image - 추후 수정
         - TABLE: 키 생성용 테이블 사용, 모든 DB에서 사용
             - @TableGenerator 필요
         - AUTO: 방언에 따라 자동 지정, 기본값
+
+> 연관관계 매핑
+
+- 객체를 테이블에 맞추어 모델링
+
+```java
+// Member.java Team.java
+@Entity
+public class Member{
+
+    @Id @GeneratedValue
+    private Long id;
+
+    @Column(name = "USERNAME")
+    private String name;
+		private int age;
+
+		@Column(name = "TEAM_ID")
+		private Long teamId;
+		...
+}
+@Entity
+public class Team {
+
+    @Id @GeneratedValue
+    private Long id;
+    private String name;
+		...
+}
+```
+
+[Member.java](http://Member.java) Team.java
+
+```java
+// 팀 저장
+Team team = new Team();
+team.setName("TeamA");
+em.persist(team);
+
+// 회원 저장
+Member member = new Member();
+member.setName("member1");
+member.setTeamId(team.getId());
+em.persist(member);
+```
+
+Main.java
+
+추후 이미지 수정
+
+DB
+
+```java
+// 조회
+Member findMember = em.find(Member.class, member.getId());
+
+// 연관관계 없음
+Team findTeam = em.find(Team.class, team.getId());
+```
+
+→ 객체를 테이블에 맞추어 모델링하게 되면 조회를 하기 위해서 findMember, findTeam 이런식으로 따로 조회를 해와야한다.
+
+- 객체를 테이블에 맞추어 데이터 중심으로 모델링하면, 협력 관계를 만들 수 없다.
+
+  - 테이블은 외래 키로 조인을 사용해서 연관된 테이블을 찾는다.
+  - 객체는 참조를 사용해서 연관된 객체를 찾는다.
+  - 테이블과 객체 사이에는 이런 큰 간격이 있다.
+
+- 연관관계 매핑 이론
+
+  - 단방향 매핑 (예제 ex04)
+
+    - 객체 지향 모델링 (객체 연관관계 사용)
+
+    추후 이미지 수정
+
+    ```java
+    // Member.java
+    @Entity
+    public class Member{
+    
+        @Id @GeneratedValue
+        private Long id;
+    
+        @Column(name = "USERNAME")
+        private String name;
+        private int age;
+    
+        // @Column(name = "TEAM_ID")
+        // private Long teamId;
+    
+        **@ManyToOne
+        @JoinColumn(name = "TEAM_ID")
+        private Team team;**
+        ...
+    }
+    ```
+
+    추후 이미지 수정
+
+    → 위 소스 코드처럼 ORM 매핑
+
+    ```java
+    // Main.java
+    // 팀 저장
+    Team team = new Team();
+    team.setName("TeamA");
+    em.persist(team);
+    
+    // 회원 저장
+    Member member = new Member();
+    member.setName("member1");
+    //member.setTeamId(team.getId());
+    **member.setTeam(team); // 단방향 연관관계 설정, 참조 저장**
+    em.persist(member);
+    ```
+
+    ```java
+    // Main.java
+    // 조회
+    Member findMember = em.find(Member.class, member.getId());
+    
+    // 연관관계 없음
+    // Team findTeam = em.find(Team.class, team.getId());
+    
+    // 참조를 사용해서 연관관계 조회
+    Team findTeam = findMember.getTeam();
+    ```
+
+- 양방향 매핑
+
+  추후 이미지 수정
+
+  ```java
+  // Member.java 이전과 동일
+  @Entity
+  public class Member{
+  
+      @Id @GeneratedValue
+      private Long id;
+  
+      @Column(name = "USERNAME")
+      private String name;
+      private int age;
+  
+      // @Column(name = "TEAM_ID")
+      // private Long teamId;
+  
+      **@ManyToOne
+      @JoinColumn(name = "TEAM_ID")
+      private Team team;**
+      ...
+  }
+  ```
+
+  ```java
+  // Team.java
+  @Entity
+  public class Team {
+  
+      @Id @GeneratedValue
+      private Long id;
+      private String name;
+  
+  		**@OneToMany(mappedBy = "team")
+  		List<Member> members = new ArrayList<Member>();**
+  		...
+  }
+  ```
+
+  ```java
+  // Main.java
+  List<Member> members = findTeam.getMembers();
+  for(Member member1 : members){
+  	System.out.println("member 1 = " + member1);
+  }
+  
+  // Main.java 책에 나와있는 버전
+  Team findTeam = em.find(Team.class, team.getId());
+  int memberSize = findTeam.getMembers().size(); // 역방향 조회
+  ```
+
+  → Team에서 List에 담은 member를 위와같이 조회할 수 있다.
+
+  - 연관관계의 주인과 mappedBy
+
+    - 객체와 테이블이 관계를 맺는 차이
+
+      - 객체 연관관계
+        - 회원 → 팀 연관관계 1개(단방향)
+        - 팀 → 회원 연관관계 1개(단방향)
+      - 테이블 연관관계
+        - 회원 ↔ 팀의 연관관계 1개(양방향)
+
+    - 객체의 양방향 관계
+
+      - 객체의 양방향 관계는 사실 양방향 관계가 아니라 서로 다른 단방향 관계 2개다.
+      - 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 한다.
+      - A → B (a.getB())    class A { B b; }
+      - B → A (b.getA())    class B { A a; }
+
+    - 테이블의 양방향 연관관계
+
+      - 테이블은 외래 키 하나로 두 테이블의 연관관계를 관리
+
+      - MEMBER.TEAM_ID 외래 키 하나로 양방향 연관관계 가짐 (양쪽으로 조인할 수 있다.)
+
+      - SELECT *
+
+        FROM MEMBER M
+
+        JOIN TEAM T ON M.TEAM_ID = T.TEAM_ID
+
+      - SELECT *
+
+        FROM TEAM T
+
+        JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
+
+    - 둘 중 하나로 외래 키를 관리해야 한다.
+
+    추후 이미지 수정
+
+    
+
+    - 양방향 매핑 규칙
+
+      - 객체의 두 관계 중 하나를 연관관계의 주인으로 지정
+      - **연관관계의 주인만이 외래 키를 관리 (등록, 수정)**
+      - **주인이 아닌쪽은 읽기만 가능**
+      - 주인은 mappedBy 속성 사용 X
+      - 주인이 아니면 mappedBy 속성으로 주인 지정
+
+      → 여기서는 MEMBER가 연관관계의 주인! TEAM에서 mappedby = “team”함
+
+    - 누구를 주인으로?
+
+      - 외래 키가 있는 곳을 주인으로 정해라
+
+      - 여기서는 Member.team이 연관관계의 주인
+
+        추후 이미지 수정
+
+    - 양방향 매핑 시 가장 많이 하는 실수(연관관계의 주인에 값을 입력하지 않음)
+
+      ```java
+      // Main.java
+      // 팀 저장
+      Team team = new Team();
+      team.setName("TeamA");
+      em.persist(team);
+      
+      // 회원 저장
+      Member member = new Member();
+      member.setName("member1");
+      
+      **// 역방향(주인이 아닌 방향)만 연관관계 설정
+      team.getMembers().add(member);**
+      
+      em.persist(member);
+      ```
+
+      추후 이미지 수정
+
+    - 양방향 매핑 시 연관관계의 주인에 값을 입력해야 한다. (순수한 객체 관계를 고려하면 항상 양쪽 다 값을 입력해야 한다.)
+
+      ```java
+      // Main.java
+      // 팀 저장
+      Team team = new Team();
+      team.setName("TeamA");
+      em.persist(team);
+      
+      // 회원 저장
+      Member member = new Member();
+      member.setName("member1");
+      
+      team.getMembers().add(member);
+      **// 연관관계의 주인에 값 설정
+      member.setTeam(team); // ****
+      
+      em.persist(member);
+      ```
+
+      추후 이미지 수정
+
+    - 양방향 매핑의 장점
+
+      - 단방향 매핑만으로도 이미 연관관계 매핑은 완료
+      - 양방향 매핑은 반대 방향으로 조회(객체 그래프 탐색) 기능이 추가된 것 뿐
+      - JPQL에서 역방향으로 탐색할 일이 많음
+      - 단방향 매핑을 잘하고 양방향은 필요할 때 추가해도 됨 (테티블에 영향을 주지 않음)
+
+  - 다양햔 매핑 어노테이션
+
+    - 연관관계 매핑 어노테이션
+
+      - 다대일 (@ManyToOne)
+      - 일대다 (@OneToMany)
+      - 일대일 (@OneToOne)
+      - 다대다 (@ManyToMany)
+      - @JoinColumn, @JoinTable
+
+    - 상속관계 매핑 어노테이션
+
+      - @Inheritance
+      - @DiscriminatorColumn
+      - @DiscriminatorValue
+      - @MappedSuperclass(매핑 속성만 상속)
+
+      → 책에 자세히 나와있음. 너무 김..
+
+    - 복합키 어노테이션
+
+      - @IdClass
+      - @EmbeddedId
+      - @Embeddable
+      - @Mapsld
