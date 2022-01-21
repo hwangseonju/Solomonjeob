@@ -17,7 +17,7 @@ public class QnaEntity {
     private Long qna_id;                //식별자 랜덤값
     private String qna_content;       //질문 내용
 //    @Temporal(TemporalType.TIMESTAMP)
-    private int qna_time;              //시간설정
+//    private int qna_time;              //시간설정
     private String qna_answer;          //답변
 
     //1개의 문제집당 여러 문제등록 가능
