@@ -1,6 +1,8 @@
-package com.example.demo.repository;
+package com.ssafy.solomon.db.repository;
 
-import com.example.demo.model.Qnas;
+import com.ssafy.solomon.db.entity.QnasEntity;
+import org.springframework.stereotype.Repository;
 
-public interface qnasRepo extends JPARepo<Qnas,Long>{
+@Repository
+public interface QnasRepo extends JPARepo<QnasEntity,Long>{
 }
