@@ -1,8 +1,7 @@
 package com.ssafy.solomon.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "member")
 public class MemberEntity {
     @Id
@@ -27,5 +27,11 @@ public class MemberEntity {
     //하나의 유저는 여러 문제집을 가질 수 있음
     @JsonBackReference
     @OneToMany(mappedBy="user" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<QnasEntity> qnasCode;
+    private List<QnasEntity> qnaCodes;
+
+    @Builder
+    public MemberEntity(String memberId, String memberPwd) {
+        this.memberId = memberId;
+        this.memberPwd = memberPwd;
+    }
 }
