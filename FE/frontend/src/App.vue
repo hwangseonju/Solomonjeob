@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <AppHeader></AppHeader>
     <router-view></router-view>
@@ -7,10 +8,12 @@
 
 <script>
 import AppHeader from '@/components/common/AppHeader.vue';
+// import Home from '@/views/Home.vue';
 
 export default {
   components: {
     AppHeader,
+    
   },
 };
 </script>

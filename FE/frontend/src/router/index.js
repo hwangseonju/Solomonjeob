@@ -27,17 +27,25 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
 const routes = [
+	// {
+	// 	path: '/',
+	// 	redirect: '/login',
+	// },
 	{
 		path: '/',
-		redirect: '/login',
+		component: () => import('@/views/Home.vue')
+	},
+	{
+		path: '/Home',
+		component: () => import('@/views/Home.vue')
 	},
 	{
 		path: '/login',
-		component: () => import('~/src/views/Member/LoginPage.vue'),
+		component: () => import('@/views/Member/LoginPage.vue'),
 	},
 	{
 		path: '/signup',
-		component: () => import('~/src/views/Member/SignupPage.vue'),
+		component: () => import('@/views/Member/SignupPage.vue'),
 	},
 	{
 		path: '/:catchAll(.*)*',
