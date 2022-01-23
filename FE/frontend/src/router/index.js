@@ -33,11 +33,11 @@ const routes = [
 	},
 	{
 		path: '/login',
-		component: () => import('@/views/LoginPage.vue'),
+		component: () => import('~/src/views/Member/LoginPage.vue'),
 	},
 	{
 		path: '/signup',
-		component: () => import('@/views/SignupPage.vue'),
+		component: () => import('~/src/views/Member/SignupPage.vue'),
 	},
 	{
 		path: '/:catchAll(.*)*',
