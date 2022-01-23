@@ -13,7 +13,7 @@ import java.util.List;
 public class QnasServiceImpl implements QnasService{
 
     private final QnasRepo qnasrepo;
-    private final
+
 
     @Override
     public QnasEntity createQnaS(QnasDto dto) {
