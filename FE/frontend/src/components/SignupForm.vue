@@ -51,7 +51,8 @@ export default {
   max-width: 1020px;
   margin: 0 auto;
   padding: 0 5px;
-  width: 100%;  
+  width: 100%;
+
 }
 .form-container {
   display: flex;
@@ -87,7 +88,7 @@ export default {
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
 }
-.btn {
+/* .btn {
   font-size: 18px;
   padding: 15px 25px;
   font-weight: 700;
@@ -120,6 +121,22 @@ export default {
   transform: translateY(-100%);
 }
 .btn:hover {
+  color: white;
+} */
+.btn {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+
+.btn :hover::before {
+  transform: translateY(-100%);
+}
+.btn:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
   color: white;
 }
 </style>
