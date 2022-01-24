@@ -33,16 +33,21 @@ const routes = [
 	},
 	{
 		path: '/login',
-		component: () => import('~/src/views/Member/LoginPage.vue'),
+		component: () => import('@/views/Member/LoginPage.vue'),
 	},
 	{
 		path: '/signup',
-		component: () => import('~/src/views/Member/SignupPage.vue'),
+		component: () => import('@/views/Member/SignupPage.vue'),
+	},
+	{
+		path: '/question',
+		component: () => import('@/views/Question/QuestionPage.vue'),
 	},
 	{
 		path: '/:catchAll(.*)*',
 		component: () => import('@/views/NotFoundPage.vue'),
 	},
+	
 ]
 const router = createRouter({
 	history: createWebHistory(),

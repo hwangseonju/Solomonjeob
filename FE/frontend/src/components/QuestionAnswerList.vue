@@ -1,40 +1,50 @@
 <template>
 
-    <div class="detail-container">
-        <div class="all_question">
-            <div class="question__box">
-                <div class="real-question">
-                    <textarea class="question" placeholder="질문을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;"></textarea>
-                    <hr>
-                    <textarea class="answer" placeholder="답변을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="all_question">
-            <div class="question__box">
-                <div>
-                    <textarea class="question" placeholder="질문을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;"></textarea>
-                    <hr>
-                    <textarea class="answer" placeholder="답변을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;"></textarea>
+	<div class="detail-container">
+		<button  @click="InsertQuestion">
+			+
+		</button>
+		<div class="all_question">
+			<div class="question__box">
+				<div class="real-question">
+					<ul>
+						<li v-for="index in this.questionanswer" :key="index">
+							<textarea class="question" placeholder="질문을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;" @click="edit(qustion)" >	
+							</textarea>
+							<hr>
+							<textarea class="answer" placeholder="답변을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;">
+							</textarea>
+						</li>
+					</ul>
 
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-export default {
-    name : 'Detail',
-    data() {
-        return {
-            text: ""
-        }
-    },
-    props: {
-        todos: Array,
-    }
 
+export default {
+    // name : 'Detail',
+	data() {
+		return {
+      questionanswer: []
+		}
+	},
+	// props: {
+	// 		todos: Array,
+	// },
+	methods:{
+		getquestionanswer() {
+			
+		},
+
+	},
+
+	create(){
+		this.getquestionanswer()
+	}
 }
 </script>
 
