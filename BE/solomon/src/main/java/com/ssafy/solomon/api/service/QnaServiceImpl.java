@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +23,15 @@ public class QnaServiceImpl{
     private final QnasRepo qnasrepo;
 
     public QnaEntity createQna(QnaDto dto) {
-        Optional<QnasEntity> qnasId = qnasrepo.findById(dto.getQnasCode()); //질문문제집 아이디
+        //질문문제집 아이디 알아오기
+        Optional<QnasEntity> qnasId = qnasrepo.findById(dto.getQnasCode());
+        //문제집 없으면 예외처리
         if(!qnasId.isPresent()){
             throw new EntityNotFoundException( "질문등록을 하려는 문제집이 없습니다.");
         }
+        //저장할 엔티티 객체 생성
         QnaEntity createQna = new QnaEntity();
-        BeanUtils.copyProperties(qnasId,createQna); //createQna에 qnasId복붙
+        BeanUtils.copyProperties(dto,createQna); //createQna에 qnasId복붙
         createQna.setQnaList(qnasId.get());        //외래키정보 붙이기
         return qnarepo.save(createQna);
     }
@@ -52,8 +56,10 @@ public class QnaServiceImpl{
         return qnarepo.save(qnaEntity);
     }
 
+    @Transactional
     public void deleteQna(Long id) {
-        qnarepo.deleteById(id);
+        Optional<QnaEntity> qna = qnarepo.findById(id);
+        qnarepo.delete(qna.get());
     }
 
     //id : findBy 문제집 코드 select All

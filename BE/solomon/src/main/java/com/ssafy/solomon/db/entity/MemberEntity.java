@@ -28,4 +28,5 @@ public class MemberEntity {
     @JsonBackReference
     @OneToMany(mappedBy="user" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QnasEntity> qnasCode;
+
 }

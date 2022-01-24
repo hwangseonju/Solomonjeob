@@ -22,7 +22,7 @@ public class QnaEntity {
 
     //1개의 문제집당 여러 문제등록 가능
     @ManyToOne
-    @JoinColumn(name="qnas_id")
+    @JoinColumn(name="qnasIdFk")
     @JsonManagedReference
     private QnasEntity qnaList;
 

@@ -20,11 +20,11 @@ public class QnasEntity {
     private String qnasTitle;
 
     @JsonBackReference
-    @OneToMany(mappedBy="qna_list" ,fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="qnaList" ,fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QnaEntity> quasList;
 
     @ManyToOne
-    @JoinColumn(name="memberId")
+    @JoinColumn(name="memberIdFK")
     @JsonManagedReference
     private MemberEntity user;
 }

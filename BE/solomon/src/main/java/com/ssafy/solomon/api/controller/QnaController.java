@@ -2,7 +2,8 @@ package com.ssafy.solomon.api.controller;
 
 
 import com.ssafy.solomon.api.dto.QnaDto;
-import com.ssafy.solomon.api.service.QnaService;
+
+import com.ssafy.solomon.api.service.QnaServiceImpl;
 import com.ssafy.solomon.db.entity.QnaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor //@autowired는 필드 주입이지만 이어노테이션은 생성자를 주입함 boot 4.3부터 필드주입 지양
 public class QnaController {
 
-    private final QnaService qnaService;
+    private final QnaServiceImpl qnaService;
 
     //문제 등록
     @PostMapping("/")
     public ResponseEntity<QnaEntity> insertQna(@RequestParam QnaDto dto){
-        QnaEntity qna = qnaService.createQna(dto);
-        return ResponseEntity.ok(qna);
+        System.out.println(dto.toString());
+        return ResponseEntity.ok(qnaService.createQna(dto));
     }
 
     //질문 한개 선택 (문제 읽어줄때 필요할듯..?)
