@@ -9,5 +9,4 @@ public class QnaDto {
     private long qnasCode;      //질문리스트 코드
     private String qnaContent;  //질문 내용
     private String qnaAnswer;   //답변
-
 }

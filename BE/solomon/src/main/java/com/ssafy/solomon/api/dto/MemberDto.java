@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -18,18 +19,20 @@ public class MemberDto {
     private String memberPwd;
     private String memberKey;
     private String memberSns;
-    //private List<QnasEntity> qnasCode;
+    private Boolean emailAuth;
 
     @Builder
-    public MemberDto(String memberId, String memberPwd) {
+    public MemberDto(String memberId, String memberPwd, Boolean emailAuth) {
         this.memberId = memberId;
         this.memberPwd = memberPwd;
+        this.emailAuth = emailAuth;
     }
 
     public MemberEntity toEntity() {
         return MemberEntity.builder()
                 .memberId(memberId)
-                .memberPwd(memberPwd)
+                .memberPwd(new BCryptPasswordEncoder().encode(memberPwd))
+                .emailAuth(false)    // 0 : false, 1 : true
                 .build();
     }
 
