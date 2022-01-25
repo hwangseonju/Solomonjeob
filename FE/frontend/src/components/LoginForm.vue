@@ -14,6 +14,8 @@
           </button>
         </div>
         <br>
+        <router-link to="/signup" class="btn" style="text-decoration: none">회원가입</router-link>
+        
         <p>{{ logMessage }}</p>
       </form>
     </div>
@@ -113,14 +115,21 @@ export default {
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
 }
-
-
-
-.btn {
-  width: 106%;
-  box-sizing: border-box;
+.router {
+  color: blueviolet;
 }
-
+.btn {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
 
 
 </style>
