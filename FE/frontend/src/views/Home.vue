@@ -37,9 +37,8 @@
     </div> -->
   <section>
     <img src="@/assets/interview6.jpg" class="img">
-    <img src="@/assets/interview3.jpg" class="img">
-    <img src="@/assets/interview2.jpg" class="img">
-
+    <!-- <img src="@/assets/interview3.jpg" class="img">
+    <img src="@/assets/interview2.jpg" class="img"> -->
   </section>
 
 </template>
@@ -47,10 +46,14 @@
 <script>
 
 export default {
+
   name: 'Home',
   components: {
     
   },
+  methods: {
+
+  }
 };
 </script>
 

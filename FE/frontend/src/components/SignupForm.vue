@@ -8,7 +8,7 @@
         <div>
             <input id="password" placeholder="password" type="password" v-model="password" />    
         </div>
-      <button type="submit" class="btn">회원 가입</button>
+      <button type="submit" class="btn">회원가입</button>
       <p>{{ logMessage }}</p>
     </form>
   </div>
