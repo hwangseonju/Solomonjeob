@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40f2274a-e3a0-43fd-8577-db45065114cd" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/controller/QnaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/controller/QnaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/controller/QnasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/controller/QnasController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/service/QnaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/service/QnaServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/service/QnasServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/api/service/QnasServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/config/SwaggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/db/repository/QnaRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/db/repository/QnaRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/db/repository/QnasRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/java/com/ssafy/solomon/db/repository/QnasRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solomon/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/solomon/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +135,7 @@
       <workItem from="1642863131146" duration="627000" />
       <workItem from="1642920687758" duration="32971000" />
       <workItem from="1642982796390" duration="26347000" />
-      <workItem from="1643074361152" duration="26027000" />
+      <workItem from="1643074361152" duration="28685000" />
     </task>
     <servers />
   </component>
@@ -167,6 +157,13 @@
                       </list>
                     </value>
                   </entry>
+                </map>
+              </option>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="104" />
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="106" />
+                  <entry key="Table.Space.CommitStatus.ColumnIdWidth" value="105" />
                 </map>
               </option>
             </State>
