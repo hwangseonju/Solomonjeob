@@ -27,9 +27,17 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
 const routes = [
+	// {
+	// 	path: '/',
+	// 	redirect: '/login',
+	// },
 	{
 		path: '/',
-		redirect: '/login',
+		component: () => import('@/views/Home.vue')
+	},
+	{
+		path: '/Home',
+		component: () => import('@/views/Home.vue')
 	},
 	{
 		path: '/login',
