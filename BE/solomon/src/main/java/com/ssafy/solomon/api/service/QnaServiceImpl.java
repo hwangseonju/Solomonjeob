@@ -63,14 +63,9 @@ public class QnaServiceImpl{
     }
 
     //id : findBy 문제집 코드 select All
-    public List<QnaDto> QnaList(Long qnasid) {
-        Optional<QnaEntity> qnaslist= qnarepo.findByQnaList(qnasid);
-        List<QnaDto> resultlist = new ArrayList<>();
-        if(!qnaslist.isPresent()){
-            throw new EntityNotFoundException("해당하는 문제집 정보를 찾을 수 업습니다.");
-        }
-       // for(QnaEntity qna : qnaslist){}
-        return null;
+    public List<QnaEntity> QnaList(Long qnasid) {
+        List <QnaEntity> list = qnarepo.findByQnaList_QnasId(qnasid);
+        return list;
     }
 
 }

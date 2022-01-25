@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -58,7 +59,12 @@ public class QnasServiceImpl{
     }
 
     public List<QnasEntity> QnaSList(Long id) {
-
-        return null;
+        //member값으로 조회하기
+        List<QnasEntity> list = qnasrepo.findByUserMemberIdx(id);
+        //저장할 리스트 생성
+//        List<QnasEntity> result = new ArrayList<>();
+//        list.forEach(e ->result.add(e));
+//        System.out.println(result.toString());
+        return list;
     }
 }
