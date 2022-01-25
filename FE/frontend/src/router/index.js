@@ -48,9 +48,14 @@ const routes = [
 		component: () => import('@/views/Member/SignupPage.vue'),
 	},
 	{
+		path: '/question',
+		component: () => import('@/views/Question/QuestionPage.vue'),
+	},
+	{
 		path: '/:catchAll(.*)*',
 		component: () => import('@/views/NotFoundPage.vue'),
 	},
+	
 ]
 const router = createRouter({
 	history: createWebHistory(),
