@@ -77,4 +77,32 @@ public class MemberService {
         memberRepository.save(member);
         return member;
     }
+
+    public MemberEntity signin(MemberDto memberDto) throws Exception {
+        MemberEntity memberEntity = memberRepository.findByMemberId(memberDto.getMemberId());
+
+        return memberEntity;
+
+//         // 해당 이메일의 유저가 존재하지 않습니다.
+//         if(memberEntity == null){
+//             return false;
+//         }
+//         // 비밀번호가 일치하지 않습니다.
+//         if(!passwordEncoder.matches(pwd, memberEntity.getMemberPwd())){
+//             return false;
+//         }
+//         return true;
+
+        // memberPwd가 암호화 되어있음..
+//        if(memberDto.getMemberId().equals(memberEntity.getMemberId()) || memberDto.getMemberPwd().equals(memberEntity.getMemberPwd())){
+//            return memberDto;
+//        }else{
+//            throw new RuntimeException("그런 사람은 없습니다.");
+//        }
+
+    }
+
+    public String getServerInfo() throws Exception {
+        return "정보전달할것";
+    }
 }
