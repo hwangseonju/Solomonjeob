@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     // select idx from where id="id"
-    MemberEntity findByMemberId(String memberId);
+    Optional<MemberEntity> findByMemberId(String memberId);
     // select idx from member where key="key" and sns="sns'
-    MemberEntity findByMemberKeyAndMemberSns(String memberKey, String memberSns);
+    Optional<MemberEntity> findByMemberKey(String memberKey);
 }

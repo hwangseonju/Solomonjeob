@@ -10,19 +10,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-public class EmailAuthCustomRepositoryImpl {
+public class EmailAuthCustomRepositoryImpl implements EmailAuthCustomRepository{
 
     JPAQueryFactory jpaQueryFactory;
-
-//    public EmailAuthCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-//        this.jpaQueryFactory = jpaQueryFactory;
-//    }
 
     public EmailAuthCustomRepositoryImpl(EntityManager em) {
         this.jpaQueryFactory = new JPAQueryFactory(em);
     }
 
-    public Optional<EmailAuthEntity> findValidAuthByEmail(String email, String authToken, LocalDateTime current) {
+    @Override
+    public Optional<EmailAuthEntity> findEmailAuthByEmail(String email, String authToken, LocalDateTime current) {
         EmailAuthEntity emailAuthEntity = jpaQueryFactory
                 .selectFrom(QEmailAuthEntity.emailAuthEntity)
                 .where(QEmailAuthEntity.emailAuthEntity.email.eq(email),

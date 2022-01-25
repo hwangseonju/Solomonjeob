@@ -6,28 +6,30 @@ import com.ssafy.solomon.db.entity.EmailAuthEntity;
 import com.ssafy.solomon.db.entity.MemberEntity;
 import com.ssafy.solomon.db.repository.EmailAuthCustomRepository;
 import com.ssafy.solomon.db.repository.EmailAuthCustomRepositoryImpl;
+import com.ssafy.solomon.db.repository.EmailAuthRepository;
 import com.ssafy.solomon.db.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final EmailAuthCustomRepository emailAuthCustomRepository;
-    private final EmailAuthCustomRepositoryImpl emailAuthCustomRepositoryImpl;
+    private final EmailAuthRepository emailAuthRepository;
     private final EmailSendService emailSendService;
     private final PasswordEncoder passwordEncoder;
 
+    // member sign up
      public MemberEntity insertMember(MemberDto memberDto) {
-         EmailAuthEntity email = emailAuthCustomRepository.save(
+         EmailAuthEntity email = emailAuthRepository.save(
                  EmailAuthEntity.builder()
                          .email(memberDto.getMemberId())
                          .authToken(UUID.randomUUID().toString())
@@ -41,29 +43,40 @@ public class MemberService {
         return member;
     }
 
-    public void checkEmail(EmailAuthDto emailAuthDto) throws Exception {
-         EmailAuthEntity email = emailAuthCustomRepositoryImpl.findValidAuthByEmail(emailAuthDto.getEmail(), emailAuthDto.getAuthToken(), LocalDateTime.now())
-                 .orElseThrow(() -> new Exception());
-         MemberEntity member = memberRepository.findByMemberId(emailAuthDto.getEmail());
+    // confirm email
+    public void checkEmail(EmailAuthDto emailAuthDto) throws SQLException {
+         EmailAuthEntity email = emailAuthRepository.findEmailAuthByEmail(emailAuthDto.getEmail(), emailAuthDto.getAuthToken(), LocalDateTime.now())
+                 .orElseThrow(() -> new SQLException());
+         MemberEntity member = memberRepository.findByMemberId(emailAuthDto.getEmail()).orElseThrow(() -> new SQLException());
          email.useToken();
+         //System.out.println("값 확인1 : " + email.getExpired());
          member.emailVerified();
+         //System.out.println("값 확인2 : " + member.getEmailAuth());
     }
 
-    public Long checkMember(String memberId) {
-         Long memberEntity = memberRepository.findByMemberId(memberId).getMemberIdx();
+    // check ID(email)
+    public Long checkMember(String memberId) throws SQLException {
+         MemberEntity memberEntity = memberRepository.findByMemberId(memberId).orElseThrow(() -> new SQLException());
          Long idx = 0L;
-//         if(memberEntity!=null)
-//             idx = memberEntity.getMemberIdx();
+         if(memberEntity!=null)
+             idx = memberEntity.getMemberIdx();
 
          return idx;
     }
 
-    public Long checkSnsMember(String memberKey, String memberSns){
-         MemberEntity memberEntity = memberRepository.findByMemberKeyAndMemberSns(memberKey, memberSns);
+    // check SNS ID(token)
+    public Long checkSnsMember(String memberKey) throws SQLException {
+         MemberEntity memberEntity = memberRepository.findByMemberKey(memberKey).orElseThrow(() -> new SQLException());
          Long idx = 0L;
-//         if(memberEntity!=null)
-//             idx = memberEntity.getMemberIdx();
+         if(memberEntity!=null)
+             idx = memberEntity.getMemberIdx();
 
          return idx;
+    }
+
+    public MemberEntity insertSnsMember(MemberDto memberDto) {
+        MemberEntity member = memberDto.toSnsEntity();
+        memberRepository.save(member);
+        return member;
     }
 }

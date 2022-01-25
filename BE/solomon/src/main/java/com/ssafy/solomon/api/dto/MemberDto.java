@@ -28,6 +28,14 @@ public class MemberDto {
         this.emailAuth = emailAuth;
     }
 
+    public MemberDto(String memberId, String memberPwd, String memberKey, String memberSns, Boolean emailAuth) {
+        this.memberId = memberId;
+        this.memberPwd = memberPwd;
+        this.memberKey = memberKey;
+        this.memberSns = memberSns;
+        this.emailAuth = emailAuth;
+    }
+
     public MemberEntity toEntity() {
         return MemberEntity.builder()
                 .memberId(memberId)
@@ -36,4 +44,11 @@ public class MemberDto {
                 .build();
     }
 
+    public MemberEntity toSnsEntity() {
+        return MemberEntity.builder()
+                .memberKey(memberKey)
+                .memberSns(memberSns)
+                .emailAuth(true)    // 0 : false, 1 : true
+                .build();
+    }
 }

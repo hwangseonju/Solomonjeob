@@ -3,10 +3,7 @@ package com.ssafy.solomon.db.entity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,7 +17,7 @@ public class EmailAuthEntity {
     private static final Long MAX_EXPIRE_TIME = 10L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String authToken;
@@ -36,6 +33,6 @@ public class EmailAuthEntity {
     }
 
     public void useToken() {
-        this.expired = true;
+        expired = true;
     }
 }
