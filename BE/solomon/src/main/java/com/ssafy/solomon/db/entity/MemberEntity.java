@@ -48,4 +48,6 @@ public class MemberEntity {
     public void emailVerified() {
         emailAuth = true;
     }
+
+
 }

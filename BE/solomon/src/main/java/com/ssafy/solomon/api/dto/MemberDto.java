@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -51,4 +52,7 @@ public class MemberDto {
                 .emailAuth(true)    // 0 : false, 1 : true
                 .build();
     }
+
+    //private List<QnasEntity> qnasCode;
+
 }

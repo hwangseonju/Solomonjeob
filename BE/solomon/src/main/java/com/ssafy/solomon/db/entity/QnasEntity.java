@@ -16,15 +16,15 @@ public class QnasEntity {
     //질문모음집 생성날짜필드 생성 : 정렬 위해
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qnas_id;
-    private String qnas_title;
+    private Long qnasId;
+    private String qnasTitle;
 
     @JsonBackReference
-    @OneToMany(mappedBy="qna_list" ,fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<QnaEntity> quas_list;
+    @OneToMany(mappedBy="qnaList" ,fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<QnaEntity> quasList;
 
     @ManyToOne
-    @JoinColumn(name="memberId")
+    @JoinColumn(name="memberIdFK")
     @JsonManagedReference
     private MemberEntity user;
 }
