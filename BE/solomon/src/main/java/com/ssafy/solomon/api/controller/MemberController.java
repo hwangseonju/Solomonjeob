@@ -42,7 +42,7 @@ public class MemberController {
     public ResponseEntity<String> idCheck(@PathVariable String memberId) throws Exception {
         Long result = memberService.checkMember(memberId);
         if(result==0L) {
-            return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

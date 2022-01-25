@@ -4,8 +4,6 @@ import com.ssafy.solomon.api.dto.EmailAuthDto;
 import com.ssafy.solomon.api.dto.MemberDto;
 import com.ssafy.solomon.db.entity.EmailAuthEntity;
 import com.ssafy.solomon.db.entity.MemberEntity;
-import com.ssafy.solomon.db.repository.EmailAuthCustomRepository;
-import com.ssafy.solomon.db.repository.EmailAuthCustomRepositoryImpl;
 import com.ssafy.solomon.db.repository.EmailAuthRepository;
 import com.ssafy.solomon.db.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +45,7 @@ public class MemberService {
     public void checkEmail(EmailAuthDto emailAuthDto) throws SQLException {
          EmailAuthEntity email = emailAuthRepository.findEmailAuthByEmail(emailAuthDto.getEmail(), emailAuthDto.getAuthToken(), LocalDateTime.now())
                  .orElseThrow(() -> new SQLException());
-         MemberEntity member = memberRepository.findByMemberId(emailAuthDto.getEmail()).orElseThrow(() -> new SQLException());
+         MemberEntity member = memberRepository.findByMemberId(emailAuthDto.getEmail());
          email.useToken();
          //System.out.println("값 확인1 : " + email.getExpired());
          member.emailVerified();
@@ -56,7 +54,7 @@ public class MemberService {
 
     // check ID(email)
     public Long checkMember(String memberId) throws SQLException {
-         MemberEntity memberEntity = memberRepository.findByMemberId(memberId).orElseThrow(() -> new SQLException());
+         MemberEntity memberEntity = memberRepository.findByMemberId(memberId);
          Long idx = 0L;
          if(memberEntity!=null)
              idx = memberEntity.getMemberIdx();
@@ -66,7 +64,7 @@ public class MemberService {
 
     // check SNS ID(token)
     public Long checkSnsMember(String memberKey) throws SQLException {
-         MemberEntity memberEntity = memberRepository.findByMemberKey(memberKey).orElseThrow(() -> new SQLException());
+         MemberEntity memberEntity = memberRepository.findByMemberKey(memberKey);
          Long idx = 0L;
          if(memberEntity!=null)
              idx = memberEntity.getMemberIdx();
