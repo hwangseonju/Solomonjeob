@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "qnas")
+@Table(name="qnas")
 public class QnasEntity {
     //질문모음집 생성날짜필드 생성 : 정렬 위해
     @Id
@@ -20,7 +20,7 @@ public class QnasEntity {
     private String qnas_title;
 
     @JsonBackReference
-    @OneToMany(mappedBy="qna_list" ,fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="qna_list" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QnaEntity> quas_list;
 
     @ManyToOne
@@ -28,4 +28,3 @@ public class QnasEntity {
     @JsonManagedReference
     private MemberEntity user;
 }
-
