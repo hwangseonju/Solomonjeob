@@ -17,7 +17,6 @@ public class MemberEntity {
     private long memberIdx;
     private String memberId;
     private String memberPwd;
-    @Column(length = 50)
     private String memberKey;
     @Column(length = 50)
     private String memberSns;

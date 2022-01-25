@@ -28,6 +28,12 @@ public class MemberDto {
         this.emailAuth = emailAuth;
     }
 
+
+    public MemberDto(String memberKey, String memberSns){
+        this.memberKey=memberKey;
+        this.memberSns=memberSns;
+    }
+
     public MemberDto(String memberId, String memberPwd, String memberKey, String memberSns, Boolean emailAuth) {
         this.memberId = memberId;
         this.memberPwd = memberPwd;
