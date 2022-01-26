@@ -31,7 +31,7 @@ import java.util.Optional;
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-@Api(value = "회언관리 API", tags = {"Member"})
+@Api(value = "회원관리 API", tags = {"Member"})
 public class MemberController {
 
     private final SecurityService securityService;
@@ -42,7 +42,7 @@ public class MemberController {
 
     private static final String NOT_CONFIRM_EMAIL = "notconfirmemail";
 
-    @ApiOperation(value = "회원 가입", notes = "회원 가입")
+    @ApiOperation(value = "회원 가입", notes = "일반 회원 가입")
     @PostMapping("/signup/member")
     public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
         MemberEntity result = memberService.insertMember(memberDto);
@@ -52,7 +52,7 @@ public class MemberController {
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "이메일 중복 체크", notes = "이메일 중복 체크")
+    @ApiOperation(value = "이메일 중복 체크", notes = "회원가입 시 이메일 중복 체크")
     @GetMapping("/email/auth")
     public ResponseEntity<String> emailCheck(@ModelAttribute EmailAuthDto emailAuthDto) throws Exception {
         memberService.checkEmail(emailAuthDto);
@@ -60,7 +60,7 @@ public class MemberController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "아이디 중복 체크", notes = "아이디 중복 체크")
+    @ApiOperation(value = "아이디 중복 체크", notes = "회원가입시 아이디 중복 체크")
     @GetMapping("/check/{memberId}")
     public ResponseEntity<String> idCheck(@PathVariable String memberId) throws Exception {
         Long result = memberService.checkMember(memberId);
@@ -89,7 +89,7 @@ public class MemberController {
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     */
-    @ApiOperation(value = "로그인", notes = "아이디 비번으로 로그인")
+    @ApiOperation(value = "로그인", notes = "아이디 비번으로 로그인, idx와 token 정보 return")
     @PostMapping("/signin")
     public ResponseEntity<Map<String, Object>> signin(@RequestBody MemberDto memberDto, HttpServletResponse res) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -154,7 +154,7 @@ public class MemberController {
 //        }
 //        return new ResponseEntity<Map<String, Object>>(resultMap, status);
 //    }
-
+@ApiOperation(value = "카카오 로그인(Swagger로 테스트 안됨)")
 @GetMapping(value = "/login/oauth_kakao")
 public ResponseEntity<Map<String, Object>> oauthKakao(
         @RequestParam(value = "code", required = false) String code
