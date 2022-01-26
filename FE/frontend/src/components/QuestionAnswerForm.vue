@@ -6,12 +6,18 @@
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li v-for="index in this.questionlist" :key="index" class="nav-item">
-              <div class="view">
-                <label class="nav-link" aria-current="page">{{ index }}</label>
-                  <button  @click="editQuestion(question)">o</button>
-                  <button  @click="handleRemove(id)">x</button>
-                  <input class="edit" type="text" v-model="edit.text" @keypress="updateQuestion" />
-               </div> 
+              <div>        
+                <!-- <input type="text"  :disabled="validated == 1" id="quescol" value="{{ index }}">
+                <button >o</button>
+                <button >x</button> -->
+
+                <div id="app">
+                
+                <input type="text" :disabled="disabled == 1" value="{{ index }}">
+                <button @click="disabled = (disabled + 1) % 2">o</button>
+                <button>x</button>
+                </div>
+              </div> 
               
             </li>
           </ul>
@@ -45,11 +51,11 @@
         <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"> -->
           <ul>
             <li v-for="question in this.quesanswerlist" :key="question" >
-              {{ question[0] }}
-              <textarea name="" id="" cols="30" rows="10">
+              <!-- {{ question[0] }} -->
+              <textarea placeholder="질문을 입력해주세요" name="" id="" cols="130" rows="10">
               </textarea>
-              {{ question[1] }}
-              <textarea name="" id="" cols="30" rows="10">
+              <!-- {{ question[1] }} -->
+              <textarea placeholder="답변을 입력해주세요" name="" id="" cols="130" rows="10">
               </textarea>
             </li>
           </ul>
@@ -60,8 +66,8 @@
   </div>
 </template>
 
-<script>
-  
+<script >
+             
 export default {
   
   data () {
@@ -79,13 +85,15 @@ export default {
       ],
       edit: {
         text:""
-      }
+      },
+      disabled: 0
     }
   },
   methods : {
-    editQuestion(question) {
-      this.edit.text = question
+    editQuestion(index) {
+      this.edit.text = index
     },
+
   }
 }
 </script>

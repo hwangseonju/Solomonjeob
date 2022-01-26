@@ -14,7 +14,7 @@
             <a class="nav-link" aria-current="page" href="#">면접연습하기</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">내질문모음집</a>
+            <router-link to="/question" style="text-decoration: none">질문모음집</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">피드백</a>
