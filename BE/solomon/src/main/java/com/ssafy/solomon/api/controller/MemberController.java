@@ -7,7 +7,10 @@ import com.ssafy.solomon.api.dto.MemberDto;
 import com.ssafy.solomon.api.security.SecurityService;
 import com.ssafy.solomon.api.service.MemberService;
 import com.ssafy.solomon.db.entity.MemberEntity;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,7 @@ import java.util.Optional;
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@Api(value = "회원관리 API", tags = {"Member"})
 public class MemberController {
 
     private final SecurityService securityService;
@@ -38,6 +42,7 @@ public class MemberController {
 
     private static final String NOT_CONFIRM_EMAIL = "notconfirmemail";
 
+    @ApiOperation(value = "회원 가입", notes = "일반 회원 가입")
     @PostMapping("/signup/member")
     public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
         MemberEntity result = memberService.insertMember(memberDto);
@@ -47,13 +52,15 @@ public class MemberController {
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(value = "이메일 중복 체크", notes = "회원가입 시 이메일 중복 체크")
     @GetMapping("/email/auth")
     public ResponseEntity<String> emailCheck(@ModelAttribute EmailAuthDto emailAuthDto) throws Exception {
         memberService.checkEmail(emailAuthDto);
-        //System.out.println("여기");
+        ////System.out.println("여기");
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "아이디 중복 체크", notes = "회원가입시 아이디 중복 체크")
     @GetMapping("/check/{memberId}")
     public ResponseEntity<String> idCheck(@PathVariable String memberId) throws Exception {
         Long result = memberService.checkMember(memberId);
@@ -63,7 +70,7 @@ public class MemberController {
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
-
+    /*
     @GetMapping("/sns/{memberKey}")
     public ResponseEntity<String> snsCheck(@PathVariable String memberKey) throws Exception {
         Long result = memberService.checkSnsMember(memberKey);
@@ -81,7 +88,8 @@ public class MemberController {
         }
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
-
+    */
+    @ApiOperation(value = "로그인", notes = "아이디 비번으로 로그인, idx와 token 정보 return")
     @PostMapping("/signin")
     public ResponseEntity<Map<String, Object>> signin(@RequestBody MemberDto memberDto, HttpServletResponse res) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -99,7 +107,7 @@ public class MemberController {
                         // header에 jwt-auth-token이라고 설정해주어 interceptor에서 jwt-auth-token을 찾게해줌
                         res.setHeader("jwt-auth-token", token);
 //            resultMap.put("signinId", memberDto.getMemberId());
-//                        resultMap.put("signinIdx", memberEntity.getMemberIdx());
+                        resultMap.put("signinIdx", memberEntity.getMemberIdx());
 //                        resultMap.put("jwt-auth-token", token);
                         resultMap.put("status", true);
                         status = HttpStatus.ACCEPTED;
@@ -146,35 +154,45 @@ public class MemberController {
 //        }
 //        return new ResponseEntity<Map<String, Object>>(resultMap, status);
 //    }
-@RequestMapping(value = "/login/oauth_kakao")
-public String oauthKakao(
+@ApiOperation(value = "카카오 로그인(Swagger로 테스트 안됨)")
+@GetMapping(value = "/login/oauth_kakao")
+public ResponseEntity<Map<String, Object>> oauthKakao(
         @RequestParam(value = "code", required = false) String code
-        , Model model) throws Exception {
+        , Model model,HttpServletResponse res) throws Exception {
 
-    System.out.println("#########" + code);
+    ////System.out.println("#########" + code);
     String access_Token = getAccessToken(code);
+    Map<String, Object> resultMap = new HashMap<>();
+    HttpStatus status = null;
 
+    ////System.out.println("####access_Token#### : " + access_Token);
 
-    System.out.println("####access_Token#### : " + access_Token);
-    System.out.println("1");
-
-    String result = getUserInfo(access_Token);
-    //System.out.println("###access_Token#### : " + access_Token);
-    //System.out.println("###userInfo#### : " + userInfo.get("email"));
-    //System.out.println("###nickname#### : " + userInfo.get("nickname"));
+    String key_id = getUserInfo(access_Token);
+    ////System.out.println("###access_Token#### : " + access_Token);
+    ////System.out.println("###userInfo#### : " + userInfo.get("email"));
+    ////System.out.println("###nickname#### : " + userInfo.get("nickname"));
 
     //JSONObject kakaoInfo =  new JSONObject(userInfo);
-    model.addAttribute("kakaoInfo", access_Token);
-    System.out.println("result"+result);
-    Long idx=memberService.checkSnsMember(result);
-    System.out.println(idx);
+    //model.addAttribute("kakaoInfo", access_Token);
+    ////System.out.println("result"+key_id);
+    Long idx=memberService.checkSnsMember(key_id);
+    ////System.out.println(idx);
+    MemberDto memberDto=new MemberDto(key_id, "kakao");
+
     if(idx==0L){
-        MemberDto member=new MemberDto(result, "kakao");
-        memberService.insertSnsMember(member);
-        idx=memberService.checkSnsMember(result);
+
+        memberService.insertSnsMember(memberDto);
+        idx=memberService.checkSnsMember(key_id);
     }
-    System.out.println(idx);
-    return idx.toString(); //본인 원하는 경로 설정
+    String token = securityService.createToken(memberDto);
+    res.setHeader("jwt-auth-token", token);
+//            resultMap.put("signinId", memberDto.getMemberId());
+    resultMap.put("signinIdx", idx);
+//                        resultMap.put("jwt-auth-token", token);
+    resultMap.put("status", true);
+    status = HttpStatus.ACCEPTED;
+    return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
 }
 
     //토큰발급
@@ -204,7 +222,7 @@ public String oauthKakao(
 
             //    결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+            //System.out.println("responseCode : " + responseCode);
 
             //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -214,7 +232,7 @@ public String oauthKakao(
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
+            //System.out.println("response body : " + result);
 
             //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -224,8 +242,8 @@ public String oauthKakao(
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
 
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
+            //System.out.println("access_token : " + access_Token);
+            //System.out.println("refresh_token : " + refresh_Token);
 
             br.close();
             bw.close();
@@ -244,6 +262,7 @@ public String oauthKakao(
         HashMap<String, Object> userInfo = new HashMap<String, Object>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         String result="";
+        Long key_id=0L;
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -253,7 +272,7 @@ public String oauthKakao(
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+            //System.out.println("responseCode : " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -263,13 +282,18 @@ public String oauthKakao(
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-//            System.out.println("response body : " + result);
+            //System.out.println("response body : " + result);
 //
+            JSONObject jObject = new JSONObject(result);
+            //System.out.println("response body : " + result);
+            key_id = jObject.getLong("id");
+            //System.out.println(key_id);
 //            JsonParser parser = new JsonParser();
 //            JsonElement element = parser.parse(result);
-//
-//            String properties = element.getAsJsonObject().get("id").getAsJsonObject().toString();
-//            System.out.println(properties);
+////
+//            properties = element.getAsJsonObject().get("id").getAsJsonObject().toString();
+//            //System.out.println("properties"+properties);
+//            //System.out.println(properties);
 //            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 //
 //            //String nickname = properties.getAsJsonObject().get("nickname").getAsString();
@@ -284,6 +308,6 @@ public String oauthKakao(
             e.printStackTrace();
         }
 
-        return result;
+        return key_id.toString();
     }
 }
