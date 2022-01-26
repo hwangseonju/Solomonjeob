@@ -44,7 +44,7 @@ public class SecurityService {
 //               .compact();
 //
 //    }
-    public final long expTime = 10 * 1000 * 60;
+    public final long expTime = 6 * 60 * 1000 * 60;
     public String createToken(MemberDto memberDto){
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;

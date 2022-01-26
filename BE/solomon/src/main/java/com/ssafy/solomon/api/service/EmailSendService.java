@@ -19,7 +19,7 @@ public class EmailSendService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setSubject("[솔로몬접] 회원가입 이메일 인증");
-        message.setText("http://localhost:8181/api/members/email/auth?email="+email+"&authToken="+authToken);
+        message.setText("http://localhost:8080/api/members/email/auth?email="+email+"&authToken="+authToken);
 
         javaMailSender.send(message);
     }
