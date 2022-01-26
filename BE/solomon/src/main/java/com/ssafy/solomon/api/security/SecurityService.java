@@ -54,17 +54,14 @@ public class SecurityService {
         // SecretKeySpec 이용해서 secretKeyBytes를 내가 지정해놓은 알고리즘으로 변경
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
 
-        String id = memberDto.getMemberId();
-        String pass= memberDto.getMemberPwd();
-        String subject="";
-        if(id.equals("kang") && pass.equals("1234"))subject="1";
+        String subject = memberDto.getMemberId();
 
 //        subject = String.valueOf(memberService.checkMember(memberDto.getMemberId()));
 
         // return을 이렇게 하기도 함 expiretime은 현재시간 + expTime을 해야하기 때문에 저렇게 설정한다.
         return Jwts.builder()
                 .setSubject(subject)
-//               .setHeaderParam("typ", "JWT")
+                .setHeaderParam("typ", "jwt-auth-token")
                 .signWith(signingKey, signatureAlgorithm)
                 .setExpiration(new Date(System.currentTimeMillis() + expTime))
                 .compact();

@@ -30,8 +30,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class MemberController {
 
-    private SecurityService securityService;
-
+    private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
     private final MemberService memberService;
     private static final String SUCCESS = "success";
