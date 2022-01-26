@@ -1,43 +1,67 @@
 <template>
   <form @submit.prevent="submitForm">
       <div>
-          <input id="useremail" placeholder="email" type="text" v-model="useremail" />    
+          <input id="useremail" placeholder="email" type="text" v-model="credentials.useremail" />    
       </div>
       <div>
-          <input id="password" placeholder="password" type="password" v-model="password" />    
+          <input id="password" placeholder="password" type="password" v-model="credentials.password" />    
       </div>
-    <button type="submit" class="btn">회원 가입</button>
-    <p>{{ logMessage }}</p>
+      <div>
+          <input id="password" placeholder="passwordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
+      </div>
+    <button type="submit" class="btn" @click="signup">회원 가입</button>
+    <p>{{ credentials.logMessage }}</p>
   </form>
 </template>
 
 <script>
-import { registerUser } from '@/api/index'
+import axios from 'axios'
 
 export default {
     data() {
         return {
+          credentials: {
             useremail: '',
             password: '',
+            passwordConfirmation: '',
             logMessage: ''
+          }
+
         }
     },
     methods: {
-        async submitForm() {
-            const userData = { 
-                useremail: this.useremail,
-                password: this.password,
-            }
-            const { data } = await registerUser(userData)
-            console.log(data.useremail)
-            this.logMessage = `${data.useremail} 님이 가입되었습니다`
-            this.initForm()
-        },
-        initForm() {
-            this.useremail = ''
-            this.password = ''
+      
+      signup() {
+        const msg = '';
+        const err = true;
+        if (!this.credentials.useremail) {
+          msg = "Email을 입력해주세요";
+          err = false;
+        } else if (!this.credentials.password) {
+          msg = "password를 입력해주세요";
+          err = false;
+        } else if (!this.credentials.passwordConfirmation) {
+          msg = "password를 한번 더 입력해주세요";
+          err = false;
         }
+        if (!err) alert(msg);
+        else {
+          axios({
+            method: 'post',
+            data: this.credentials
+          }).then(() => {
+            this.login()
+          })
+          .catch(() => {
+            if (this.credentials.password === this.credentials.passwordConfirmation) {
+            alert('중복된 아이디입니다.')
+            } else {
+            alert('비밀번호가 일치하지 않습니다.')
+            }
+          })
+      }
     }
+  }
 }
 </script>
 
