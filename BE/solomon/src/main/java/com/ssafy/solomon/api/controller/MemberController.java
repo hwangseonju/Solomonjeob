@@ -30,7 +30,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class MemberController {
 
-    @Autowired
     private SecurityService securityService;
 
     private final PasswordEncoder passwordEncoder;
