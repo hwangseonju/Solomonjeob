@@ -16,12 +16,8 @@
           </button>
         </div>
         <br>
-<<<<<<< HEAD
-        <router-link to="/signup" class="btn" style="text-decoration: none">회원가입</router-link>
-        
-        <p>{{ logMessage }}</p>
-=======
->>>>>>> feature/fe_login
+
+
       </form>
         <div class="snsbtn">
           <a href="https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8181%252Fapi%252Fmember%252Flogin%252Foauth_kakao%26client_id%3De35ccc21d2cf1759f526eef14ea4b921">
@@ -74,14 +70,12 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style scoped>
-=======
+
+
 <style>
 .snsbtn{
   justify-content: center;
 }
->>>>>>> feature/fe_login
 .contents {
   max-width: 1020px;
   margin: 0 auto;
