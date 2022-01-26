@@ -1,35 +1,70 @@
 package com.ssafy.solomon.api.service;
 
+import com.ssafy.solomon.api.dto.MemberDto;
 import com.ssafy.solomon.api.dto.QnasDto;
+import com.ssafy.solomon.db.entity.MemberEntity;
+import com.ssafy.solomon.db.entity.QnaEntity;
 import com.ssafy.solomon.db.entity.QnasEntity;
+import com.ssafy.solomon.db.repository.MemeberRepo;
+import com.ssafy.solomon.db.repository.QnasRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
-public class QnasServiceImpl implements QnasService{
-    @Override
+@RequiredArgsConstructor
+public class QnasServiceImpl{
+
+    private final QnasRepo qnasrepo;
+    private final MemeberRepo memberrepo;
+
     public QnasEntity createQnaS(QnasDto dto) {
-        return null;
+        //멤버 아이디 알아오기
+        Optional<MemberEntity> member = memberrepo.findById(dto.getQnasMemberId());
+        //저장할 엔티티 객체 생성
+        QnasEntity qnasCreate = new QnasEntity();
+        BeanUtils.copyProperties(dto,qnasCreate);   //정보복사\
+        //유저 정보 셋팅
+        qnasCreate.setUser(member.get());
+        //저장
+        return qnasrepo.save(qnasCreate);
     }
 
-    @Override
     public QnasEntity readQnaS(Long id) {
-        return null;
+        Optional<QnasEntity> qnas = qnasrepo.findById(id);
+        if(qnas.isPresent())
+        {
+            return qnas.get();
+        }
+        throw new EntityNotFoundException("문제집을 찾을 수 없습니다.");
     }
 
-    @Override
+    //질문문제집 제목 수정
     public QnasEntity updateQnaS(Long id, QnasDto dto) {
-        return null;
+        Optional <QnasEntity> qnas = qnasrepo.findById(id);
+        QnasEntity updateQnas = qnas.get();
+        updateQnas.setQnasTitle(dto.getQnasTitle());
+        return qnasrepo.save(updateQnas);
     }
 
-    @Override
     public void deleteQnaS(Long id) {
-
+        Optional <QnasEntity> qnas = qnasrepo.findById(id);
+        qnasrepo.delete(qnas.get());
     }
 
-    @Override
     public List<QnasEntity> QnaSList(Long id) {
-        return null;
+        //member값으로 조회하기
+        List<QnasEntity> list = qnasrepo.findByUserMemberIdx(id);
+        //저장할 리스트 생성
+//        List<QnasEntity> result = new ArrayList<>();
+//        list.forEach(e ->result.add(e));
+//        System.out.println(result.toString());
+        return list;
     }
 }
