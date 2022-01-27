@@ -1,72 +1,108 @@
 <template>
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="signup" class="form">
+          <div>
+              <input id="useremail" placeholder="Email" type="text" v-model="credentials.memberId"/>
+              <div style="display: inline-block">
+                <button type="button" class="duplicatecheck" @click="idchk">중복확인</button>
+              </div> 
+              <div style="display: inline-block">
+                <p class="duplicateresult">{{ idresult }}</p>
+              </div>
 
-  <form @submit.prevent="submitForm">
-      <div>
-          <input id="useremail" placeholder="email" type="text" v-model="credentials.useremail" />    
-      </div>
-      <div>
-          <input id="password" placeholder="password" type="password" v-model="credentials.password" />    
-      </div>
-      <div>
-          <input id="password" placeholder="passwordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
-      </div>
-    <button type="submit" class="btn" @click="signup">회원 가입</button>
-    <p>{{ credentials.logMessage }}</p>
-  </form>
+          </div>
+          <br>
+          <div>
+              <input id="password" placeholder="Password" type="password" v-model="credentials.memberPwd" />    
+          </div>
+          <div>
+              <input id="passwordCheck" placeholder="PasswordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
+          </div>
+        <button :disabled="idresult == '이미 사용중인 아이디입니다..' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
+        <p class="password_alert" v-if=" credentials.passwordConfirmation && (credentials.memberPwd !== credentials.passwordConfirmation)">비밀번호가 일치하지 않습니다.</p>
+      </form>
+    </div>
+  </div>
+
 </template>
 
 <script>
-import axios from 'axios'
+import { validateEmail } from '@/utils/validation'
+import { instance } from '@/api/index.js'
 
 export default {
-    data() {
-        return {
-          credentials: {
-            useremail: '',
-            password: '',
-            passwordConfirmation: '',
-            logMessage: ''
-          }
+  name: 'signupForm',
+  data() {
+      return {
+        credentials : {
+          memberId: '',
+          memberPwd: '',
+          passwordConfirmation: '',
+        },
+        idresult: "",
+        idformcheck: "",
 
-        }
-    },
-    methods: {
-      
-      signup() {
-        const msg = '';
-        const err = true;
-        if (!this.credentials.useremail) {
-          msg = "Email을 입력해주세요";
-          err = false;
-        } else if (!this.credentials.password) {
-          msg = "password를 입력해주세요";
-          err = false;
-        } else if (!this.credentials.passwordConfirmation) {
-          msg = "password를 한번 더 입력해주세요";
-          err = false;
-        }
-        if (!err) alert(msg);
-        else {
-          axios({
-            method: 'post',
-            data: this.credentials
-          }).then(() => {
-            this.login()
-          })
-          .catch(() => {
-            if (this.credentials.password === this.credentials.passwordConfirmation) {
-            alert('중복된 아이디입니다.')
-            } else {
-            alert('비밀번호가 일치하지 않습니다.')
-            }
-          })
       }
+    },
+  computed: {
+    isUseremailValid() {
+      return validateEmail(this.credentials.memberId)
     }
+  },
+  methods: {
+    async signup() {
+      let msg = "";
+      let err = true;
+
+      if (!this.credentials.memberId) {
+        msg = "ID를 입력해주세요";
+        err = false;
+      } else if (!this.credentials.memberPwd) {
+        msg = "PW를 입력해주세요";
+        err = false;
+      } else if (!this.credentials.passwordConfirmation) {
+        msg = "PW 확인을 위해 한번 더 입력해주세요";
+        err = false;
+      }
+    if (!err) alert(msg);
+    else {
+      await instance({
+        method: "post",
+        url: "/api/members/signup/member",  // API 참고
+        data: this.credentials,
+      }).then((data) => {
+        console.log(data);
+      });
+      this.$router.push('Home');
+      alert("회원가입에 성공하였습니다. 환영합니다 :)");
+      }
+    },
+    idchk() {
+      if (this.credentials.memberId) {
+        instance({
+          method: "get",
+          url: "/api/members/check/" + this.credentials.memberId,
+        }).then((data) => {
+          if (data.data == "fail") {  // 반대로 되어있음
+            this.idresult = "사용가능한 아이디 입니다";
+            if (!this.isUseremailValid) {
+              this.idresult = "이메일 양식에 맞게 입력해주세요"
+            }
+          } else{
+            this.idresult = "이미 사용중인 아이디입니다..";
+          }
+        });
+      }
+    },
+    
   }
-}
+}    
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+
 .contents {
   max-width: 1020px;
   margin: 0 auto;
@@ -145,7 +181,7 @@ export default {
 } */
 .btn {
   font-weight: bolder;
-  color: blueviolet;
+  color: slateblue;
   width: 100%;
   box-sizing: border-box;
   border: 3px solid slateblue;
@@ -156,7 +192,23 @@ export default {
 }
 .btn:hover {
   font-weight: bolder;
-  background-color: blueviolet;
+  background-color: slateblue;
   color: white;
+}
+.password_alert {
+  color: red;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
+}
+.check {
+  display: inline-block;
+}
+.duplicatecheck {
+  background: white;
+}
+.duplicateresult {
+  color: slateblue;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 90%;
 }
 </style>
