@@ -3,17 +3,24 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="signup" class="form">
           <div>
-              <input id="useremail" placeholder="Email" type="text" v-model="credentials.memberId" @keyup="idchk"/>
-          </div>
+              <input id="useremail" placeholder="Email" type="text" v-model="credentials.memberId"/>
+              <div style="display: inline-block">
+                <button type="button" class="duplicatecheck" @click="idchk">중복확인</button>
+              </div> 
+              <div style="display: inline-block">
+                <p class="duplicateresult">{{ idresult }}</p>
+              </div>
 
+          </div>
+          <br>
           <div>
               <input id="password" placeholder="Password" type="password" v-model="credentials.memberPwd" />    
           </div>
           <div>
               <input id="passwordCheck" placeholder="PasswordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
           </div>
-        <button :disabled="(credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
-        <p class="password_alert" v-if="credentials.passwordConfirmation && (credentials.memberPwd !== credentials.passwordConfirmation)">비밀번호가 일치하지 않습니다.</p>
+        <button :disabled="idresult == '이미 사용중인 아이디입니다..' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
+        <p class="password_alert" v-if=" credentials.passwordConfirmation && (credentials.memberPwd !== credentials.passwordConfirmation)">비밀번호가 일치하지 않습니다.</p>
       </form>
     </div>
   </div>
@@ -21,6 +28,7 @@
 </template>
 
 <script>
+import { validateEmail } from '@/utils/validation'
 import { instance } from '@/api/index.js'
 
 export default {
@@ -33,10 +41,15 @@ export default {
           passwordConfirmation: '',
         },
         idresult: "",
-        resultKey: "FAIL",
+        idformcheck: "",
 
       }
     },
+  computed: {
+    isUseremailValid() {
+      return validateEmail(this.credentials.memberId)
+    }
+  },
   methods: {
     async signup() {
       let msg = "";
@@ -71,9 +84,12 @@ export default {
           method: "get",
           url: "/api/members/check/" + this.credentials.memberId,
         }).then((data) => {
-          if (data.data == "success") {
+          if (data.data == "fail") {  // 반대로 되어있음
             this.idresult = "사용가능한 아이디 입니다";
-          } else {
+            if (!this.isUseremailValid) {
+              this.idresult = "이메일 양식에 맞게 입력해주세요"
+            }
+          } else{
             this.idresult = "이미 사용중인 아이디입니다..";
           }
         });
@@ -183,5 +199,16 @@ export default {
   color: red;
   font-family: 'Noto Sans KR', sans-serif;
   text-align: center;
+}
+.check {
+  display: inline-block;
+}
+.duplicatecheck {
+  background: white;
+}
+.duplicateresult {
+  color: slateblue;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 90%;
 }
 </style>
