@@ -1,23 +1,21 @@
 <template>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
-      <form @submit.prevent="submitForm" class="form">
+      <form class="form">
         <div>
-          <input id="useremail" type="text" placeholder="email" v-model="credentials.useremail">
+          <input id="useremail" type="text" placeholder="email" v-model="credentials.memberId">
         </div>
-        <p v-show="!isUseremailValid">이메일 형식이 올바르지 않습니다.</p>
+        <p v-show="!isUseremailValid && credentials.memberId" >이메일 형식이 올바르지 않습니다.</p>
         
         <div> 
-          <input id="password" type="password" placeholder="password" v-model="credentials.password">
+          <input id="password" type="password" placeholder="password" v-model="credentials.memberPwd">
         </div>
         <div>
-          <button :disabled="!isUseremailValid || !credentials.password" type="submit" class="btn">
+          <button :disabled="!isUseremailValid || !credentials.memberPwd" @click.prevent="login" class="btn">
           로그인
           </button>
         </div>
         <br>
-
-
       </form>
         <div class="snsbtn">
           <a href="https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8181%252Fapi%252Fmember%252Flogin%252Foauth_kakao%26client_id%3De35ccc21d2cf1759f526eef14ea4b921">
@@ -30,35 +28,35 @@
 </template>
 
 <script>
+import { instance } from '@/api/index.js'
 import { validateEmail } from '@/utils/validation'
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data() {
     return {
       credentials: {
-        useremail: null,
-        password: null,
+        memberId: null,
+        memberPwd: null,
       }
 
     }
   },
   computed: {
     isUseremailValid() {
-      return validateEmail(this.credentials.useremail)
+      return validateEmail(this.credentials.memberId)
     }
   },
   methods: {
       login: function () {
-      axios({
+      instance({
         method: 'post',
-        url: '',
+        url: '/api/members/signin',
         data: this.credentials,
       })
         .then(res => {
           console.log(res)
           localStorage.setItem('jwt', res.data.token)
-          // this.$emit('login')
-          this.$router.push({ name: 'Home' })
+          this.$router.push('Home')
         })
         .catch(err => {
           console.log(err)
@@ -69,8 +67,6 @@ export default {
   }
 }
 </script>
-
-
 
 <style>
 .snsbtn{

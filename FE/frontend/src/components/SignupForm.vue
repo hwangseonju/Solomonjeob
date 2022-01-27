@@ -35,16 +35,16 @@ export default {
       signup() {
         const msg = '';
         const err = true;
-        if (!this.credentials.useremail) {
-          msg = "Email을 입력해주세요";
-          err = false;
-        } else if (!this.credentials.password) {
-          msg = "password를 입력해주세요";
-          err = false;
-        } else if (!this.credentials.passwordConfirmation) {
-          msg = "password를 한번 더 입력해주세요";
-          err = false;
-        }
+        // if (!this.credentials.useremail) {
+        //   msg = "Email을 입력해주세요";
+        //   err = false;
+        // } else if (!this.credentials.password) {
+        //   msg = "password를 입력해주세요";
+        //   err = false;
+        // } else if (!this.credentials.passwordConfirmation) {
+        //   msg = "password를 한번 더 입력해주세요";
+        //   err = false;
+        // }
         if (!err) alert(msg);
         else {
           axios({
