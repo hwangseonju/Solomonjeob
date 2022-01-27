@@ -5,18 +5,12 @@
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
+            <button @click="insertQuestionList">+</button>
             <li v-for="index in this.questionlist" :key="index" class="nav-item">
-              <div>        
-                <!-- <input type="text"  :disabled="validated == 1" id="quescol" value="{{ index }}">
-                <button >o</button>
-                <button >x</button> -->
-
-                <div id="app">
-                
-                <input type="text" :disabled="disabled == 1" value="{{ index }}">
+              <div>          
+                <input class="quesinput" type="text" :disabled="disabled == 1" value="{{ index }}">
                 <button @click="disabled = (disabled + 1) % 2">o</button>
                 <button>x</button>
-                </div>
               </div> 
               
             </li>
@@ -72,32 +66,25 @@ export default {
   
   data () {
     return{
-      questionlist: ['질문모음집1', '질문모음집2', '질문모음집3','질문모음집4' ],
-      quesanswerlist : [
-        ['질문1','답변1'],
-        ['질문2','답변2'],
-        ['질문3','답변3'],
-        ['질문4','답변4'],
-        ['질문5','답변5'],
-        ['질문6','답변6'],
-        ['질문7','답변7'],
-        ['질문8', '답변8']        
-      ],
-      edit: {
-        text:""
-      },
-      disabled: 0
+
+ 
+      disabled: 1
     }
   },
   methods : {
     editQuestion(index) {
       this.edit.text = index
     },
+    insertQuestionList() {
+
+    }
 
   }
 }
 </script>
 
 <style scoped>
-
+.quesinput{
+  width: 75%;
+}
 </style>
