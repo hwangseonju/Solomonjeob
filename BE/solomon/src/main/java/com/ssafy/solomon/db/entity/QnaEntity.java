@@ -14,16 +14,16 @@ import javax.persistence.*;
 public class QnaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qna_id;                //식별자 랜덤값
-    private String qna_content;       //질문 내용
+    private Long qnaId;                //식별자 랜덤값
+    private String qnaContent;       //질문 내용
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private int qna_time;              //시간설정
-    private String qna_answer;          //답변
+    private String qnaAnswer;          //답변
 
     //1개의 문제집당 여러 문제등록 가능
     @ManyToOne
-    @JoinColumn(name="qnas_id")
+    @JoinColumn(name="qnasIdFk")
     @JsonManagedReference
-    private QnasEntity qna_list;
+    private QnasEntity qnaList;
 
 }
