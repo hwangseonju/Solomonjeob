@@ -1,59 +1,36 @@
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router';
+import Home from '@/views/Home.vue';
+import Login from '@/views/Member/LoginPage.vue';
+import Signup from '@/views/Member/SignupPage.vue';
+import Question from '@/views/Question/QuestionPage.vue';
+import NotFoundPage from '@/views/NotFoundPage.vue';
 
-// Vue.use(VueRouter)
-
-// export default new VueRouter({
-//     mode: 'history', // check
-//     routes: [
-// 		{
-// 			path: '/',
-// 			redirect: '/login',
-// 		},
-// 		{
-// 			path: '/login',
-// 			component: () => import('@/views/LoginPage.vue'),
-// 		},
-// 		{
-// 			path: '/signup',
-// 			component: () => import('@/views/SignupPage.vue'),
-// 		},
-// 		{
-// 			path: '/:catchAll(.*)*',
-// 			component: () => import('@/views/NotFoundPage.vue'),
-// 		},
-// 	],
-// });
-import { createWebHistory, createRouter } from 'vue-router'
 
 const routes = [
-	// {
-	// 	path: '/',
-	// 	redirect: '/login',
-	// },
+
 	{
 		path: '/',
-		component: () => import('@/views/Home.vue')
+		component: Home,
 	},
 	{
 		path: '/Home',
-		component: () => import('@/views/Home.vue')
+		component: Home,
 	},
 	{
 		path: '/login',
-		component: () => import('@/views/Member/LoginPage.vue'),
+		component: Login,
 	},
 	{
 		path: '/signup',
-		component: () => import('@/views/Member/SignupPage.vue'),
+		component: Signup,
 	},
 	{
 		path: '/question',
-		component: () => import('@/views/Question/QuestionPage.vue'),
+		component: Question,
 	},
 	{
-		path: '/:catchAll(.*)*',
-		component: () => import('@/views/NotFoundPage.vue'),
+		path: '/:anything(.*)*', //  '/:catchAll(.*)*'
+		component: NotFoundPage,
 	},
 	
 ]
