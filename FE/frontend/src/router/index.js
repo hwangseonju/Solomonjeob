@@ -5,6 +5,7 @@ import Signup from '@/views/Member/SignupPage.vue';
 import Question from '@/views/Question/QuestionPage.vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
 
+
 const routes = [
     {
         path: '/',
@@ -17,6 +18,7 @@ const routes = [
     {
         path: '/login',
         component: Login,
+ 
     },
     {
         path: '/signup',

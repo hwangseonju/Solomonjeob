@@ -1,4 +1,6 @@
 <template>
+  <AppHeader></AppHeader>
+
   <div>
     <SignupForm></SignupForm>
 
@@ -7,10 +9,13 @@
 
 <script>
 import SignupForm from '@/components/SignupForm.vue'
+import AppHeader from '@/components/common/AppHeader.vue';
 
 export default {
     components: {
-        SignupForm
+      SignupForm,
+      AppHeader,
+
     },
 }
 </script>
