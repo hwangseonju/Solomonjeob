@@ -1,0 +1,177 @@
+<template>
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form class="form">
+        <div>
+          <input id="useremail" type="text" placeholder="email" v-model="credentials.memberId">
+        </div>
+        <p v-show="!isUseremailValid && credentials.memberId" >이메일 형식이 올바르지 않습니다.</p>
+        
+        <div> 
+          <input id="password" type="password" placeholder="password" v-model="credentials.memberPwd">
+        </div>
+        <div>
+          <button :disabled="!isUseremailValid || !credentials.memberPwd" @click.prevent="login" class="btn">
+          로그인
+          </button>
+        </div>
+        <br>
+      </form>
+        <div class="snsbtn">
+          <a href="https://kauth.kakao.com/oauth/authorize?client_id=e35ccc21d2cf1759f526eef14ea4b921&redirect_uri=http://localhost:8080/api/members/login/oauth_kakao&response_type=code">
+            <img  src="@/assets/kakao.png">
+          </a>
+        </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+// import { instance } from '@/api/index.js'
+import { validateEmail } from '@/utils/validation'
+import { mapActions, mapState } from 'vuex'
+// import axios from 'axios'
+export default {
+
+  data() {
+    return {
+      credentials: {
+        memberId: null,
+        memberPwd: null,
+      },
+      signinIdx: 0
+    }
+  },
+  computed: {
+    isUseremailValid() {
+      return validateEmail(this.credentials.memberId)
+    },
+    ...mapState(["isLogin"])
+  },
+  methods: {
+<<<<<<< HEAD
+      login: function () {
+      instance({
+        method: 'post',
+        url: '/api/members/signin',
+        data: this.credentials,
+      })
+        .then(res => {
+          console.log(res)
+
+          
+          localStorage.setItem('memberIdx', res.data.signinIdx)          
+          localStorage.setItem('jwt', res.headers["jwt-auth-token"])
+          this.$router.push('Home')
+        })
+        .catch(err => {
+          console.log(err)
+          alert('회원정보가 올바르지 않습니다.')
+        })
+=======
+      ...mapActions(["userConfirm"]),
+      async login() {
+        await this.userConfirm(this.credentials);
+        if (this.isLogin) {
+          this.$router.push('Home')
+        } else {
+          // console.log(this.credentials) // false
+          alert( "회원정보가 올바르지 않습니다")
+        // console.log("3 : ", this.isLogin);
+        // console.log("4 :", this.isLoginError);
+      }      
+      // instance({
+      //   method: 'post',
+      //   url: '/api/members/signin',
+      //   data: this.credentials,
+      // })
+      //   .then(res => {
+      //     console.log(res)
+      //     localStorage.setItem('jwt', res.data.token)
+      //     this.$router.push('Home')
+
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //     alert('회원정보가 올바르지 않습니다.')
+      //   })
+>>>>>>> feature/fe_appheader
+    }
+  },
+
+
+}
+</script>
+
+<style>
+.snsbtn{
+  justify-content: center;
+}
+.contents {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 0 5px;
+  width: 100%;  
+}
+/*--- HEADER ---*/
+.page-header {
+  font-size: 45px;
+	font-weight: 600;
+	color: #456155;
+	padding: 30px 5px 15px;
+}
+
+/*--- FORM ---*/
+.form-container {
+  display: flex;
+  align-items: center;
+}
+.form-wrapper {
+  background: white;
+  -webkit-box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  padding: 15px 15px;
+}
+.form-wrapper.form-wrapper-sm {
+  max-width: 500px;
+  margin: 40px auto;
+}
+.form-wrapper-sm .page-header {
+  padding: 0px 0 20px;
+}
+.form {
+	width: 460px;
+	height: 100%;
+}
+
+
+.form input,
+.form textarea {
+  font-family: inherit;
+  font-size: 100%;
+  width: 100%;
+  border: 1px solid #dae1e7;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+.router {
+  color: blueviolet;
+}
+.btn {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
+
+
+</style>

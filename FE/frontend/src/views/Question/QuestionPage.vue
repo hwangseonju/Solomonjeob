@@ -1,0 +1,28 @@
+<template>
+  <div> 
+    <question-answer-form></question-answer-form>
+  </div>
+</template>
+
+<script>
+// import "./assets/css/main.css";
+
+// import QuestionCollectionList from "@/components/QuestionCollectionList";
+// import QuestionAnswerList from '@/components/QuestionAnswerList.vue';
+import QuestionAnswerForm from '@/components/QuestionAnswerForm.vue'
+
+// import QuestionAnswerList from "@components/QuestionAnswerList";
+
+export default {
+  components: {
+    // QuestionCollectionList,
+    // QuestionAnswerList,
+    QuestionAnswerForm,
+  },
+
+};
+</script>
+
+<style>
+
+</style>
