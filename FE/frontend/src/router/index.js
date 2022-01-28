@@ -4,6 +4,7 @@ import Login from '@/views/Member/LoginPage.vue';
 import Signup from '@/views/Member/SignupPage.vue';
 import Question from '@/views/Question/QuestionPage.vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
+import Interview from '@/views/Question/InterviewPage.vue';
 
 const routes = [
     {
@@ -17,6 +18,7 @@ const routes = [
     {
         path: '/login',
         component: Login,
+ 
     },
     {
         path: '/signup',
@@ -25,6 +27,10 @@ const routes = [
     {
         path: '/question',
         component: Question,
+    },
+    {
+        path: '/interview',
+        component: Interview,
     },
     {
         path: '/:anything(.*)*', //  '/:catchAll(.*)*'

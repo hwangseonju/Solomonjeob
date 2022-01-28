@@ -2,24 +2,19 @@
   <AppHeader></AppHeader>
 
   <div>
-    <SignupForm></SignupForm>
-
+      여기는 면접연습하는 곳
   </div>
 </template>
 
 <script>
-import SignupForm from '@/components/SignupForm.vue'
 import AppHeader from '@/components/common/AppHeader.vue';
 
 export default {
-    components: {
-      SignupForm,
-      AppHeader,
-
-    },
+  components: {
+		AppHeader,
+    }
 }
 </script>
-
 
 <style>
 

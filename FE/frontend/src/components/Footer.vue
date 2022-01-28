@@ -27,8 +27,8 @@ export default {
 .footer{
     position: relative;
     width: 100%;
-    min-height: 300px;
-    margin-top: 300px;
+    min-height: 150px;
+    margin-top: 100%;
     text-align: left;
     background-color: #222426;
 }

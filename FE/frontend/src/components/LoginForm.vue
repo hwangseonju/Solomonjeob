@@ -56,15 +56,17 @@ export default {
         .then(res => {
           console.log(res)
           localStorage.setItem('jwt', res.data.token)
-          this.$router.push('Home')
+          this.$router.replace('Home')
+
         })
         .catch(err => {
           console.log(err)
           alert('회원정보가 올바르지 않습니다.')
         })
     }
+  },
 
-  }
+
 }
 </script>
 

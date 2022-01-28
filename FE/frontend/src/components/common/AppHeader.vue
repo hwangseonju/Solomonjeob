@@ -5,37 +5,65 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <!-- <li class="nav-item">
-            <router-link to="/Home" class="nav-link">Home</router-link> 
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">면접연습하기</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">내질문모음집</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">피드백</a>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login" >로그인  </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/signup">회원가입</router-link>
-          </li>
-        </ul>
-      </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <!-- 로그인 되어 있을 때 -->
+              <li class="nav-item">
+                <router-link class="nav-link" to="/interview">면접연습하기</router-link>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">내질문모음집</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">고객센터</a>
+              </li>
+              <li class="nav-item" v-if="!isLogin">
+                <router-link class="nav-link" to="/login" >로그인</router-link>
+              </li>
+              <li class="nav-item" v-if="!isLogin">
+                <router-link class="nav-link" to="/signup">회원가입</router-link>
+              </li>
+              <li class="nav-item" v-else>
+                <router-link class="nav-link" @click="logout" to="#">로그아웃</router-link>
+              </li>
+
+          </ul>
+        </div>
     </div>
   </nav>
 
-  <!-- <header>
-  </header> -->
-</template>
 
+</template>
 <script>
-export default {};
+import { mapState } from "vuex";
+
+export default {
+  name: 'appheader',
+  data()  {
+    return {
+      isLogin: false,
+    }
+  },
+  computed: {
+    ...mapState(["isLogin"])
+  },
+  methods: {
+    logout() {
+      this.isLogin = false
+      localStorage.removeItem('jwt')
+      this.$router.push('Login')
+    },
+
+  },
+
+  created() {
+    const token = localStorage.getItem('jwt')
+    if (token) {
+      this.isLogin = true
+    }
+
+  }
+};
 </script>
 
 <style scoped>
