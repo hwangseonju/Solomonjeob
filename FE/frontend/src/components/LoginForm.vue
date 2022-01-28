@@ -28,8 +28,9 @@
 </template>
 
 <script>
-import { instance } from '@/api/index.js'
+// import { instance } from '@/api/index.js'
 import { validateEmail } from '@/utils/validation'
+import { mapActions, mapState } from 'vuex'
 // import axios from 'axios'
 export default {
   data() {
@@ -44,25 +45,36 @@ export default {
   computed: {
     isUseremailValid() {
       return validateEmail(this.credentials.memberId)
-    }
+    },
+    ...mapState(["isLogin"])
   },
   methods: {
-      login: function () {
-      instance({
-        method: 'post',
-        url: '/api/members/signin',
-        data: this.credentials,
-      })
-        .then(res => {
-          console.log(res)
-          localStorage.setItem('jwt', res.data.token)
+      ...mapActions(["userConfirm"]),
+      async login() {
+        await this.userConfirm(this.credentials);
+        if (this.isLogin) {
           this.$router.push('Home')
+        } else {
+          // console.log(this.credentials) // false
+          alert( "회원정보가 올바르지 않습니다")
+        // console.log("3 : ", this.isLogin);
+        // console.log("4 :", this.isLoginError);
+      }      
+      // instance({
+      //   method: 'post',
+      //   url: '/api/members/signin',
+      //   data: this.credentials,
+      // })
+      //   .then(res => {
+      //     console.log(res)
+      //     localStorage.setItem('jwt', res.data.token)
+      //     this.$router.push('Home')
 
-        })
-        .catch(err => {
-          console.log(err)
-          alert('회원정보가 올바르지 않습니다.')
-        })
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //     alert('회원정보가 올바르지 않습니다.')
+      //   })
     }
 
   }

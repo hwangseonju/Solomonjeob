@@ -55,6 +55,8 @@ section{
   width:100%;
   height:100%;
   background: linear-gradient(to top, rgb(95, 92, 92), transparent);
+  position:relative;
+
 
 }
 section:before{
@@ -66,5 +68,11 @@ section:before{
   width: 100%;
 }
 
+
+.img .text {
+  position:absolute;
+  top:40px;
+  left:80px;
+}
 
 </style>
