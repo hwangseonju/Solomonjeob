@@ -73,12 +73,7 @@ section:before{
   width: 100%;
 }
 
-
-<<<<<<< HEAD
 .text {
-=======
-.img .text {
->>>>>>> feature/fe_appheader
   position:absolute;
   top:40px;
   left:80px;
