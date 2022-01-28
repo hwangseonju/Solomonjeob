@@ -1,28 +1,23 @@
 <template>
   <div> 
-    <div class="row">
-      <div class="col-3">
-        <question-collection-list></question-collection-list>
-      </div>
-      <div class="col-9">
-        <QuestionAnswerList></QuestionAnswerList>
-      </div>
-    </div>
+    <question-answer-form></question-answer-form>
   </div>
 </template>
 
 <script>
 // import "./assets/css/main.css";
 
-import QuestionCollectionList from "@/components/QuestionCollectionList";
-import QuestionAnswerList from '@/components/QuestionAnswerList.vue';
+// import QuestionCollectionList from "@/components/QuestionCollectionList";
+// import QuestionAnswerList from '@/components/QuestionAnswerList.vue';
+import QuestionAnswerForm from '@/components/QuestionAnswerForm.vue'
+
 // import QuestionAnswerList from "@components/QuestionAnswerList";
 
 export default {
   components: {
-    QuestionCollectionList,
-    QuestionAnswerList,
-    // QuestionAnswerList
+    // QuestionCollectionList,
+    // QuestionAnswerList,
+    QuestionAnswerForm,
   },
 
 };

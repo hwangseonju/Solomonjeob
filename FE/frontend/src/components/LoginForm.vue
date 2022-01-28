@@ -18,7 +18,7 @@
         <br>
       </form>
         <div class="snsbtn">
-          <a href="https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fresponse_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8181%252Fapi%252Fmember%252Flogin%252Foauth_kakao%26client_id%3De35ccc21d2cf1759f526eef14ea4b921">
+          <a href="https://kauth.kakao.com/oauth/authorize?client_id=e35ccc21d2cf1759f526eef14ea4b921&redirect_uri=http://localhost:8080/api/members/login/oauth_kakao&response_type=code">
             <img  src="@/assets/kakao.png">
           </a>
         </div>
@@ -32,13 +32,14 @@ import { instance } from '@/api/index.js'
 import { validateEmail } from '@/utils/validation'
 // import axios from 'axios'
 export default {
+
   data() {
     return {
       credentials: {
         memberId: null,
         memberPwd: null,
-      }
-
+      },
+      signinIdx: 0
     }
   },
   computed: {
@@ -55,9 +56,11 @@ export default {
       })
         .then(res => {
           console.log(res)
-          localStorage.setItem('jwt', res.data.token)
-          this.$router.replace('Home')
 
+          
+          localStorage.setItem('memberIdx', res.data.signinIdx)          
+          localStorage.setItem('jwt', res.headers["jwt-auth-token"])
+          this.$router.push('Home')
         })
         .catch(err => {
           console.log(err)
