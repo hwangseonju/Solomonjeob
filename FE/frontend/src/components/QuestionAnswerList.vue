@@ -7,9 +7,11 @@
 		<div class="all_question">
 			<div class="question__box">
 				<div class="real-question">
+				
 					<ul>
-						<li v-for="index in this.questionanswer" :key="index">
-							<textarea class="question" placeholder="질문을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;" @click="edit(qustion)" >	
+						<li v-for="id in this.questionanswer" :key="id">
+							<textarea class="question" placeholder="질문을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;">
+								
 							</textarea>
 							<hr>
 							<textarea class="answer" placeholder="답변을 입력하세요." style="overflow: auto; overflow-wrap: break-word; resize: none;">
@@ -24,26 +26,35 @@
 </template>
 
 <script>
-
 export default {
     // name : 'Detail',
 	data() {
 		return {
-      questionanswer: []
+      questionanswer: [
+        {
+          id: 1,
+          text: "질문모음집",
+        },
+				{
+					id: 2,
+					text: "질문모음집"
+				}
+			]
 		}
 	},
 	// props: {
 	// 		todos: Array,
 	// },
 	methods:{
-		getquestionanswer() {
-			
-		},
-
-	},
-
-	create(){
-		this.getquestionanswer()
+		insertQuestion() {
+      this.todos = [
+        ...this.todos,
+          {
+            id: new Date().getTime(), 
+            text: '질문모음집', 
+          }
+        ];
+      },
 	}
 }
 </script>
