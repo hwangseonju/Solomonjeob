@@ -9,13 +9,13 @@
           <ul class="navbar-nav">
             <!-- 로그인 되어 있을 때 -->
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">면접연습하기</a>
+                <router-link class="nav-link" to="/interview">면접연습하기</router-link>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">내질문모음집</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">피드백</a>
+                <a class="nav-link" href="#">고객센터</a>
               </li>
               <li class="nav-item" v-if="!isLogin">
                 <router-link class="nav-link" to="/login" >로그인</router-link>

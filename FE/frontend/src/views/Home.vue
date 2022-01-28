@@ -2,7 +2,12 @@
   <AppHeader></AppHeader>
 
   <section>
-    <img src="@/assets/interview6.jpg" class="img">
+    <div>
+      <img src="@/assets/interview6.jpg" class="img" >
+      <div class="text">
+        <h4>안녕하세요</h4>
+      </div>
+    </div>
     <!-- <img src="@/assets/interview3.jpg" class="img">
     <img src="@/assets/interview2.jpg" class="img"> -->
   </section>
@@ -55,6 +60,8 @@ section{
   width:100%;
   height:100%;
   background: linear-gradient(to top, rgb(95, 92, 92), transparent);
+  position:relative;
+
 
 }
 section:before{
@@ -66,5 +73,11 @@ section:before{
   width: 100%;
 }
 
+
+.text {
+  position:absolute;
+  top:40px;
+  left:80px;
+}
 
 </style>
