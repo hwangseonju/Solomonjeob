@@ -8,10 +8,10 @@
             <button @click="insertQuestionList">+</button>
             <li v-for="question in this.questionList" :key="question" class="nav-item" >
               <div>          
-                <input class="quesinput" type="text" :disabled="disabled != question.qnasId" v-model="question.qnasTitle" >
+                <input class="quesinput" type="text" :disabled="disabled != question.qnasId" v-model="question.qnasTitle">
                 
-                <button type="button" @click="editQuestion(question.qnasId)">o</button>
-                <button>x</button>
+                <button  @click="editQuestion(question.qnasId, question.qnasTitle)">o</button>
+                <button @click="removeQuestionList(question.qnasId)">x</button>
               </div> 
               
                
@@ -120,7 +120,7 @@ export default {
     //   var updatedText = event.target.value
     //   this.qnasTitle = updatedText
     // },
-    editQuestion(number) {
+    editQuestion(number,text) {
       if (this.disabled != number){
         this.disabled = number}
         
@@ -129,21 +129,32 @@ export default {
         method: 'put',
         url: '/api/qnas/' + number  ,
         data: {qnasCode:number,
-          qnasTitle: this.question.qnasTitle,
-          qnasMemberId:this.memberIdx},
+          qnasTitle: text,
+          // qnasMemberId:this.memberIdx
+          },
         headers: this.getToken()
       })
       .then(res => {
         console.log(res)
         this.disabled = 0
-        // this.$router.go()
+        this.$router.go()
       })
       .catch(err => {
         console.log(err)
         alert('실패')
-      })        
-        
+        })        
       }
+    },
+    removeQuestionList(number) {
+      instance({
+      method: 'delete',
+      url: 'api/qnas/' + number,
+      headers: this.getToken()
+      })
+      .then(res => {
+        console.log(res)
+        this.$router.go()
+      })
 
     }
  
