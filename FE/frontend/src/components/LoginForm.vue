@@ -50,26 +50,7 @@ export default {
     ...mapState(["isLogin"])
   },
   methods: {
-<<<<<<< HEAD
-      login: function () {
-      instance({
-        method: 'post',
-        url: '/api/members/signin',
-        data: this.credentials,
-      })
-        .then(res => {
-          console.log(res)
 
-          
-          localStorage.setItem('memberIdx', res.data.signinIdx)          
-          localStorage.setItem('jwt', res.headers["jwt-auth-token"])
-          this.$router.push('Home')
-        })
-        .catch(err => {
-          console.log(err)
-          alert('회원정보가 올바르지 않습니다.')
-        })
-=======
       ...mapActions(["userConfirm"]),
       async login() {
         await this.userConfirm(this.credentials);
@@ -96,7 +77,6 @@ export default {
       //     console.log(err)
       //     alert('회원정보가 올바르지 않습니다.')
       //   })
->>>>>>> feature/fe_appheader
     }
   },
 
