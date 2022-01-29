@@ -30,7 +30,7 @@
 <script>
 // import { instance } from '@/api/index.js'
 import { validateEmail } from '@/utils/validation'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 // import axios from 'axios'
 export default {
 
@@ -47,17 +47,20 @@ export default {
     isUseremailValid() {
       return validateEmail(this.credentials.memberId)
     },
-    ...mapState(["isLogin"])
+    ...mapState(["isLogin"]),
   },
   methods: {
-
+      ...mapMutations(["SET_IS_LOGIN"]),
       ...mapActions(["userConfirm"]),
       async login() {
+        console.log(5)
         await this.userConfirm(this.credentials);
+        console.log(1) // 여기까지 ok
         if (this.isLogin) {
+          alert('환영합니다')
           this.$router.push('Home')
         } else {
-          // console.log(this.credentials) // false
+          console.log(2) // false
           alert( "회원정보가 올바르지 않습니다")
         // console.log("3 : ", this.isLogin);
         // console.log("4 :", this.isLoginError);
