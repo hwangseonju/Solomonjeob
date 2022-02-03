@@ -1,6 +1,9 @@
 <template>
-  <div> 
-    <question-answer-form></question-answer-form>
+  <div class="container-fluid">
+    <div class="row">
+      <question-answer-form></question-answer-form>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 
 </style>
