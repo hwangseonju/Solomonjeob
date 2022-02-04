@@ -36,22 +36,24 @@
 
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: 'appheader',
   data()  {
     return {
-      isLogin: false,
+      // isLogin: false,
     }
   },
   computed: {
     ...mapState(["isLogin"])
   },
   methods: {
+    ...mapMutations(["SET_IS_LOGIN"]),
     logout() {
-      this.isLogin = false
-      localStorage.removeItem('jwt')
+      this.SET_IS_LOGIN(false);
+      localStorage.removeItem('jwt-auth-token');
+      alert('로그아웃되었습니다');
       this.$router.push('Login')
     },
 
