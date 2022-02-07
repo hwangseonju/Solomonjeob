@@ -47,10 +47,10 @@ export default {
     isUseremailValid() {
       return validateEmail(this.credentials.memberId)
     },
-    ...mapState(["isLogin"]),
+    ...mapState(["isLogin", "signinIdx"]),
   },
   methods: {
-      ...mapMutations(["SET_IS_LOGIN"]),
+      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID"]),
       ...mapActions(["userConfirm"]),
       async login() {
         console.log(5)
@@ -62,6 +62,7 @@ export default {
         } else {
           console.log(2) // false
           alert( "회원정보가 올바르지 않습니다")
+      
         // console.log("3 : ", this.isLogin);
         // console.log("4 :", this.isLoginError);
       }      
