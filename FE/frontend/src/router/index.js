@@ -41,6 +41,7 @@ const routes = [
         path: '/interview',
         component: Interview,
     },
+    
     {
         path: '/:anything(.*)*', //  '/:catchAll(.*)*'
         component: NotFoundPage,
