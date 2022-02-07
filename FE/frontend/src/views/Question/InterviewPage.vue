@@ -4,40 +4,28 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
           <div id="main-container" class="container">
-            <div id="join" v-if="!session">
-              <div id="img-div"><img src="@/assets/logo_purple.png" /></div>
-              <div id="join-dialog" class="jumbotron vertical-center">
-                <h1>Join a video session</h1>
-                <form class="form-group" @submit="joinSession">
-                  <p>
-                    <label>Participant</label>
-                    <input v-model="myUserName" class="form-control" type="text" required>
-                  </p>
-                  <p>
-                    <label>Session</label>
-                    <input v-model="mySessionId" class="form-control" type="text" required>
-                  </p>
-                  <p class="text-center">
-                    <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
-                  </p>
-                </form>
-                <!-- <div id="main-video" class="col-md-6">
-                <user-video :stream-manager="mainStreamManager"/>
-                </div> -->
-              </div>
-            </div>
-
             <div id="session" v-if="session">
-
               <div id="video-container" class="col-md-6">
                 <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
               </div>
             </div>
+						<div v-if="selected">
+
+
+
+
+
+						</div>
           </div>
         </div>
       </main>
-      <my-question-list></my-question-list>
+      <my-question-list
+			:selected="selected"
+			@changeForm="changeForm"
+			>
+
+			</my-question-list>
     </div>
   </div>
 </template>
@@ -58,15 +46,21 @@ export default {
 	},
 	data () {
 		return {
+			selected : false,
 			session: undefined,
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			// mySessionId: 'SessionA',
+			mySessionId: '',
+			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			myUserName: 'gonu'
 		}
 	},
 	methods: {
+		changeForm(propSelected){
+			this.selected= propSelected
+		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			const OV = new OpenVidu();
@@ -194,6 +188,11 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+		
+	},
+	created() {
+		this.mySessionId = localStorage.getItem('signidx')
+		this.joinSession()
 	}
 }
 </script>

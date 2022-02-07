@@ -41,7 +41,7 @@ export default {
       return config
     },
     getMemberIdx() {
-      this.memberIdx = localStorage.getItem('memberIdx')
+      this.memberIdx = localStorage.getItem('signidx')
       
     },
      getQuestionList() {
