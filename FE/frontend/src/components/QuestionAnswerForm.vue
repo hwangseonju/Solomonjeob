@@ -19,7 +19,9 @@
 </template>
 
 <script >
-import { instance } from '@/api/index.js'             
+import { instance } from '@/api/index.js'
+import {  mapState, mapMutations } from 'vuex'
+
 export default {
 
   
@@ -32,7 +34,13 @@ export default {
 
     }
   },
+  computed : {
+      ...mapState(["isLogin", "signinIdx"]),
+
+  },
   methods : {
+      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID"]),
+
     getToken: function () {
       const token = localStorage.getItem('jwt')
       const config = {
@@ -41,7 +49,9 @@ export default {
       return config
     },
     getMemberIdx() {
-      this.memberIdx = localStorage.getItem('signidx')
+
+      // this.memberIdx = localStorage.getItem('memberIdx')
+      this.memberIdx = this.signinIdx
       
     },
      getQuestionList() {

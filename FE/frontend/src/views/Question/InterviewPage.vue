@@ -35,6 +35,7 @@ import myQuestionList from '@/components/interview/myQuestionList.vue'
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/interview/UserVideo.vue';
+import { mapState } from 'vuex';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -42,7 +43,7 @@ export default {
 
 	components: {
 		UserVideo,
-    myQuestionList
+        myQuestionList
 	},
 	data () {
 		return {
@@ -55,55 +56,72 @@ export default {
 			mySessionId: '',
 			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
 			myUserName: 'gonu'
+
 		}
 	},
+	computed: {
+		...mapState(["isLogin", "signinIdx"]),
+
+	},
+
 	methods: {
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
+
 		joinSession () {
-			// --- Get an OpenVidu object ---
-			const OV = new OpenVidu();
-			// --- Init a session ---
-			this.session = OV.initSession();
-			// --- Specify the actions when events take place in the session ---
-			// On every new Stream received...
-			this.session.on('streamCreated', ({ stream }) => {
-				this.subscribers.push(this.session.subscribe(stream));
-			});
-			// On every Stream destroyed...
-			this.session.on('streamDestroyed', ({ stream }) => {
-				const index = this.subscribers.indexOf(stream.streamManager, 0);
-				if (index >= 0) {
-					this.subscribers.splice(index, 1);
-				}
-			});
-			// --- Connect to the session with a valid user token ---
-			// 'getToken' method is simulating what your server-side should do.
-			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
-				this.session.connect(token, { clientData: this.myUserName })
-					.then(() => {
-						// --- Get your own camera stream with the desired properties ---
-						this.publisher = OV.initPublisher(undefined, {
-							audioSource: undefined, // The source of audio. If undefined default microphone
-							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '1200x850',  // The resolution of your video
-							frameRate: 30,			// The frame rate of your video
-							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
+			if (this.isLogin) {
+				// --- Get an OpenVidu object ---
+				console.log(123456789)
+				console.log(this.memberId)
+				console.log(123456789)
+
+				const OV = new OpenVidu();
+				// --- Init a session ---
+				this.session = OV.initSession();
+				// --- Specify the actions when events take place in the session ---
+				// On every new Stream received...
+				this.session.on('streamCreated', ({ stream }) => {
+					this.subscribers.push(this.session.subscribe(stream));
+				});
+				// On every Stream destroyed...
+				this.session.on('streamDestroyed', ({ stream }) => {
+					const index = this.subscribers.indexOf(stream.streamManager, 0);
+					if (index >= 0) {
+						this.subscribers.splice(index, 1);
+					}
+				});
+				// --- Connect to the session with a valid user token ---
+				// 'getToken' method is simulating what your server-side should do.
+				// 'token' parameter should be retrieved and returned by your own backend
+				this.getToken(this.mySessionId).then(token => {
+					this.session.connect(token, { clientData: this.myUserName })
+						.then(() => {
+							// --- Get your own camera stream with the desired properties ---
+							this.publisher = OV.initPublisher(undefined, {
+								audioSource: undefined, // The source of audio. If undefined default microphone
+								videoSource: undefined, // The source of video. If undefined default webcam
+								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+								resolution: '1200x850',  // The resolution of your video
+								frameRate: 30,			// The frame rate of your video
+								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+								mirror: false,       	// Whether to mirror your local video or not
+							});
+							this.mainStreamManager = this.publisher;
+							// --- Publish your stream ---
+							this.session.publish(this.publisher);
+
+						})
+						.catch(error => {
+							console.log('There was an error connecting to the session:', error.code, error.message);
 						});
-						this.mainStreamManager = this.publisher;
-						// --- Publish your stream ---
-						this.session.publish(this.publisher);
-					})
-					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
-					});
-			});
-			window.addEventListener('beforeunload', this.leaveSession)
+				});
+				window.addEventListener('beforeunload', this.leaveSession)
+			} else {
+				alert("로그인 후 입장해주세요")
+			}
+		
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
@@ -118,15 +136,15 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream
 		},
-    videoEnable(){
-      // if (this.publisher.publishVideo) {
-      //   this.publisher.publishVideo = false
-      // } else {
-      //   this.publisher.properties.publishVideo = true
-      // }
-      // this.publisher.publishVideo(Enabled)
-      this.publisher.publishVideo()
-      // console.log(this.publisher)
+		videoable(){
+		// if (this.publisher.publishVideo) {
+		//   this.publisher.publishVideo = false
+		// } else {
+		//   this.publisher.properties.publishVideo = true
+		// }
+		// this.publisher.publishVideo(Enabled)
+			this.publisher.publishVideo = true
+		// console.log(this.publisher)
       
     },
     
@@ -190,13 +208,38 @@ export default {
 		},
 		
 	},
+
 	created() {
 		this.mySessionId = localStorage.getItem('signidx')
 		this.joinSession()
 	}
+
 }
 </script>
 
-<style>
-
+<style scoped>
+.btn_interview {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 50%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn_interview:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
+.btn_home {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 10%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn_home:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
 </style>
