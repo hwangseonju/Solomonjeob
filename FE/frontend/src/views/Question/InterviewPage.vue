@@ -4,7 +4,7 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
           <div id="main-container" class="container">
-            <div id="session" v-if="session">
+            <div id="session" v-if="session && !selected">
               <div id="video-container" class="col-md-6">
                 <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
@@ -12,7 +12,7 @@
             </div>
 						<div v-if="selected">
 
-
+							<img src="@/assets/director.png" alt="">
 
 
 
