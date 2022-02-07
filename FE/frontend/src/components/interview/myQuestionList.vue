@@ -68,14 +68,10 @@ export default {
       return config
     },
     getMemberIdx() {
-<<<<<<< HEAD
-      this.memberIdx = localStorage.getItem('memberIdx')
-=======
-      // this.memberIdx = localStorage.getItem('memberIdx')
+
       this.memberIdx = this.signinIdx
 
-      
->>>>>>> f2422d68a8b45c019324b4f76213a1fd0006e3dd
+
     },
     getQuestionList() {
       const memberIdx = this.getMemberIdx
