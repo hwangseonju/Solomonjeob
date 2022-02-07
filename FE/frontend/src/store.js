@@ -6,9 +6,8 @@ const store = createStore({
     state() {
         return {
             isLogin: false,
-            credentials: {
-                memberId: '',
-            }
+            signinIdx: '',
+            
 
         }
     },
@@ -16,8 +15,8 @@ const store = createStore({
        SET_IS_LOGIN(state, isLogin) {
            state.isLogin = isLogin;
        },
-       SET_GET_USER_ID(state, memberId) {
-           state.credentials.memberId = memberId
+       SET_GET_USER(state, signinIdx) {
+           state.signinIdx = signinIdx;
        }
 
     },
@@ -34,24 +33,32 @@ const store = createStore({
                 if (res.data["status"] == true) {
                   let token = res.headers["jwt-auth-token"];
                   context.commit("SET_IS_LOGIN", true);
+                  console.log(res)
+                  context.commit("SET_GET_USER", res.data["signinIdx"])
+                  console.log(res)
+                  console.log(99999999)
+                  console.log(res.headers.data["memberId"])
+
+                  console.log(res.data["memberId"])
+
+                //   console.log()
+                //   console.log(78978797987)
+                //   console.log(res)
+                //   console.log(res.config.data)
+                //   console.log(res.config.data["memberPwd"])
+
                   localStorage.setItem('jwt', token);
+                  console.log(111111111111111)
+
                 } else {
                   console.log(7)
                   context.commit("SET_IS_LOGIN", false);
                 }
               })
               .catch(() => {});
-            // .then(res => {
-            //     console.log(res)
-            //     localStorage.setItem('jwt', res.data.token)
-            //     this.$router.push('Home')
-      
-            //   })
-            //   .catch(err => {
-            //     console.log(err)
-            //     alert('회원정보가 올바르지 않습니다.')
-            //   })            }
-        }
+
+        },
+
     },
     plugins: [
         createPersistedState({

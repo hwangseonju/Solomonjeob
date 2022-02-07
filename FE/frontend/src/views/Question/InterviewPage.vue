@@ -7,21 +7,23 @@
             <div id="join" v-if="!session">
               <div id="img-div"><img src="@/assets/logo_purple.png" /></div>
               <div id="join-dialog" class="jumbotron vertical-center">
-                <h1>Join a video session</h1>
+                <h1>면접 연습하기</h1>
 
                 <form class="form-group" @submit="joinSession">
-                  <!-- <p>
-                    <label>Participant</label>
+                  <p>
+                    <label>면접자</label>
                     <input v-model="myUserName" class="form-control" type="text" required>
-                  </p> -->
+                  </p>
                   <!-- <p>
                     <label>Session</label>
                     <input v-model="mySessionId" class="form-control" type="text" required>
                   </p> -->
                   <p class="text-center">
-                    <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
+                    <input class="btn_interview" type="submit" name="commit" value="면접장으로 이동합니다!" @onclick="sessionId">
                   </p>
+					<button @click="goBack" class="btn_home" type="button">Home</button> 
                 </form>
+
 
                 <!-- <div id="main-video" class="col-md-6">
                 <user-video :stream-manager="mainStreamManager"/>
@@ -30,7 +32,6 @@
             </div>
 
             <div id="session" v-if="session">
-
               <div id="video-container" class="col-md-6">
                 <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
@@ -57,7 +58,7 @@ export default {
 
 	components: {
 		UserVideo,
-    myQuestionList
+        myQuestionList
 	},
 	data () {
 		return {
@@ -71,19 +72,25 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(["isLogin", "memberId"]),
+		...mapState(["isLogin", "signinIdx"]),
+
 	},
 
 	methods: {
 		...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID"]),
-		sessinId () {
-			this.mySessionId = this.memberId
-			this.myUserName = this.memberId
-		},
-
+		// sessionId () {
+		// 	this.mySessionId = this.memberId
+		// },
+        goBack(){
+          this.$router.push('Home')
+        },
 		joinSession () {
 			if (this.isLogin) {
 				// --- Get an OpenVidu object ---
+				console.log(123456789)
+				console.log(this.memberId)
+				console.log(123456789)
+
 				const OV = new OpenVidu();
 				// --- Init a session ---
 				this.session = OV.initSession();
@@ -114,11 +121,12 @@ export default {
 								resolution: '1200x850',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-								mirror: false       	// Whether to mirror your local video or not
+								mirror: false,       	// Whether to mirror your local video or not
 							});
 							this.mainStreamManager = this.publisher;
 							// --- Publish your stream ---
 							this.session.publish(this.publisher);
+
 						})
 						.catch(error => {
 							console.log('There was an error connecting to the session:', error.code, error.message);
@@ -128,7 +136,7 @@ export default {
 			} else {
 				alert("로그인 후 입장해주세요")
 			}
-			
+		
 		},
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
@@ -143,15 +151,15 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream
 		},
-    videoEnable(){
-      // if (this.publisher.publishVideo) {
-      //   this.publisher.publishVideo = false
-      // } else {
-      //   this.publisher.properties.publishVideo = true
-      // }
-      // this.publisher.publishVideo(Enabled)
-      this.publisher.publishVideo()
-      // console.log(this.publisher)
+		videoable(){
+		// if (this.publisher.publishVideo) {
+		//   this.publisher.publishVideo = false
+		// } else {
+		//   this.publisher.properties.publishVideo = true
+		// }
+		// this.publisher.publishVideo(Enabled)
+			this.publisher.publishVideo = true
+		// console.log(this.publisher)
       
     },
     
@@ -213,10 +221,37 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
-	}
+		
+	},
+	// created() {
+	// 	this.mySessionId = this.signinIdx;
+	// },
 }
 </script>
 
-<style>
-
+<style scoped>
+.btn_interview {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 50%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn_interview:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
+.btn_home {
+  font-weight: bolder;
+  color: blueviolet;
+  width: 10%;
+  box-sizing: border-box;
+  border: 3px solid slateblue;
+}
+.btn_home:hover {
+  font-weight: bolder;
+  background-color: blueviolet;
+  color: white;
+}
 </style>
