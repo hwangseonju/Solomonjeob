@@ -86,9 +86,26 @@
     
 - openvidu-server를 실행하려고 보니 slf4j관련한 오류가 있다.
 
-예측컨데, 얼마전 있던 log4j와 관련하여 막아놓지 않았을까...
+예측컨데, 얼마전 있던 log4j와 관련하여 의존성을 주입해주어야 하지 않을까...
 
 ![Untitled](./photo/openvidu/Untitled%201.png)
+
+
+
+https://mvnrepository.com/artifact/org.slf4j/slf4j-api 를통하여 의존성 주입
+
+```
+<!-- <https://mvnrepository.com/artifact/org.slf4j/slf4j-api> -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.25</version>
+</dependency>
+```
+
+의존성을 주입하면 다른 에러가 나온다....
+
+![Untitled](./photo/openvidu/asd.png)
 
 - 다른 방식으로는 openvidu-tutorial을 진행하면 된다. 이는 공식사이트가 더 정확하게 나와있다.
 
