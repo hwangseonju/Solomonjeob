@@ -8,6 +8,18 @@
               <div id="video-container" class="col-md-6">
                 <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
+                <div>
+					<!-- <span v-if="this.checkVideo"><i @click="offVideo" class="fas fa-video-slash"></i></span>
+					<span v-else-if="!this.checkVideo"><i @click="onVideo" class="fas fa-video"></i></span>
+					<br>
+					<span v-if="this.checkAudio"><i @click="offAudio" class="fas fa-volume-mute"></i></span>
+					<span v-if="!this.checkAudio"><i @click="onAudio" class="fas fa-volume-down"></i></span> -->
+					<span ><i @click="toggleVideo" class="fas fa-video"></i></span>
+					<br>
+					<!-- <span><i @click="toggleAudio" class="fas fa-volume-mute"></i></span> -->
+
+				</div>
+
               </div>
             </div>
 						<div v-if="selected">
@@ -35,7 +47,7 @@ import myQuestionList from '@/components/interview/myQuestionList.vue'
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/interview/UserVideo.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -55,19 +67,55 @@ export default {
 			// mySessionId: 'SessionA',
 			mySessionId: '',
 			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
-			myUserName: 'gonu'
+			myUserName: 'gonu',
+			checkVideo: false,
+			checkAudio: false,
+
 
 		}
 	},
 	computed: {
-		...mapState(["isLogin", "signinIdx"]),
+		...mapState(["isLogin", "signinIdx", "vidieoState", "audioState"]),
 
 	},
 
 	methods: {
+		...mapMutations(["SET_VIDEO", "SET_AUDIO"]),
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
+		// onVideo() {
+		// 	this.publisher.publishVideo(this.vidieoState);
+		// 	this.SET_VIDEO({ vidieoState: this.vidieoState});
+		// 	this.checkVideo = true
+		// },
+		// offVideo() {
+		// 	this.publisher.publishVideo(!this.vidieoState);
+		// 	this.SET_VIDEO({ vidieoState: !this.vidieoState});
+		// 	this.checkVideo = false
+		// },
+		toggleVideo() {   // 토글 시도
+			this.videoState = !this.videoState;
+			this.publisher.publishVideo(this.videoState);
+			console.log(this.publisher)
+			console.log(this.publisher.publishVideo)
+			// this.checkVideo = true
+		},
+		// toggleAudio() {   // 토글 시도
+		// 	this.audioState = !this.audioState;
+		// 	this.publisher.publishAudio(this.audioState);
+		// 	// this.checkVideo = true
+		// },		
+		// onAudio() {
+		// 	this.publisher.publishAudio(this.audioState);
+		// 	this.SET_AUDIO({ audioState: this.audioState});
+		// 	this.checkAudio = true
+		// },
+		// offAudio() {
+		// 	this.publisher.publishAudio(!this.audioState);
+		// 	this.SET_AUDIO({ audioState: !this.audioState});
+		// 	this.checkAudio = false
+		// },
 
 		joinSession () {
 			if (this.isLogin) {
@@ -101,8 +149,8 @@ export default {
 							this.publisher = OV.initPublisher(undefined, {
 								audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
-								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+								publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
+								publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
 								resolution: '1200x850',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
@@ -242,4 +290,5 @@ export default {
   background-color: blueviolet;
   color: white;
 }
+
 </style>
