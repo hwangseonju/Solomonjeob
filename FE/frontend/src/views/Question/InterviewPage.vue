@@ -9,14 +9,13 @@
                 <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
                 <div>
-					<!-- <span v-if="this.checkVideo"><i @click="offVideo" class="fas fa-video-slash"></i></span>
-					<span v-else-if="!this.checkVideo"><i @click="onVideo" class="fas fa-video"></i></span>
+
+					<span v-if="this.checkVideo"><i @click="this.toggleVideo" class="fas fa-video-slash"></i></span>
+					<span v-else><i @click="this.toggleVideo" class="fas fa-video"></i></span>
+
 					<br>
-					<span v-if="this.checkAudio"><i @click="offAudio" class="fas fa-volume-mute"></i></span>
-					<span v-if="!this.checkAudio"><i @click="onAudio" class="fas fa-volume-down"></i></span> -->
-					<span ><i @click="toggleVideo" class="fas fa-video"></i></span>
-					<br>
-					<!-- <span><i @click="toggleAudio" class="fas fa-volume-mute"></i></span> -->
+					<span v-if="this.checkAudio"><i @click="this.toggleAudio" class="fas fa-volume-up"></i></span>
+					<span v-else><i @click="this.toggleAudio" class="fas fa-volume-mute"></i></span>
 
 				</div>
 
@@ -68,54 +67,38 @@ export default {
 			mySessionId: '',
 			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
 			myUserName: 'gonu',
-			checkVideo: false,
-			checkAudio: false,
+			checkVideo: true,
+			checkAudio: true,
 
 
 		}
 	},
-	computed: {
-		...mapState(["isLogin", "signinIdx", "vidieoState", "audioState"]),
+	// computed: {
 
-	},
+	// },
 
 	methods: {
-		...mapMutations(["SET_VIDEO", "SET_AUDIO"]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive", "audioActive"]),
+
+		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio"]),
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
-		// onVideo() {
-		// 	this.publisher.publishVideo(this.vidieoState);
-		// 	this.SET_VIDEO({ vidieoState: this.vidieoState});
-		// 	this.checkVideo = true
-		// },
-		// offVideo() {
-		// 	this.publisher.publishVideo(!this.vidieoState);
-		// 	this.SET_VIDEO({ vidieoState: !this.vidieoState});
-		// 	this.checkVideo = false
-		// },
-		toggleVideo() {   // 토글 시도
-			this.videoState = !this.videoState;
-			this.publisher.publishVideo(this.videoState);
-			console.log(this.publisher)
-			console.log(this.publisher.publishVideo)
-			// this.checkVideo = true
+
+		toggleAudio() {   // 토글 시도
+			this.audioActive = !this.audioActive;
+			this.publisher.publishAudio(this.audioActive);
+			this.checkAudio = !this.checkAudio
+
 		},
-		// toggleAudio() {   // 토글 시도
-		// 	this.audioState = !this.audioState;
-		// 	this.publisher.publishAudio(this.audioState);
-		// 	// this.checkVideo = true
-		// },		
-		// onAudio() {
-		// 	this.publisher.publishAudio(this.audioState);
-		// 	this.SET_AUDIO({ audioState: this.audioState});
-		// 	this.checkAudio = true
-		// },
-		// offAudio() {
-		// 	this.publisher.publishAudio(!this.audioState);
-		// 	this.SET_AUDIO({ audioState: !this.audioState});
-		// 	this.checkAudio = false
-		// },
+		toggleVideo() {   // 토글 시도
+			this.videoActive = !this.videoActive;
+			this.publisher.publishVideo(this.videoActive);
+			this.checkVideo = !this.checkVideo
+
+			console.log(this.videoActive)
+		},
+
 
 		joinSession () {
 			if (this.isLogin) {
@@ -184,17 +167,7 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream
 		},
-		videoable(){
-		// if (this.publisher.publishVideo) {
-		//   this.publisher.publishVideo = false
-		// } else {
-		//   this.publisher.properties.publishVideo = true
-		// }
-		// this.publisher.publishVideo(Enabled)
-			this.publisher.publishVideo = true
-		// console.log(this.publisher)
-      
-    },
+
     
 		/**
 		 * --------------------------

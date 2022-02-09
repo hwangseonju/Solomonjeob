@@ -2,13 +2,14 @@ import { createStore } from 'vuex'
 import { instance } from '@/api/index.js'
 import createPersistedState from 'vuex-persistedstate';
 
+
 const store = createStore({
     state() {
         return {
             isLogin: false,
             signinIdx: '',
-            vidieoState: true,
-            audioState: true,
+            vidieoActive: true,
+            audioActive: true,
 
 
         }
@@ -20,13 +21,20 @@ const store = createStore({
        SET_GET_USER(state, signinIdx) {
            state.signinIdx = signinIdx;
        },
-       SET_VIDEO(state, vidieoState) {
-           state.vidieoState = vidieoState;
+       SET_VIDEO(state, vidieoActive) {
+           state.vidieoActive = vidieoActive;
        },
-       SET_AUDIO(state, audioState) {
-            state.audioState = audioState;
-    }
-
+       SET_AUDIO(state, audioActive) {
+            state.audioActive = audioActive;
+        },
+        // toggleVideo(state, videoActive) {   // 토글 시도
+        //     state.videoActive = !videoActive;
+        //     this.publisher.publishVideo(state.videoActive);
+        // },
+        // toggleAudio(state, audioActive) {   // 토글 시도
+        //     state.audioActive = !audioActive;
+        //     state.publisher.publishAudio(state.audioActive);
+        // },
     },
     actions :{  // ajax 요청 하는 곳, 또는 오래 걸리는 작업들, axios 는 여기다가 하기
         async userConfirm(context, credentials) {
