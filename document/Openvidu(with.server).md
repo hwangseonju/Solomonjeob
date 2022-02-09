@@ -172,7 +172,7 @@ f222d92e2f00   openvidu/openvidu-proxy:7.0.0         "/docker-entrypoint.…"   
 
      Password : <.env에 설정한 OPENVIDU_SECRET 값>
 
-     ![Untitled](.\photo\openvidu\Untitled.png)
+     ![Untitled](./photo/openvidu/Untitled.png)
 
 - openvidu server 설정 관련 사이트
 
