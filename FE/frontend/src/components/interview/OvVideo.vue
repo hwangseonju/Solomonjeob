@@ -6,15 +6,13 @@
 </template>
 
 <script>
-import {  mapState } from 'vuex';
 export default {
 	name: 'OvVideo',
 	props: {
 		streamManager: Object,
-		// audioDetect: Boolean,
+		audioDetect: Boolean,
 	},
 	methods: {
-		...mapState(["audioDetect"])
 	},
 	mounted () {
 		this.streamManager.addVideoElement(this.$el);

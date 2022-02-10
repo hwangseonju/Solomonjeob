@@ -12,7 +12,7 @@ const store = createStore({
             vidieoActive: true,
             audioActive: true,
             jwtToken: '',
-            audioDetect: '',
+            // audioDetect: '',
 
 
         }
@@ -33,9 +33,9 @@ const store = createStore({
         SET_JWT_TOKEN(state, jwtToken) {
             state.jwtToken = jwtToken;
         },
-        SET_AUDIO_DETECT(state, audioDetect) {
-            state.audioDetect = audioDetect;
-        },
+        // SET_AUDIO_DETECT(state, audioDetect) {
+        //     state.audioDetect = audioDetect;
+        // },
         SET_SESSION(state, session) {
             state.session = session;
         },
