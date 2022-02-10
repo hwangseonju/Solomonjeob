@@ -17,6 +17,7 @@ public class MemberEntity {
     private long memberIdx;
     private String memberId;
     private String memberPwd;
+    private String nickName;
     private String memberKey;
     @Column(length = 50)
     private String memberSns;
@@ -27,12 +28,11 @@ public class MemberEntity {
     @OneToMany(mappedBy="user" ,fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QnasEntity> qnaCodes;
 
-
-
     @Builder
-    public MemberEntity(String memberId, String memberPwd, String memberKey, String memberSns, Boolean emailAuth) {
+    public MemberEntity(String memberId, String memberPwd, String nickName, String memberKey, String memberSns, Boolean emailAuth) {
         this.memberId = memberId;
         this.memberPwd = memberPwd;
+        this.nickName = nickName;
         this.memberKey = memberKey;
         this.memberSns = memberSns;
         this.emailAuth = emailAuth;
