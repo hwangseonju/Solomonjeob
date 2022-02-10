@@ -12,6 +12,7 @@ const store = createStore({
             vidieoActive: true,
             audioActive: true,
             jwtToken: '',
+            audioDetect: '',
 
 
         }

@@ -6,7 +6,7 @@
           <div id="main-container" class="container">
             <div id="session" v-if="session && !selected">
               <div id="video-container" class="col-md-6">
-                <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" :audioDetect="audioDetect" />
+                <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" :audioDetect="audioDetect"/>
                 <!-- <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" v-else class="speakoff"/> -->
 				<div>
 					<!-- <span v-if="this.audioDetect=''"> - </span> -->
@@ -112,8 +112,6 @@ export default {
 			this.videoActive = !this.videoActive;
 			this.publisher.publishVideo(this.videoActive);
 			this.checkVideo = !this.checkVideo
-
-			console.log(this.videoActive)
 		},
 
 

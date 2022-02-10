@@ -1,19 +1,21 @@
 <template>
 
 	<video autoplay v-if="this.audioDetect" class="speakon"/>
-	<video autoplay v-else-if="!this.audioDetect" />
+	<video autoplay v-else-if="!this.audioDetect" class="speakoff" />
 
 </template>
 
 <script>
-
+import {  mapState } from 'vuex';
 export default {
 	name: 'OvVideo',
 	props: {
 		streamManager: Object,
-		audioDetect: Boolean,
+		// audioDetect: Boolean,
 	},
-
+	methods: {
+		...mapState(["audioDetect"])
+	},
 	mounted () {
 		this.streamManager.addVideoElement(this.$el);
 	},
@@ -22,6 +24,9 @@ export default {
 <style scoped>
 .speakon {
 	border-style: dashed;
+}
+.speakoff {
+
 }
 
 </style>
