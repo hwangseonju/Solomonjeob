@@ -50,7 +50,7 @@ export default {
     ...mapState(["isLogin", "signinIdx"]),
   },
   methods: {
-      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID"]),
+      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", ]),
       ...mapActions(["userConfirm"]),
       async login() {
         console.log(5)

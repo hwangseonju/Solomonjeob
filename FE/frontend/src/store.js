@@ -3,6 +3,7 @@ import { instance } from '@/api/index.js'
 import createPersistedState from 'vuex-persistedstate';
 
 
+
 const store = createStore({
     state() {
         return {
@@ -10,6 +11,7 @@ const store = createStore({
             signinIdx: '',
             vidieoActive: true,
             audioActive: true,
+            jwtToken: '',
 
 
         }
@@ -27,6 +29,16 @@ const store = createStore({
        SET_AUDIO(state, audioActive) {
             state.audioActive = audioActive;
         },
+        SET_JWT_TOKEN(state, jwtToken) {
+            state.jwtToken = jwtToken;
+        },
+        SET_AUDIO_DETECT(state, audioDetect) {
+            state.audioDetect = audioDetect;
+        },
+        SET_SESSION(state, session) {
+            state.session = session;
+        },
+
         // toggleVideo(state, videoActive) {   // 토글 시도
         //     state.videoActive = !videoActive;
         //     this.publisher.publishVideo(state.videoActive);
@@ -45,35 +57,29 @@ const store = createStore({
                 data: JSON.stringify(credentials),
             })
             .then((res) => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data["status"] == true) {
                   let token = res.headers["jwt-auth-token"];
+                //   this.state.jwtToken = token
+                // console.log(token)
+                  context.commit("SET_JWT_TOKEN", token)
+                //   console.log(this.state.jwtToken)
                   context.commit("SET_IS_LOGIN", true);
-                  console.log(res)
-                  context.commit("SET_GET_USER", res.data["signinIdx"])
-                  console.log(res)
-                  console.log(99999999)
-                  console.log(res.headers.data["memberId"])
-
-                  console.log(res.data["memberId"])
-
-                //   console.log()
-                //   console.log(78978797987)
                 //   console.log(res)
-                //   console.log(res.config.data)
-                //   console.log(res.config.data["memberPwd"])
+                  context.commit("SET_GET_USER", res.data["signinIdx"])
 
-                  localStorage.setItem('jwt', token);
-                  console.log(111111111111111)
+                //   localStorage.setItem('jwt', token);
+                //   console.log(111111111111111)
 
                 } else {
-                  console.log(7)
+                //   console.log(7)
                   context.commit("SET_IS_LOGIN", false);
                 }
               })
               .catch(() => {});
 
         },
+
 
     },
     plugins: [

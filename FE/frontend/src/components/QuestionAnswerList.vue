@@ -64,7 +64,7 @@ export default {
         headers: this.getToken()
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.questionAnswerList = res.data
         
       })
@@ -76,9 +76,11 @@ export default {
         data: {qnaAnswer:'질문', qnacontent:'답변', qnasCode:this.qnasId},
         headers: this.getToken()
       })
-      .then(res => {
-        console.log(res)
-        this.$router.go()
+      .then(() => {
+        // console.log(res)
+        // this.$router.go()
+        this.getQuestionAnswerList()
+
       })
       .catch(err => {
         console.log(err)
@@ -101,10 +103,12 @@ export default {
           },
         headers: this.getToken()
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        // console.log(res)
         this.disabled = 0
-        this.$router.go()
+        // this.$router.go()
+        this.getQuestionAnswerList()
+
       })
       .catch(err => {
         console.log(err)
@@ -118,9 +122,12 @@ export default {
       url: 'api/qna/' + qnaId,
       headers: this.getToken()
       })
-      .then(res => {
-        console.log(res)
-        this.$router.go()
+      .then(() => {
+        // console.log(res)
+        // this.$router.go()
+        this.getQuestionAnswerList()
+
+
       })
     },
     moveQuestionAnswerList(qnasid) {

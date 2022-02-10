@@ -6,16 +6,23 @@
           <div id="main-container" class="container">
             <div id="session" v-if="session && !selected">
               <div id="video-container" class="col-md-6">
-                <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)"/>
+                <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" :audioDetect="audioDetect" />
+                <!-- <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" v-else class="speakoff"/> -->
+				<div>
+					<!-- <span v-if="this.audioDetect=''"> - </span> -->
+					<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
+					<span v-else-if="!this.audioDetect">조용하네요</span>
+				</div>
+
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
                 <div>
 
-					<span v-if="this.checkVideo"><i @click="this.toggleVideo" class="fas fa-video-slash"></i></span>
-					<span v-else><i @click="this.toggleVideo" class="fas fa-video"></i></span>
+					<span v-if="this.checkVideo"><i @click="this.togglepublisherVideo" class="fas fa-video-slash"></i></span>
+					<span v-else><i @click="this.togglepublisherVideo" class="fas fa-video"></i></span>
 
 					<br>
-					<span v-if="this.checkAudio"><i @click="this.toggleAudio" class="fas fa-volume-up"></i></span>
-					<span v-else><i @click="this.toggleAudio" class="fas fa-volume-mute"></i></span>
+					<span v-if="this.checkAudio"><i @click="this.togglepublisherAudio" class="fas fa-volume-up"></i></span>
+					<span v-else><i @click="this.togglepublisherAudio" class="fas fa-volume-mute"></i></span>
 
 				</div>
 
@@ -46,7 +53,7 @@ import myQuestionList from '@/components/interview/myQuestionList.vue'
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/interview/UserVideo.vue';
-import { mapMutations, mapState } from 'vuex';
+import {  mapMutations, mapState } from 'vuex';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -69,6 +76,7 @@ export default {
 			myUserName: 'gonu',
 			checkVideo: true,
 			checkAudio: true,
+			audioDetect: false,
 
 
 		}
@@ -78,20 +86,29 @@ export default {
 	// },
 
 	methods: {
-		...mapState(["isLogin", "signinIdx", "vidieoActive", "audioActive"]),
-
-		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio"]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive", "audioActive", "audioDetect", "session"]),
+		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
+		speechDetect() {
+			this.session.on('publisherStartSpeaking', () => {
+				this.audioDetect = true
+			});
 
-		toggleAudio() {   // 토글 시도
+			this.session.on('publisherStopSpeaking', () => {
+				this.audioDetect = false
+
+			});
+
+		},
+		togglepublisherAudio() {   // 토글 시도
 			this.audioActive = !this.audioActive;
 			this.publisher.publishAudio(this.audioActive);
 			this.checkAudio = !this.checkAudio
-
+			this.speechDetect()
 		},
-		toggleVideo() {   // 토글 시도
+		togglepublisherVideo() {   // 토글 시도
 			this.videoActive = !this.videoActive;
 			this.publisher.publishVideo(this.videoActive);
 			this.checkVideo = !this.checkVideo
@@ -227,6 +244,10 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+
+
+
+
 		
 	},
 

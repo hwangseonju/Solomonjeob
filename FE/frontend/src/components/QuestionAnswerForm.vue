@@ -35,11 +35,11 @@ export default {
     }
   },
   computed : {
-      ...mapState(["isLogin", "signinIdx"]),
+      ...mapState(["isLogin", "signinIdx", "jwtToken"]),
 
   },
   methods : {
-      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID"]),
+      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", "SET_JWT_TOKEN"]),
 
     getToken: function () {
       const token = localStorage.getItem('jwt')
@@ -54,30 +54,36 @@ export default {
       this.memberIdx = this.signinIdx
       
     },
+    
      getQuestionList() {
       const memberIdx = this.getMemberIdx
+    
       instance({
         method: 'get',
         url: '/api/qnas/my/' + this.memberIdx,
         data: {qnasMemberId:memberIdx , qnasTitle:'질문모음집'},
-        headers: this.getToken()
+        headers: {'jwt-auth-token': this.jwtToken}
+
+
       })
       .then(res => {
         // console.log(res)
         this.questionList = res.data
-        
+                
       })
+      // console.log(this.jwtToken)
     },
     insertQuestionList() {
       instance({
         method: 'post',
         url: '/api/qnas',
         data: {qnasMemberId:this.memberIdx , qnasTitle:'질문모음집'},
-        headers: this.getToken()
+        headers: {'jwt-auth-token': this.jwtToken}
       })
-      .then(res => {
-        console.log(res)
-        this.$router.go()
+      .then(() => {
+
+        this.getQuestionList()
+
       })
       .catch(err => {
         console.log(err)
@@ -97,12 +103,12 @@ export default {
           qnasTitle: text,
           // qnasMemberId:this.memberIdx
           },
-        headers: this.getToken()
+        headers: {'jwt-auth-token': this.jwtToken}
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         this.disabled = 0
-        this.$router.go()
+        this.getQuestionList()
+
       })
       .catch(err => {
         console.log(err)
@@ -114,11 +120,13 @@ export default {
       instance({
       method: 'delete',
       url: 'api/qnas/' + number,
-      headers: this.getToken()
+        headers: {'jwt-auth-token': this.jwtToken}
       })
-      .then(res => {
-        console.log(res)
-        this.$router.go()
+      .then(() => {
+        // console.log(res)
+        // this.$router.go()
+        this.getQuestionList()
+
       })
     },
     moveQuestionAnswerList(qnasId) {
@@ -126,7 +134,6 @@ export default {
         name: 'QuestionAnswer',
         params: {qnasId:qnasId}
       })
-      console.log('hi')
     }
  
 
