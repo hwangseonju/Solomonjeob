@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a299dee0-e4e1-4e0c-a319-d77ef64eac88" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../FE/frontend/src/components/SignupForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../FE/frontend/src/components/SignupForm.vue" afterDir="false" />
-    </list>
+    <list default="true" id="a299dee0-e4e1-4e0c-a319-d77ef64eac88" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/solomon">
+      <ProjectState />
+    </projectState>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -34,6 +37,7 @@
       <option name="presentableId" value="Default" />
       <updated>1643199979255</updated>
       <workItem from="1643199984283" duration="37000" />
+      <workItem from="1644476077816" duration="16000" />
     </task>
     <servers />
   </component>
