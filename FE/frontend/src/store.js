@@ -7,6 +7,7 @@ const store = createStore({
         return {
             isLogin: false,
             signinIdx: '',
+            nickname: '',
             
 
         }
@@ -17,12 +18,14 @@ const store = createStore({
        },
        SET_GET_USER(state, signinIdx) {
            state.signinIdx = signinIdx;
+       },
+       SET_NICKNAME(state, nickname) {
+           state.nickname = nickname;
        }
 
     },
     actions :{  // ajax 요청 하는 곳, 또는 오래 걸리는 작업들, axios 는 여기다가 하기
         async userConfirm(context, credentials) {
-            console.log(3)
             await instance({
                 method: 'post',
                 url: '/api/members/signin',
@@ -33,25 +36,11 @@ const store = createStore({
                 if (res.data["status"] == true) {
                   let token = res.headers["jwt-auth-token"];
                   context.commit("SET_IS_LOGIN", true);
-                  console.log(res)
                   context.commit("SET_GET_USER", res.data["signinIdx"])
+                  context.commit("SET_NICKNAME", res.data["nickName"])
                   console.log(res)
-                  console.log(99999999)
-                  console.log(res.headers.data["memberId"])
-
-                  console.log(res.data["memberId"])
-
-                //   console.log()
-                //   console.log(78978797987)
-                //   console.log(res)
-                //   console.log(res.config.data)
-                //   console.log(res.config.data["memberPwd"])
-
                   localStorage.setItem('jwt', token);
-                  console.log(111111111111111)
-
                 } else {
-                  console.log(7)
                   context.commit("SET_IS_LOGIN", false);
                 }
               })
