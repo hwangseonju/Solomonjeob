@@ -18,6 +18,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectId" id="24Ee3fapfyC53ieDdlniLPYSO4W" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -38,6 +50,7 @@
       <updated>1643199979255</updated>
       <workItem from="1643199984283" duration="37000" />
       <workItem from="1644476077816" duration="16000" />
+      <workItem from="1644594215044" duration="12000" />
     </task>
     <servers />
   </component>

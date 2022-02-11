@@ -7,8 +7,21 @@
           <div id="main-container" class="container">
             <div id="session" v-if="session && !selected">
               <div id="video-container" class="col-md-6">
-                <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" :audioDetect="audioDetect"/>
-                <!-- <user-video :stream-manager="publisher" @click="setMainVideoStream(publisher)" v-else class="speakoff"/> -->
+
+			  		// 화면 보이는 곳 start
+					<div id="session-header">
+						<h1 id="session-title">{{ mySessionId }}</h1>
+						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+					</div>
+					<div id="main-video" class="col-md-6">
+						<user-video :stream-manager="mainStreamManager"/>
+					</div>
+					<div id="video-container" class="col-md-6">
+						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+					</div>
+					// 화면 보이는 곳 end
+
 				<div>
 					<!-- <span v-if="this.audioDetect=''"> - </span> -->
 					<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
@@ -59,8 +72,8 @@ import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
 export default {
 
 	components: {
@@ -72,14 +85,15 @@ export default {
 		return {
 			questionStop:[],
 			selected : false,
+			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
 			// mySessionId: 'SessionA',
-			mySessionId: '',
-			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
-			myUserName: 'gonu',
+			mySessionId: undefined,
+			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			//myUserName: 'gonu',
 			checkVideo: true,
 			checkAudio: true,
 			audioDetect: false,
@@ -129,73 +143,87 @@ export default {
 
 
 		joinSession () {
-			if (this.isLogin) {
-				// --- Get an OpenVidu object ---
-				const OV = new OpenVidu();
-				// --- Init a session ---
-				this.session = OV.initSession();
-				// --- Specify the actions when events take place in the session ---
-				// On every new Stream received...
-				this.session.on('streamCreated', ({ stream }) => {
-					this.subscribers.push(this.session.subscribe(stream));
-				});
-				// On every Stream destroyed...
-				this.session.on('streamDestroyed', ({ stream }) => {
-					const index = this.subscribers.indexOf(stream.streamManager, 0);
-					if (index >= 0) {
-						this.subscribers.splice(index, 1);
-					}
-				});
-				// --- Connect to the session with a valid user token ---
-				// 'getToken' method is simulating what your server-side should do.
-				// 'token' parameter should be retrieved and returned by your own backend
-				this.getToken(this.mySessionId).then(token => {
-					this.session.connect(token, { clientData: this.myUserName })
-						.then(() => {
-							// --- Get your own camera stream with the desired properties ---
-							this.publisher = OV.initPublisher(undefined, {
-								audioSource: undefined, // The source of audio. If undefined default microphone
-								videoSource: undefined, // The source of video. If undefined default webcam
-								publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
-								publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
-								resolution: '1200x850',  // The resolution of your video
-								frameRate: 30,			// The frame rate of your video
-								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-								mirror: false,       	// Whether to mirror your local video or not
-							});
-							this.mainStreamManager = this.publisher;
-							// --- Publish your stream ---
-							this.session.publish(this.publisher);
-							console.log(1111)
-							console.log(this.publisher)
-							console.log(1111)
+			// --- Get an OpenVidu object ---
+			this.OV = new OpenVidu();
 
-						})
-						.catch(error => {
-							console.log('There was an error connecting to the session:', error.code, error.message);
+			// --- Init a session ---
+			this.session = this.OV.initSession();
+
+			// --- Specify the actions when events take place in the session ---
+
+			// On every new Stream received...
+			this.session.on('streamCreated', ({ stream }) => {
+				const subscriber = this.session.subscribe(stream);
+				this.subscribers.push(subscriber);
+			});
+
+			// On every Stream destroyed...
+			this.session.on('streamDestroyed', ({ stream }) => {
+				const index = this.subscribers.indexOf(stream.streamManager, 0);
+				if (index >= 0) {
+					this.subscribers.splice(index, 1);
+				}
+			});
+
+			// On every asynchronous exception...
+			this.session.on('exception', ({ exception }) => {
+				console.warn(exception);
+			});
+
+			// --- Connect to the session with a valid user token ---
+
+			// 'getToken' method is simulating what your server-side should do.
+			// 'token' parameter should be retrieved and returned by your own backend
+			this.getToken(this.mySessionId).then(token => {
+				this.session.connect(token, { clientData: this.myUserName })
+					.then(() => {
+
+						// --- Get your own camera stream with the desired properties ---
+
+						let publisher = this.OV.initPublisher(undefined, {
+							audioSource: undefined, // The source of audio. If undefined default microphone
+							videoSource: undefined, // The source of video. If undefined default webcam
+							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+							resolution: '640x480',  // The resolution of your video
+							frameRate: 30,			// The frame rate of your video
+							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+							mirror: false       	// Whether to mirror your local video or not
 						});
-				});
-				window.addEventListener('beforeunload', this.leaveSession)
-			} else {
-				alert("로그인 후 입장해주세요")
-			}
-		
+
+						this.mainStreamManager = publisher;
+						this.publisher = publisher;
+
+						// --- Publish your stream ---
+
+						this.session.publish(this.publisher);
+					})
+					.catch(error => {
+						console.log('There was an error connecting to the session:', error.code, error.message);
+					});
+			});
+
+			window.addEventListener('beforeunload', this.leaveSession)
 		},
+
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
 			if (this.session) this.session.disconnect();
+
 			this.session = undefined;
 			this.mainStreamManager = undefined;
 			this.publisher = undefined;
 			this.subscribers = [];
+			this.OV = undefined;
+
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
-		setMainVideoStream (stream) {
+
+		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
-			this.mainStreamManager = stream
+			this.mainStreamManager = stream;
 		},
 
-    
 		/**
 		 * --------------------------
 		 * SERVER-SIDE RESPONSIBILITY
@@ -203,18 +231,20 @@ export default {
 		 * These methods retrieve the mandatory user token from OpenVidu Server.
 		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
 		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a session in OpenVidu Server	(POST /api/sessions)
-		 *   2) Generate a token in OpenVidu Server		(POST /api/tokens)
-		 *   3) The token must be consumed in Session.connect() method
+		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
+		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
+		 *   3) The Connection.token must be consumed in Session.connect() method
 		 */
+
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-apisessions
+
+		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessions
 		createSession (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${OPENVIDU_SERVER_URL}/api/sessions`, JSON.stringify({
+					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
 						customSessionId: sessionId,
 					}), {
 						auth: {
@@ -237,13 +267,12 @@ export default {
 					});
 			});
 		},
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-apitokens
+
+		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-openviduapisessionsltsession_idgtconnection
 		createToken (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${OPENVIDU_SERVER_URL}/api/tokens`, JSON.stringify({
-						session: sessionId,
-					}), {
+					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
 						auth: {
 							username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
@@ -254,6 +283,7 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+	},
 
 		startWatch() {
       this.timer = setInterval(() => {
@@ -271,7 +301,7 @@ export default {
 	},
 
 	created() {
-		this.mySessionId = localStorage.getItem('signidx')
+		this.mySessionId = "Session"+this.signinIdx
 		this.joinSession()
 	}
 
