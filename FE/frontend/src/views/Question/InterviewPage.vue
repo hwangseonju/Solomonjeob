@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+	
     <div class="row">
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
@@ -26,34 +27,37 @@
 
 				</div>
 
+
               </div>
             </div>
 						<div v-if="selected">
-
 							<img src="@/assets/director.png" alt="">
-
-
-
+							<p>{{formattedElapsedTime}}</p>
 						</div>
           </div>
         </div>
       </main>
       <my-question-list
 			:selected="selected"
+			:formattedElapsedTime="formattedElapsedTime"
 			@changeForm="changeForm"
+			@stopWatch="stopWatch"
+			@startWatch="startWatch"
 			>
-
 			</my-question-list>
+			
     </div>
   </div>
 </template>
 
 <script>
-import myQuestionList from '@/components/interview/myQuestionList.vue'
+import myQuestionList from '@/components/interview/myQuestionList.vue';
 import axios from 'axios';
+// import stopWatch from '@/components/interview/stopWatch.vue';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -61,10 +65,12 @@ export default {
 
 	components: {
 		UserVideo,
-        myQuestionList
+		myQuestionList,
+		// stopWatch
 	},
 	data () {
 		return {
+			questionStop:[],
 			selected : false,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -77,13 +83,20 @@ export default {
 			checkVideo: true,
 			checkAudio: true,
 			audioDetect: false,
-
+			elapsedTime: 0,
+			timer: undefined
 
 		}
 	},
-	// computed: {
-
-	// },
+	computed: {
+		...mapState(["isLogin", "signinIdx",]),
+		formattedElapsedTime() {
+      const date = new Date(null);
+      date.setSeconds(this.elapsedTime / 1000);
+      const utc = date.toUTCString();
+      return utc.substr(utc.indexOf(":") - 2, 8);
+    }
+	},
 
 	methods: {
 		...mapState(["isLogin", "signinIdx", "vidieoActive", "audioActive", "audioDetect", "session"]),
@@ -118,10 +131,6 @@ export default {
 		joinSession () {
 			if (this.isLogin) {
 				// --- Get an OpenVidu object ---
-				console.log(123456789)
-				console.log(this.memberId)
-				console.log(123456789)
-
 				const OV = new OpenVidu();
 				// --- Init a session ---
 				this.session = OV.initSession();
@@ -157,6 +166,9 @@ export default {
 							this.mainStreamManager = this.publisher;
 							// --- Publish your stream ---
 							this.session.publish(this.publisher);
+							console.log(1111)
+							console.log(this.publisher)
+							console.log(1111)
 
 						})
 						.catch(error => {
@@ -243,9 +255,18 @@ export default {
 			});
 		},
 
-
-
-
+		startWatch() {
+      this.timer = setInterval(() => {
+        this.elapsedTime += 1000;
+      }, 1000);
+    },
+    // next() {
+    //   this.questionStop.push(this.formattedElapsedTime);
+			
+    // },
+		stopWatch() {
+      clearInterval(this.timer);
+    },
 		
 	},
 

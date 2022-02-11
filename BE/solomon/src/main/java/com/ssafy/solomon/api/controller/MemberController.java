@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -44,7 +45,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원 가입", notes = "일반 회원 가입")
     @PostMapping("/signup/member")
-    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) throws MessagingException {
         MemberEntity result = memberService.insertMember(memberDto);
         if(result.getMemberId()==memberDto.getMemberId()) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -52,7 +53,7 @@ public class MemberController {
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "이메일 중복 체크", notes = "회원가입 시 이메일 중복 체크")
+    @ApiOperation(value = "이메일 인증", notes = "회원가입 시 이메일 인증")
     @GetMapping("/email/auth")
     public ResponseEntity<String> emailCheck(@ModelAttribute EmailAuthDto emailAuthDto) throws Exception {
         memberService.checkEmail(emailAuthDto);

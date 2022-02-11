@@ -15,6 +15,7 @@ const store = createStore({
             // audioDetect: '',
 
 
+
         }
     },
     mutations :{ // state 수정하는 곳 // 함수식으로 만들기
@@ -39,6 +40,7 @@ const store = createStore({
         SET_SESSION(state, session) {
             state.session = session;
         },
+
 
         // toggleVideo(state, videoActive) {   // 토글 시도
         //     state.videoActive = !videoActive;
