@@ -13,7 +13,8 @@ const store = createStore({
             audioActive: true,
             jwtToken: '',
             // audioDetect: '',
-
+            nickname: '',
+            
 
 
         }
@@ -40,6 +41,9 @@ const store = createStore({
         SET_SESSION(state, session) {
             state.session = session;
         },
+       SET_NICKNAME(state, nickname) {
+           state.nickname = nickname;
+       }
 
 
         // toggleVideo(state, videoActive) {   // 토글 시도
@@ -53,7 +57,6 @@ const store = createStore({
     },
     actions :{  // ajax 요청 하는 곳, 또는 오래 걸리는 작업들, axios 는 여기다가 하기
         async userConfirm(context, credentials) {
-            console.log(3)
             await instance({
                 method: 'post',
                 url: '/api/members/signin',
@@ -68,14 +71,12 @@ const store = createStore({
                   context.commit("SET_JWT_TOKEN", token)
                 //   console.log(this.state.jwtToken)
                   context.commit("SET_IS_LOGIN", true);
-                //   console.log(res)
+
                   context.commit("SET_GET_USER", res.data["signinIdx"])
-
-                //   localStorage.setItem('jwt', token);
-                //   console.log(111111111111111)
-
+                  context.commit("SET_NICKNAME", res.data["nickName"])
+                  console.log(res)
+                  localStorage.setItem('jwt', token);
                 } else {
-                //   console.log(7)
                   context.commit("SET_IS_LOGIN", false);
                 }
               })

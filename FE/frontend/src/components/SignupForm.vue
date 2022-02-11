@@ -19,6 +19,9 @@
           <div>
               <input id="passwordCheck" placeholder="PasswordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
           </div>
+          <div>
+              <input id="nickName" placeholder="NickName" v-model="credentials.nickName"/>    
+          </div>
         <button :disabled="idresult == '이미 사용중인 아이디입니다..' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
         <p class="password_alert" v-if=" credentials.passwordConfirmation && (credentials.memberPwd !== credentials.passwordConfirmation)">비밀번호가 일치하지 않습니다.</p>
       </form>
@@ -39,6 +42,7 @@ export default {
           memberId: '',
           memberPwd: '',
           passwordConfirmation: '',
+          nickName: '',
         },
         idresult: "",
         idformcheck: "",
@@ -65,6 +69,9 @@ export default {
       } else if (!this.credentials.passwordConfirmation) {
         msg = "PW 확인을 위해 한번 더 입력해주세요";
         err = false;
+      } else if (!this.credentials.nickName) {
+        msg = "NickName을 입력해주세요"
+        err = false;
       }
     if (!err) alert(msg);
     else {
@@ -76,7 +83,7 @@ export default {
         console.log(data);
       });
       this.$router.push('Home');
-      alert("회원가입에 성공하였습니다. 환영합니다 :)");
+      alert("이메일 인증을 완료해주세요!");
       }
     },
     idchk() {
