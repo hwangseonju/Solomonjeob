@@ -2,19 +2,19 @@
 
   <div>
     <router-view></router-view>
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </div>
 </template>
 
 <script>
-import Footer from '@/components/Footer.vue'
+// import Footer from '@/components/Footer.vue'
 // import QuestionPage from '@/views/QuestionPage.vue'
 // import LoginPage from '@/vies/Member/LoginPage.vue'
 // import Home from '@/views/Home.vue';
 
 export default {
   components: {
-    Footer
+    // Footer
     
 
   },

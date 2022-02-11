@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white main">
     <div class="container-fluid">
       <router-link to="/Home"> <img src="@/assets/logo_purple.png" class="img"> </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,5 +90,9 @@ export default {
   width: 50%;
   height: 50%;
 }
-
+.main {
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 1%;
+}
 </style>
