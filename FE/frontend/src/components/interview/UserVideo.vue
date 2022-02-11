@@ -1,7 +1,7 @@
 <template>
 <div v-if="streamManager">
 	<ov-video :stream-manager="streamManager"/>
-	<div><p>면접자 : {{ clientData }}</p></div>
+	<!-- <div><p>면접자 : {{ clientData }}</p></div> -->
 
 </div>
 </template>
@@ -20,7 +20,6 @@ export default {
 		clientData () {
 			const { clientData } = this.getConnectionData();
 			console.log(clientData)
-			console.log('77777777777777')
 			return clientData;
 		},
 	},
