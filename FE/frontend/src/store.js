@@ -7,6 +7,7 @@ const store = createStore({
         return {
             isLogin: false,
             signinIdx: '',
+
             
 
         }
@@ -17,7 +18,7 @@ const store = createStore({
        },
        SET_GET_USER(state, signinIdx) {
            state.signinIdx = signinIdx;
-       }
+       },
 
     },
     actions :{  // ajax 요청 하는 곳, 또는 오래 걸리는 작업들, axios 는 여기다가 하기
