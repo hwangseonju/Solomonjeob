@@ -1,6 +1,10 @@
 <template>
-  <div> 
-    <question-answer-form></question-answer-form>
+  <app-header></app-header>
+  <div class="container-fluid">
+    <div class="row">
+      <question-answer-form></question-answer-form>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -10,7 +14,7 @@
 // import QuestionCollectionList from "@/components/QuestionCollectionList";
 // import QuestionAnswerList from '@/components/QuestionAnswerList.vue';
 import QuestionAnswerForm from '@/components/QuestionAnswerForm.vue'
-
+import AppHeader from '@/components/common/AppHeader.vue';
 // import QuestionAnswerList from "@components/QuestionAnswerList";
 
 export default {
@@ -18,11 +22,13 @@ export default {
     // QuestionCollectionList,
     // QuestionAnswerList,
     QuestionAnswerForm,
+    AppHeader
   },
 
 };
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

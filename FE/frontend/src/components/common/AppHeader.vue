@@ -12,7 +12,7 @@
                 <router-link class="nav-link" to="/interview">면접연습하기</router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">내질문모음집</a>
+                <router-link class="nav-link" to="/question">내질문모음집</router-link>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">고객센터</a>
@@ -36,22 +36,24 @@
 
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: 'appheader',
   data()  {
     return {
-      isLogin: false,
+      // isLogin: false,
     }
   },
   computed: {
     ...mapState(["isLogin"])
   },
   methods: {
+    ...mapMutations(["SET_IS_LOGIN"]),
     logout() {
-      this.isLogin = false
-      localStorage.removeItem('jwt')
+      this.SET_IS_LOGIN(false);
+      localStorage.removeItem('jwt-auth-token');
+      alert('로그아웃되었습니다');
       this.$router.push('Login')
     },
 

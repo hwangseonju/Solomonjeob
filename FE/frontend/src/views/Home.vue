@@ -4,10 +4,9 @@
   <section>
     <div>
       <img src="@/assets/interview6.jpg" class="img" >
-      <div class="text">
-        <h4>안녕하세요</h4>
-      </div>
+
     </div>
+    <TTS></TTS>
     <!-- <img src="@/assets/interview3.jpg" class="img">
     <img src="@/assets/interview2.jpg" class="img"> -->
   </section>
@@ -16,12 +15,13 @@
 
 <script>
 import AppHeader from '@/components/common/AppHeader.vue';
-
+import TTS from '@/components/interview/tts.vue';
 export default {
 
   name: 'Home',
   components: {
       AppHeader,
+      TTS
 
 
   },
