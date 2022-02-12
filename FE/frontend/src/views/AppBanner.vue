@@ -310,7 +310,7 @@ export default {
             font-weight: bolder;
             color: rgb(75, 137, 220);
             text-align: right;
-            padding-right: 15%;
+            padding-right: 7%;
             vertical-align: middle;
             padding-top: 10%;
             animation: fadeup 3s;

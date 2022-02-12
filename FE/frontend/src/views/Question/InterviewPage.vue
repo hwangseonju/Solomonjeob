@@ -166,9 +166,7 @@ export default {
 							this.mainStreamManager = this.publisher;
 							// --- Publish your stream ---
 							this.session.publish(this.publisher);
-							console.log(1111)
 							console.log(this.publisher)
-							console.log(1111)
 
 						})
 						.catch(error => {
@@ -178,6 +176,8 @@ export default {
 				window.addEventListener('beforeunload', this.leaveSession)
 			} else {
 				alert("로그인 후 입장해주세요")
+				this.$router.push('Home')
+
 			}
 		
 		},
