@@ -14,9 +14,9 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/question">내질문모음집</router-link>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="#">고객센터</a>
-              </li>
+              </li> -->
               <li class="nav-item" v-if="!isLogin">
                 <router-link class="nav-link" to="/login" >로그인</router-link>
               </li>
@@ -70,20 +70,19 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
 .navbar-nav > li {
   padding-left:25px;
   padding-right:25px;
   /* border-bottom: 1px solid #666; */
   font-size: 120%;
   font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
 }
 .navbar-nav .nav-item a:hover {
-  color: blueviolet;
+  color: rgb(75, 137, 220);
 }
-/* .nav-link:hover {
-  color: red;
-} */
+
 
 .img {
   padding: 0;

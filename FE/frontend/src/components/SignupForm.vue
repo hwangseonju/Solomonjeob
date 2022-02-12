@@ -1,9 +1,10 @@
 <template>
+  <h1 class="h1_style">회원가입</h1>
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="signup" class="form">
           <div>
-              <input id="useremail" placeholder="Email" type="text" v-model="credentials.memberId"/>
+              <input id="useremail" placeholder="이메일" type="text" v-model="credentials.memberId"/>
               <div style="display: inline-block">
                 <button type="button" class="duplicatecheck" @click="idchk">중복확인</button>
               </div> 
@@ -14,13 +15,13 @@
           </div>
           <br>
           <div>
-              <input id="password" placeholder="Password" type="password" v-model="credentials.memberPwd" />    
+              <input id="password" placeholder="비밀번호" type="password" v-model="credentials.memberPwd" />    
           </div>
           <div>
-              <input id="passwordCheck" placeholder="PasswordConfirmation" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
+              <input id="passwordCheck" placeholder="비밀번호확인" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
           </div>
           <div>
-              <input id="nickName" placeholder="NickName" v-model="credentials.nickName"/>    
+              <input id="nickName" placeholder="닉네임" v-model="credentials.nickName"/>    
           </div>
         <button :disabled="idresult == '이미 사용중인 아이디입니다..' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
         <p class="password_alert" v-if=" credentials.passwordConfirmation && (credentials.memberPwd !== credentials.passwordConfirmation)">비밀번호가 일치하지 않습니다.</p>
@@ -61,16 +62,16 @@ export default {
       let err = true;
 
       if (!this.credentials.memberId) {
-        msg = "ID를 입력해주세요";
+        msg = "이메일을 입력해주세요";
         err = false;
       } else if (!this.credentials.memberPwd) {
-        msg = "PW를 입력해주세요";
+        msg = "비밀번호를 입력해주세요";
         err = false;
       } else if (!this.credentials.passwordConfirmation) {
-        msg = "PW 확인을 위해 한번 더 입력해주세요";
+        msg = "비밀번호확인을 위해 한번 더 입력해주세요";
         err = false;
       } else if (!this.credentials.nickName) {
-        msg = "NickName을 입력해주세요"
+        msg = "닉네임을 입력해주세요"
         err = false;
       }
     if (!err) alert(msg);
@@ -83,7 +84,7 @@ export default {
         console.log(data);
       });
       this.$router.push('Home');
-      alert("이메일 인증을 완료해주세요!");
+      alert("이메일 인증 완료 후 로그인해주세요!");
       }
     },
     idchk() {
@@ -109,8 +110,13 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;700&display=swap');
+.h1_style{
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
 
+}
 .contents {
   max-width: 1020px;
   margin: 0 auto;
@@ -144,55 +150,31 @@ export default {
 
 .form input,
 .form textarea {
-  font-family: inherit;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 100%;
   width: 100%;
   border: 1px solid #dae1e7;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
   padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
+  border-radius: 2px 2px 2px 2px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 100;
+
 }
-/* .btn {
-  font-size: 18px;
-  padding: 15px 25px;
-  font-weight: 700;
-  font-family: 'Jua', sans-serif;
-  
-  border: 3px solid #6667AB;
-  color: #6e70ef;
-  cursor: pointer;
-  background-color: transparent;
-  position: relative;
-  transition: all 0.4s;
-  overflow: hidden;
+.form input:focus {
+  outline: 2px solid rgb(75, 137, 220);
 }
-.btn:focus {
-  outline: none;
-}
-.btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border-radius: 1px;
-  background-image: linear-gradient(to right, #6667AB, #6e70ef);
-  top: 100%;
-  left: 0;
-  transition: all 0.4s;
-  z-index: -1;
-}
-.btn:hover::before {
-  transform: translateY(-100%);
-}
-.btn:hover {
-  color: white;
-} */
+
 .btn {
   font-weight: bolder;
-  color: slateblue;
+  color: white;
   width: 100%;
   box-sizing: border-box;
-  border: 3px solid slateblue;
+  background-color: black;
+  /* border: 3px solid rgb(75, 137, 220); */
+  font-family: 'Noto Sans KR', sans-serif;
+
 }
 
 .btn :hover::before {
@@ -200,7 +182,7 @@ export default {
 }
 .btn:hover {
   font-weight: bolder;
-  background-color: slateblue;
+  background-color: rgb(75, 137, 220);
   color: white;
 }
 .password_alert {
@@ -213,10 +195,13 @@ export default {
 }
 .duplicatecheck {
   background: white;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
 }
 .duplicateresult {
-  color: slateblue;
+  color: rgb(75, 137, 220);
   font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
   font-size: 90%;
 }
 </style>
