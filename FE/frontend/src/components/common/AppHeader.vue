@@ -9,7 +9,7 @@
           <ul class="navbar-nav">
             <!-- 로그인 되어 있을 때 -->
               <li class="nav-item">
-                <router-link class="nav-link" to="/interview">면접연습하기</router-link>
+                <router-link class="nav-link" to="/interview" @click="checkLogin">면접연습하기</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/question" @click="checkLogin">내질문모음집</router-link>

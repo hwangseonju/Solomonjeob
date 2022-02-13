@@ -10,7 +10,7 @@
         <p class="confirm_style" v-show="!isUseremailValid && credentials.memberId" >이메일 형식이 올바르지 않습니다.</p>
         
         <div> 
-          <input id="password" type="password" placeholder="패스워드" v-model="credentials.memberPwd">
+          <input id="password" type="password" placeholder="비밀번호" v-model="credentials.memberPwd">
         </div>
         <div>
           <button :disabled="!isUseremailValid || !credentials.memberPwd" @click.prevent="login" class="btn">
@@ -114,7 +114,7 @@ export default {
   padding: 15px 15px;
 }
 .form-wrapper.form-wrapper-sm {
-  max-width: 500px;
+  max-width: 440px;
   margin: 40px auto;
 }
 .form-wrapper-sm .page-header {
@@ -130,7 +130,7 @@ export default {
 .form textarea {
   font-family: inherit;
   font-size: 100%;
-  width: 100%;
+  width: 89%;
   border: 1px solid #dae1e7;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
   padding: 0.5rem 0.75rem;
@@ -148,7 +148,7 @@ export default {
 .btn {
   font-weight: bolder;
   color: rgb(75, 137, 220);
-  width: 100%;
+  width: 89%;
   color: white;
   box-sizing: border-box;
   background-color: black;

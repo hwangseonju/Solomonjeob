@@ -47,28 +47,6 @@
 
     </section>
 
-
-    <!-- <section class="container container_text">
-
-    </section> -->
-    <!-- <section class="fighting" style="position:relative; text-align:center;">
-        <div >
-            <p class="fighting_style" style="align:center">여기 선주님이 별로래요</p>
-
-        </div>
-
-        <div><img src="@/assets/bluebackground.png" alt=""></div>
-        <div class="clock"><img src="@/assets/clock.png" alt="" style="width:40%"></div>
-        <div class="mic"><img src="@/assets/mic.png" alt="" style="width:40%"></div>
-        <div class="handshake"><img src="@/assets/handshake.png" alt="" style="width:40%"></div>
-        <div class="laptop"><img src="@/assets/laptop.png" alt="" style="width:40%"></div>
-        <div class="book"><img src="@/assets/book.png" alt="" style="width:40%"></div>
-        <div class="light"><img src="@/assets/light.png" alt="" style="width:40%"></div>
-        <div class="growup"><img src="@/assets/growup.png" alt="" style="width:40%"></div>
-
-
-
-    </section> -->
  
     <section class="container footer_style">
         <hr>
@@ -79,10 +57,6 @@
 
     </section>
 
-	<!-- <section  class="flex-container">
-        <div style="text-align:center;"> Copyright 2022. Solomonjeob all rights reserved.</div>
-
-    </section> -->
 
 </template>
 <script>
@@ -94,16 +68,7 @@ export default {
 			// theme: '',
 		};
 	},
-	// created() {
-	// 	this.theme = localStorage.getItem('theme') || 'light';
-	// },
-	// mounted() {
-	// 	feather.replace();
-	// 	this.theme = localStorage.getItem('theme') || 'light';
-	// },
-	// updated() {
-	// 	feather.replace();
-	// },
+
 
 };
 </script>
@@ -112,12 +77,7 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
+
 @font-face {
     font-family: 'KoPubDotumMedium';
      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff') format('woff');
@@ -130,14 +90,10 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-@font-face {
-    font-family: 'LeferiPoint-BlackA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+
 .footer_style {
     font-family: 'KoPubDotumMedium';
+
 
 }
 .fighting {
