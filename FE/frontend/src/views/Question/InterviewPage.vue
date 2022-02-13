@@ -12,7 +12,7 @@
 				<div>
 					<!-- <span v-if="this.audioDetect=''"> - </span> -->
 					<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
-					<span v-else-if="!this.audioDetect">조용하네요</span>
+					<span v-else>조용하네요</span>
 				</div>
 
                 <user-video v-for="(sub, index) in subscribers" :key="index" :stream-manager="sub" @click="setMainVideoStream(sub)"/>
@@ -22,7 +22,8 @@
 					<span v-else><i @click="this.togglepublisherVideo" class="fas fa-video"></i></span>
 
 					<br>
-					<span v-if="this.checkAudio"><i @click="this.togglepublisherAudio" class="fas fa-volume-up"></i></span>
+					<span v-if="this.audioActive"><i @click="this.togglepublisherAudio" class="fas fa-volume-up"></i></span>
+
 					<span v-else><i @click="this.togglepublisherAudio" class="fas fa-volume-mute"></i></span>
 
 				</div>
@@ -81,8 +82,9 @@ export default {
 			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
 			myUserName: 'gonu',
 			checkVideo: true,
-			checkAudio: true,
+			checkAudio: false,
 			audioDetect: false,
+			audioActive: false,
 			elapsedTime: 0,
 			timer: undefined
 
@@ -99,7 +101,7 @@ export default {
 	},
 
 	methods: {
-		...mapState(["isLogin", "signinIdx", "vidieoActive", "audioActive", "audioDetect", "session"]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session"]),
 		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
 		changeForm(propSelected){
 			this.selected= propSelected
@@ -107,24 +109,36 @@ export default {
 		speechDetect() {
 			this.session.on('publisherStartSpeaking', () => {
 				this.audioDetect = true
+
+				
 			});
 
 			this.session.on('publisherStopSpeaking', () => {
 				this.audioDetect = false
 
+
 			});
 
 		},
 		togglepublisherAudio() {   // 토글 시도
+
 			this.audioActive = !this.audioActive;
+
 			this.publisher.publishAudio(this.audioActive);
 			this.checkAudio = !this.checkAudio
-			this.speechDetect()
+
+
+
+			this.speechDetect();
+
+				
 		},
 		togglepublisherVideo() {   // 토글 시도
 			this.videoActive = !this.videoActive;
 			this.publisher.publishVideo(this.videoActive);
 			this.checkVideo = !this.checkVideo
+
+
 		},
 
 
@@ -166,7 +180,7 @@ export default {
 							this.mainStreamManager = this.publisher;
 							// --- Publish your stream ---
 							this.session.publish(this.publisher);
-							console.log(this.publisher)
+							// console.log(this.publisher)
 
 						})
 						.catch(error => {
@@ -272,6 +286,8 @@ export default {
 
 	created() {
 		this.mySessionId = localStorage.getItem('signidx')
+		// this.mySessionId = this.myUserName
+		// console.log(this.mySessionId)
 		this.joinSession()
 	}
 

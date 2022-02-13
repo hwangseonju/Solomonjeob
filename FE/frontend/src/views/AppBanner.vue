@@ -6,8 +6,9 @@
 
         </div>
         <div class="flex-item"><img src="@/assets/developer.svg" alt="Developer" class="img "/></div>
-
+        
     </section>
+
     <section class="container container_text">
         <h1 class="container_manual">솔로몬접을 사용해보세요!</h1>
     </section>
@@ -40,17 +41,19 @@
             </div>
             </div>
         </div>
-
         </div>
+        <br>
+        <br>
+
     </section>
 
 
     <!-- <section class="container container_text">
 
     </section> -->
-    <section class="fighting" style="position:relative; text-align:center;">
+    <!-- <section class="fighting" style="position:relative; text-align:center;">
         <div >
-            <p class="fighting_style" style="align:center">솔로몬접은 여러분을 항상 응원합니다!</p>
+            <p class="fighting_style" style="align:center">여기 선주님이 별로래요</p>
 
         </div>
 
@@ -63,18 +66,23 @@
         <div class="light"><img src="@/assets/light.png" alt="" style="width:40%"></div>
         <div class="growup"><img src="@/assets/growup.png" alt="" style="width:40%"></div>
 
-        <!-- <div class="man"><img src="@/assets/man.png" alt="" style="width:12%"></div>
-        <div class="woman"><img src="@/assets/woman.png" alt="" style="width:10%"></div> -->
 
 
-    </section>
+    </section> -->
  
+    <section class="container footer_style">
+        <hr>
+        <div style="text-align:center; padding-top:4%;">E-mail : solomonjeob207@gmail.com</div>
+        <div style="text-align:center;"> Copyright 2022. Solomonjeob all rights reserved.</div>
+        <br>
+        
 
-
-	<section  class="flex-container">
-        <div class="flex-item"><h5 style="text-align:center"> Copyright 2022. Solomonjeob all rights reserved.</h5></div>
-    
     </section>
+
+	<!-- <section  class="flex-container">
+        <div style="text-align:center;"> Copyright 2022. Solomonjeob all rights reserved.</div>
+
+    </section> -->
 
 </template>
 <script>
@@ -127,6 +135,10 @@ export default {
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-BlackA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+}
+.footer_style {
+    font-family: 'KoPubDotumMedium';
+
 }
 .fighting {
     padding-top: 20%;
@@ -251,7 +263,7 @@ export default {
     display: grid;
 }
 .container {
-    margin-top: 10%
+    margin-top: 5%
 }
 .container_text {
     font-family: 'YanoljaYacheR';

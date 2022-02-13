@@ -85,6 +85,8 @@ export default {
       });
       this.$router.push('Home');
       alert("이메일 인증 완료 후 로그인해주세요!");
+      // this.$router.push('LoginIntroduce');
+      
       }
     },
     idchk() {

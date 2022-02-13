@@ -12,7 +12,7 @@
                 <router-link class="nav-link" to="/interview">면접연습하기</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/question">내질문모음집</router-link>
+                <router-link class="nav-link" to="/question" @click="checkLogin">내질문모음집</router-link>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link" href="#">고객센터</a>
@@ -56,6 +56,11 @@ export default {
       alert('로그아웃되었습니다');
       this.$router.push('Login')
     },
+    checkLogin() {
+      if (!this.isLogin) {
+				alert("로그인 후 입장해주세요")
+				this.$router.push('Home')      }
+    }
 
   },
 
