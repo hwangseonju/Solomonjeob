@@ -115,7 +115,7 @@ export default {
   text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
-
+  padding-top: 5%;
 }
 .contents {
   max-width: 1020px;
