@@ -6,7 +6,7 @@ import Question from '@/views/Question/QuestionPage.vue';
 import QuestionAnswer from '@/components/QuestionAnswerList.vue'
 import NotFoundPage from '@/views/NotFoundPage.vue';
 import Interview from '@/views/Question/InterviewPage.vue';
-
+// import LoginIntroduce from '@/views/LoginIntroduce.vue';
 const routes = [
     {
         path: '/',
@@ -41,7 +41,10 @@ const routes = [
         path: '/interview',
         component: Interview,
     },
-    
+    // {
+    //     path: '/loginintroduce',
+    //     component: LoginIntroduce,
+    // },
     {
         path: '/:anything(.*)*', //  '/:catchAll(.*)*'
         component: NotFoundPage,
