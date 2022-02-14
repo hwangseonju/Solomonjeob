@@ -289,7 +289,8 @@ export default {
 		// this.mySessionId = this.myUserName
 		// console.log(this.mySessionId)
 		this.joinSession()
-	}
+	},
+	
 
 }
 </script>
