@@ -26,7 +26,7 @@
           <div>
               <input class="name_style" placeholder="닉네임" v-model="credentials.nickName"/>    
           </div>
-        <button :disabled="idresult == '이미 사용중인 아이디입니다.' || idresult == '' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
+        <button :disabled="idresult == '이미 사용중인 아이디입니다.' || idresult == '이메일 양식에 맞게 입력해주세요' || idresult == '' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
       </form>
     </div>
   </div>
