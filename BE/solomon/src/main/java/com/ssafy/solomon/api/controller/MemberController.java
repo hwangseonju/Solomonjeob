@@ -109,6 +109,7 @@ public class MemberController {
                         res.setHeader("jwt-auth-token", token);
 //            resultMap.put("signinId", memberDto.getMemberId());
                         resultMap.put("signinIdx", memberEntity.getMemberIdx());
+                        resultMap.put("nickname", memberEntity.getNickName());
 //                        resultMap.put("jwt-auth-token", token);
                         resultMap.put("status", true);
                         status = HttpStatus.ACCEPTED;
