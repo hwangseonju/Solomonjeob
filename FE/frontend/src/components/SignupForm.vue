@@ -16,8 +16,10 @@
 
           </div>
           <div >
-              <input class="id_style" placeholder="비밀번호" type="password" v-model="credentials.memberPwd" />    
+              <input class="id_style" placeholder="비밀번호" type="password" v-model="credentials.memberPwd"/>    
           </div>
+          <p class="pwlengthcheck" v-if="credentials.memberPwd != '' && (0 < (credentials.memberPwd).length && (credentials.memberPwd).length < 8) ">비밀번호는 최소 8자리 이상 입력해주세요</p>
+
           <div>
               <input class="pw_style" placeholder="비밀번호확인" type="password" v-model="credentials.passwordConfirmation" @keyup.enter="signup"/>    
           </div>
@@ -26,7 +28,7 @@
           <div>
               <input class="name_style" placeholder="닉네임" v-model="credentials.nickName"/>    
           </div>
-        <button :disabled="idresult == '이미 사용중인 아이디입니다.' || idresult == '이메일 양식에 맞게 입력해주세요' || idresult == '' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
+        <button :disabled="credentials.memberPwd != '' && (0 < (credentials.memberPwd).length && (credentials.memberPwd).length < 8) || idresult == '이미 사용중인 아이디입니다.' || idresult == '이메일 양식에 맞게 입력해주세요' || idresult == '' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
       </form>
     </div>
   </div>
@@ -49,6 +51,7 @@ export default {
         },
         idresult: "",
         idformcheck: "",
+        pwlengthCheck: ''
 
 
       }
@@ -108,6 +111,14 @@ export default {
         });
       }
     },
+    pwlengthcheck() {
+      if (this.credentials.memberPwd != '') {
+        if ((this.credentials.memberPwd).length < 8) {
+          this.pwlengthCheck = "비밀번호는 8자리 이상 입력해주세요"
+        }
+      }
+
+    }
     
   }
 }    
@@ -153,7 +164,12 @@ export default {
 	width: 460px;
 	height: 100%;
 }
-
+.pwlengthcheck {
+  color: rgb(247, 9, 21);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  font-size: 90%;
+}
 
 .form input,
 .form textarea {
