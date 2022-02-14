@@ -49,10 +49,15 @@ export default {
     ...mapState(["isLogin"])
   },
   methods: {
-    ...mapMutations(["SET_IS_LOGIN"]),
+    ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER", "SET_JWT_TOKEN"]),
     logout() {
       this.SET_IS_LOGIN(false);
-      localStorage.removeItem('jwt-auth-token');
+      // localStorage.removeItem('jwt-auth-token');
+      localStorage.clear();  // 전체 삭제
+      // localStorage.removeItem('jwt');
+      // this.SET_GET_USER('');
+      // this.SET_JWT_TOKEN('');
+      // location.reload();  //추가
       alert('로그아웃되었습니다');
       this.$router.push('Login')
     },
