@@ -9,8 +9,8 @@ const store = createStore({
         return {
             isLogin: false,
             signinIdx: '',
-            vidieoActive: true,
-            audioActive: true,
+            // vidieoActive: false,
+            // audioActive: false,
             jwtToken: '',
             // audioDetect: '',
             nickname: '',
@@ -26,12 +26,12 @@ const store = createStore({
        SET_GET_USER(state, signinIdx) {
            state.signinIdx = signinIdx;
        },
-       SET_VIDEO(state, vidieoActive) {
-           state.vidieoActive = vidieoActive;
-       },
-       SET_AUDIO(state, audioActive) {
-            state.audioActive = audioActive;
-        },
+    //    SET_VIDEO(state, vidieoActive) {
+    //        state.vidieoActive = vidieoActive;
+    //    },
+    //    SET_AUDIO(state, audioActive) {
+    //         state.audioActive = audioActive;
+    //     },
         SET_JWT_TOKEN(state, jwtToken) {
             state.jwtToken = jwtToken;
         },
