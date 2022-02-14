@@ -5,61 +5,48 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
           <div id="main-container" class="container">
-				<div id="session" v-if="session && !selected">
+				<div id="join" v-if="!session">
+					<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
+					<div id="join-dialog" class="jumbotron vertical-center">
+						<h1>초대 링크!</h1>
+						<div class="form-group">
+							<p>
+								<label>Participant</label>
+								<input v-model="myUserName" class="form-control" type="text" required>
+							</p>
+							<p>
+								<label>Session</label>
+								<input v-model="mySessionId" class="form-control" type="text">
+							</p>
+							<p class="text-center">
+								<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div id="session" v-if="session">
 					<div id="session-header">
 						<h1 id="session-title">{{ mySessionId }}</h1>
 						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 					</div>
-					<div>
-						초대 URL<input type="text" v-model="copyUrl"> <input class="btn" type="button" id="copybtn" @click="copyURL" value="복사">
-					</div>
-					<div id="video-container" class="col-md-4">
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-			
-						<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
-						<span v-else>조용하네요</span>
-					</div>
-
-					<div>
-
-						<span v-if="this.checkVideo"><i @click="this.togglepublisherVideo" class="fas fa-video-slash"></i></span>
-						<span v-else><i @click="this.togglepublisherVideo" class="fas fa-video"></i></span>
-
-						<br>
-						<span v-if="this.audioActive"><i @click="this.togglepublisherAudio" class="fas fa-volume-up"></i></span>
-
-						<span v-else><i @click="this.togglepublisherAudio" class="fas fa-volume-mute"></i></span>
-
-					</div>
-				</div>
-				<div v-if="selected">
-					<div>
-						<img src="@/assets/director.png" alt="">
+					<div id="main-video" class="col-md-6">
+						<user-video :stream-manager="mainStreamManager"/>
 					</div>
 					<div id="video-container" class="col-md-6">
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 					</div>
-					<p>{{formattedElapsedTime}}</p>
 				</div>
 			</div>
         </div>
       </main>
-      <my-question-list
-			:selected="selected"
-			:formattedElapsedTime="formattedElapsedTime"
-			@changeForm="changeForm"
-			@stopWatch="stopWatch"
-			@startWatch="startWatch"
-			>
-			</my-question-list>
 			
     </div>
   </div>
 </template>
 
 <script>
-import myQuestionList from '@/components/interview/myQuestionList.vue';
+//import myQuestionList from '@/components/interview/myQuestionList.vue';
 import axios from 'axios';
 // import stopWatch from '@/components/interview/stopWatch.vue';
 import { OpenVidu } from 'openvidu-browser';
@@ -73,7 +60,7 @@ export default {
 
 	components: {
 		UserVideo,
-		myQuestionList,
+		//myQuestionList,
 		// stopWatch
 	},
 	data () {
@@ -87,15 +74,13 @@ export default {
 			subscribers: [],
 			// mySessionId: 'SessionA',
 			mySessionId: '',
-			// myUserName: 'Participant' + Math.floor(Math.random() * 100),
-			myUserName: undefined,
+			myUserName: 'Participant' + Math.floor(Math.random() * 100),
 			checkVideo: true,
 			checkAudio: false,
 			audioDetect: false,
 			audioActive: false,
 			elapsedTime: 0,
 			timer: undefined,
-			copyUrl : ''
 
 		}
 	},
@@ -110,8 +95,8 @@ export default {
 	},
 
 	methods: {
-		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname"]),
-		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION", "SET_NICKNAME"]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session"]),
+		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
@@ -304,21 +289,12 @@ export default {
 		stopWatch() {
 			clearInterval(this.timer);
 		},
-		copyURL(sessionId) {
-			this.copyUrl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+sessionId;
-			this.copyUrl.select();
-			document.execCommand("copy");
-			this.copyUrl.eventUrlInput.blur();
-			alert("초대 url이 복사되었습니다 :)");
-		}
 	},
 
 	created() {
-		this.mySessionId = "Session"+this.signinIdx
-		this.myUserName = this.nickname
+		this.mySessionId = this.$router.params.sessionId;
+		console.log("sessionid 확인용"+this.mySessionId);
 		// this.mySessionId = this.myUserName
-		this.joinSession()
-		this.copyURL(this.mySessionId)
 	}
 
 }
