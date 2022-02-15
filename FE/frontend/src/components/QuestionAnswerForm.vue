@@ -18,19 +18,20 @@
     </div>
   </nav> -->
   <div class="container">
-    <div class="row">
+    <div class="row mb-3">
       <button type="button" class="btn btn-light" @click="insertQuestionList">질문추가</button>
-      <div class="col-12">
-        <ul class="list-group">
-          <question-answer
-            v-for="question in questionList"
-            :key="question"
-            :qnasTitle="question.qnasTitle"
-            @removeQuestionList="removeQuestionList(question.qnasId)"
-            @editQuestion="editQuestion(question.qnasId, question.qnasTitle)"
-          />
-        </ul>
-      </div>
+    </div>
+    <div class="col-12">
+      <ul class="list-group">
+        <question-answer
+          v-for="question in questionList"
+          :key="question"
+          :qnasTitle="question.qnasTitle"
+          @removeQuestionList="removeQuestionList(question.qnasId)"
+          @editQuestion="editQuestion(question.qnasId, $event)"
+          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId)"
+        />
+      </ul>
     </div>
   </div>
 
@@ -49,7 +50,7 @@ export default {
     return{
 
       memberIdx: 0,
-      disabled: 0,
+      
       questionList:[],
 
     }
@@ -113,32 +114,7 @@ export default {
         })        
      
     },
-    // editQuestion(number,text) {
-    //   if (this.disabled != number){
-    //     this.disabled = number
-    //     }
-        
-    //   else {
-    //     instance({
-    //     method: 'put',
-    //     url: '/api/qnas/' + number  ,
-    //     data: {qnasCode:number,
-    //       qnasTitle: text,
-    //       // qnasMemberId:this.memberIdx
-    //       },
-    //     headers: {'jwt-auth-token': this.jwtToken}
-    //   })
-    //   .then(() => {
-    //     this.disabled = 0
-    //     this.getQuestionList()
 
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //     alert('실패')
-    //     })        
-    //   }
-    // },
     removeQuestionList(number) {
       instance({
       method: 'delete',
