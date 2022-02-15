@@ -19,17 +19,18 @@
   </nav> -->
   <div class="container">
     <div class="row mb-3">
-      <button type="button" class="btn btn-light" @click="insertQuestionList">질문추가</button>
+      <button type="button" class="btn btn-light listplus" @click="insertQuestionList">질문모음집추가</button>
     </div>
-    <div class="col-12">
+    <div class="col-12 li_style">
       <ul class="list-group">
         <question-answer
           v-for="question in questionList"
+          class="question_style"
           :key="question"
           :qnasTitle="question.qnasTitle"
-          @removeQuestionList="removeQuestionList(question.qnasId)"
+          @removeQuestionList="checkremoveQuestionList(question.qnasId)"
           @editQuestion="editQuestion(question.qnasId, $event)"
-          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId)"
+          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId, question.qnasTitle)"
         />
       </ul>
     </div>
@@ -125,13 +126,20 @@ export default {
         // console.log(res)
         // this.$router.go()
         this.getQuestionList()
-
       })
     },
-    moveQuestionAnswerList(qnasId) {
+    checkremoveQuestionList(number) {
+      const check = confirm('삭제하시겠습니까?')
+      if (check) {
+        this.removeQuestionList(number);
+      } else {
+        return false;
+      }
+    },
+    moveQuestionAnswerList(qnasId, qnasTitle) {
       this.$router.push({
         name: 'QuestionAnswer',
-        params: {qnasId:qnasId}
+        params: {qnasId:qnasId, qnasTitle:qnasTitle}
       })
     }
  
@@ -146,7 +154,48 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+
+@font-face {
+    font-family: 'KoPubDotumMedium';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'YanoljaYacheR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YanoljaYacheR.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 /* .quesinput{
   width: 70%;
 } */
+.listplus {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bolder;
+  
+
+}
+.listplus:hover {
+  color: rgb(75, 137, 220);
+}
+.question_style {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.question_style:hover {
+  background-color: rgb(75, 137, 220);
+  cursor: pointer;
+  color: white;
+  font-size: 110%;
+}
+.question_style:focus {
+  background-color: rgb(75, 137, 220);
+  color: white;
+  font-size: 110%;
+}
+.li_style {
+  padding-right: 8%;
+}
 </style>

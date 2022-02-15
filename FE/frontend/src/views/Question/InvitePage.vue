@@ -299,8 +299,8 @@ export default {
 	},
 
 	beforeUnmount() {
-    	this.leaveSession();
-  	},
+			this.leaveSession();
+    },
 
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <app-header></app-header>
   
-  <div class="container-fluid">
+  <div class="container container_style">
     <div class="row">
       <div class="col-3">
         <question-answer-form></question-answer-form>
@@ -35,12 +35,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #QuestionPage {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.container_style {
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 </style>

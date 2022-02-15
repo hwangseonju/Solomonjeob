@@ -71,8 +71,10 @@ import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
+// const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
+// const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
 
 	components: {
@@ -195,8 +197,8 @@ export default {
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
 							resolution: '300x300',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'

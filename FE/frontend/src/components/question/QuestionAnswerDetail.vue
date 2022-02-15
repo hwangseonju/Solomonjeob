@@ -1,21 +1,11 @@
 <template>
-  <div v-if="qnaAnswer">
-    <button
-      @click="startEditing()"
-      class="btn-outline-primary border-0 ml-2"
-    >
-      <span class="fa fa-edit"></span>
-    </button>
-    <button @click="$emit('removeQuestionAnswerList')" class="btn-outline-danger border-0">
-      <span class="fa fa-trash"></span>
-    </button>
-    <li class="align-items-center list-group-item">
-      질문:
-      <div
-        class=" border-1  shadow-none"
-        v-if="!isEditing"
-      >
-        <span>{{ qnaAnswer }}</span>
+  <div v-if="qnaId">
+
+
+    <li class="align-items-center list-group-item form_style">
+      
+      <div class=" border-1  shadow-none" v-if="!isEditing">
+        <span class="title_style">질문 : {{ qnaAnswer }}</span>
       </div>
       <form v-else class="flex-grow-1" @submit.prevent="finishEditing()">
         <input
@@ -28,13 +18,13 @@
       </form>
       <hr>
       
-      답변:
+    
       <div
         class="box text-left "
         v-if="!isEditing"
         
       >
-        <span>{{ qnaContent }}</span>
+        <span class="content_style">답변 : {{ qnaContent }}</span>
       </div>
       <form v-else class=" flex-grow-1" @submit.prevent="finishEditing()">
         <textarea   type="textarea"
@@ -46,6 +36,16 @@
         </textarea>
       </form>
     </li>
+    <br>
+    <div align="right">
+      <button  @click="$emit('removeQuestionAnswerList')" class="remove_button btn-sm">
+        삭제
+      </button>
+      <button @click="startEditing()" class="edit_button btn-sm">
+        수정
+      </button>
+
+    </div>
   </div>
 </template>
 
@@ -121,9 +121,45 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+
+@font-face {
+    font-family: 'KoPubDotumMedium';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.title_style {
+  font-family: 'Noto Sans KR', sans-serif;
+
+}
+.content_style {
+  font-family: 'Noto Sans KR', sans-serif;
+}
 .box {
   
   min-height: 300px;
   
 }
+.edit_button {
+  border: 1px solid;
+  background-color: grey;
+  color: white;
+  font-family: 'Noto Sans KR', sans-serif;
+
+}
+.edit_button:hover {
+  background-color: rgb(75, 137, 220);
+}
+.remove_button {
+  border: 1px solid;
+  background-color: grey;
+  color: white;
+  font-family: 'Noto Sans KR', sans-serif;
+
+}
+.remove_button:hover {
+  background-color: red;
+}
+
 </style>

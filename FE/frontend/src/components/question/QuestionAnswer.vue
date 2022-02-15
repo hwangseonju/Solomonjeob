@@ -1,11 +1,11 @@
 <template>
-  <li class="d-flex align-items-center list-group-item">
+  <li class="d-flex align-items-center list-group-item li_style">
     <div
       class="border-0 flex-grow-1 text-left  shadow-none"
       @click="$emit('moveQuestionAnswerList')"
       v-if="!isEditing"
     >
-      <span>{{ qnasTitle }}</span>
+      <span class="span_style">{{ qnasTitle }}</span>
     </div>
     <form v-else class="flex-grow-1" @submit.prevent="finishEditing()">
       <input
@@ -16,15 +16,16 @@
         ref="newQues"
       />
     </form>
-    <button id="icon"
+    <div id="icon" class="edit_style"
       @click="startEditing()"
-      class=" btn-outline-primary border-0 ml-2"
     >
-      <span class="fa fa-edit"></span>
-    </button>
-    <button id="icon" @click="$emit('removeQuestionList')" class=" btn-outline-danger border-0">
-      <span class="fa fa-trash"></span> 
-    </button>
+      <i class="far fa-edit e_style"></i>
+    </div>
+    
+    <div id="icon" @click="$emit('removeQuestionList')" class="remove_style">
+      <i class="fas fa-times r_style"></i>
+      <!-- <span class="fa fa-trash"></span>  -->
+    </div>
   </li>
 </template>
 
@@ -58,5 +59,26 @@ export default {
 </script>
 
 <style scoped>
-
+.li_style {
+  width: 110%;
+}
+.span_style {
+  padding-right: 10%;
+  text-align: left;
+  width: 40%;
+}
+.edit_style {
+  padding: 2%;
+}
+.remove_style {
+  padding: 2%;
+}
+.e_style:hover {
+  color: black;
+  font-size: 120%;
+}
+.r_style:hover {
+  color: red;
+  font-size: 120%;
+}
 </style>
