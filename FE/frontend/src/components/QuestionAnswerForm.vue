@@ -1,35 +1,56 @@
 <template>
-  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+  <!-- <nav >
     <div class="position-sticky pt-3">
       <ul class="nav flex-column">
-        <button @click="insertQuestionList">+</button>
-        <li v-for="question in this.questionList" :key="question" class="nav-item" >
-          <div>          
-            <input @click="moveQuestionAnswerList(question.qnasId)" class="quesinput" type="text" :disabled="disabled != question.qnasId" v-model="question.qnasTitle">
-            
-            <button  @click="editQuestion(question.qnasId, question.qnasTitle)">o</button>
-            <button @click="removeQuestionList(question.qnasId)">x</button>
+        <button type="button" class="btn btn-light" @click="insertQuestionList">질문추가</button>
+        <li v-for="question in this.questionList" :key="question" class="nav-item row">
+          <div @click="moveQuestionAnswerList(question.qnasId)">          
+            <input class="quesinput" type="text" :disabled="disabled != question.qnasId" v-model="question.qnasTitle">
+            <button  @click="editQuestion(question.qnasId, question.qnasTitle)">
+              <span class="fa fa-edit"></span>
+            </button>
+            <button @click="removeQuestionList(question.qnasId)">
+              <span class="fa fa-trash"></span>
+            </button>
           </div> 
         </li>
       </ul>
     </div>
-  </nav>
-
+  </nav> -->
+  <div class="container">
+    <div class="row mb-3">
+      <button type="button" class="btn btn-light" @click="insertQuestionList">질문추가</button>
+    </div>
+    <div class="col-12">
+      <ul class="list-group">
+        <question-answer
+          v-for="question in questionList"
+          :key="question"
+          :qnasTitle="question.qnasTitle"
+          @removeQuestionList="removeQuestionList(question.qnasId)"
+          @editQuestion="editQuestion(question.qnasId, $event)"
+          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId)"
+        />
+      </ul>
+    </div>
+  </div>
 
 </template>
 
 <script >
 import { instance } from '@/api/index.js'
 import {  mapState, mapMutations } from 'vuex'
-
+import QuestionAnswer from '@/components/question/QuestionAnswer.vue'
 export default {
 
-  
+  components:{
+    QuestionAnswer 
+    },  
   data () {
     return{
 
       memberIdx: 0,
-      disabled: 0,
+      
       questionList:[],
 
     }
@@ -41,37 +62,22 @@ export default {
   methods : {
       ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", "SET_JWT_TOKEN"]),
 
-    getToken: function () {
-      const token = localStorage.getItem('jwt')
-      const config = {
-        'jwt-auth-token': token
-      }
-      return config
-    },
     getMemberIdx() {
-
-      // this.memberIdx = localStorage.getItem('memberIdx')
       this.memberIdx = this.signinIdx
-      
     },
     
-     getQuestionList() {
+    getQuestionList() {
       const memberIdx = this.getMemberIdx
-    
+
       instance({
         method: 'get',
         url: '/api/qnas/my/' + this.memberIdx,
         data: {qnasMemberId:memberIdx , qnasTitle:'질문모음집'},
         headers: {'jwt-auth-token': this.jwtToken}
-
-
       })
       .then(res => {
-        // console.log(res)
         this.questionList = res.data
-                
       })
-      // console.log(this.jwtToken)
     },
     insertQuestionList() {
       instance({
@@ -81,21 +87,14 @@ export default {
         headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(() => {
-
         this.getQuestionList()
-
       })
       .catch(err => {
         console.log(err)
         alert('실패')
       })
     },
-
     editQuestion(number,text) {
-      if (this.disabled != number){
-        this.disabled = number}
-        
-      else {
         instance({
         method: 'put',
         url: '/api/qnas/' + number  ,
@@ -106,7 +105,6 @@ export default {
         headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(() => {
-        this.disabled = 0
         this.getQuestionList()
 
       })
@@ -114,13 +112,14 @@ export default {
         console.log(err)
         alert('실패')
         })        
-      }
+     
     },
+
     removeQuestionList(number) {
       instance({
       method: 'delete',
       url: 'api/qnas/' + number,
-        headers: {'jwt-auth-token': this.jwtToken}
+      headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(() => {
         // console.log(res)
@@ -147,7 +146,7 @@ export default {
 </script>
 
 <style scoped>
-.quesinput{
-  width: 75%;
-}
+/* .quesinput{
+  width: 70%;
+} */
 </style>
