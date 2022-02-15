@@ -7,7 +7,6 @@ import QuestionAnswer from '@/components/QuestionAnswerList.vue'
 import NotFoundPage from '@/views/NotFoundPage.vue';
 import Interview from '@/views/Question/InterviewPage.vue';
 import InvitePage from '@/views/Question/InvitePage.vue';
-// import LoginIntroduce from '@/views/LoginIntroduce.vue';
 const routes = [
     {
         path: '/',
@@ -33,7 +32,15 @@ const routes = [
             {
             path: ':qnasId',
             component: QuestionAnswer,
-            name: 'QuestionAnswer'
+            name: 'QuestionAnswer',
+            // children:[
+            //     {
+            //     path: ':qnaId',
+            //     component: QuestionAnswerDetail,
+            //     name : 'QuestionAnswerDetail',
+            //     props: true
+            //     }
+            // ]
             }
         ]
     },
