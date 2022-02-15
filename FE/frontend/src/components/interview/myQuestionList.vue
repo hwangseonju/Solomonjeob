@@ -2,8 +2,15 @@
   <nav v-if="!selected" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
       <ul class="list-group ">
-        <div>
-          <li v-for="qnas in this.questionList" :key="qnas" class="list-group-item">
+        <div v-if="this.questionList.length===0">
+          <li class="list-group-item">
+            질문모음집이 없습니다.
+            <br>
+            내질문 모음집을 통해 면접 예상 질문을 등록해보세요 :)
+          </li>
+        </div>
+        <div v-if="this.questionList.length!==0">
+           <li v-for="qnas in this.questionList" :key="qnas" class="list-group-item">
             <div class="box" >
               <input class="form-check-input"  type="radio" name="radio" @click="checkedQuestion(qnas.qnasId)">
                 {{ qnas.qnasTitle }}
@@ -124,10 +131,7 @@ export default {
       return config
     },
     getMemberIdx() {
-
       this.memberIdx = this.signinIdx
-
-
     },
     getQuestionList() {
       const memberIdx = this.getMemberIdx
@@ -147,19 +151,18 @@ export default {
     },
     getQuestionAnswerList(qnasId) {
       if (this.questionAnswerList.length == 0){
-      instance({
-        method: 'get',
-        url: '/api/qna/my/' + qnasId,
-        headers: this.getToken()
-      })
-      .then(res => {
-        console.log(res)
-        this.questionAnswerList = res.data
-        this.qnasId = qnasId
-        
-      })
-      }
-      else {
+        instance({
+          method: 'get',
+          url: '/api/qna/my/' + qnasId,
+          headers: this.getToken()
+        })
+        .then(res => {
+          console.log(res)
+          this.questionAnswerList = res.data
+          this.qnasId = qnasId
+          
+        })
+      } else {
         this.questionAnswerList=[]
       }
     },
@@ -167,20 +170,34 @@ export default {
       this.selectedQuestionIdx = qnasId
     },
     submitChecked() {
-      instance({
-      method: 'get',
-      url: '/api/qna/my/' + this.selectedQuestionIdx,
-      headers: this.getToken()
-      })
-      .then(res => {
-        // console.log(res)
-        this.selectedQuestionAnswerList = res.data
-        console.log(this.selectedQuestionAnswerList)
-                
-      })
-      this.propSelected = true
-      this.$emit('changeForm', this.propSelected)
-      // this.firstSpeak()
+      if(this.questionList.length!==0){
+        if(this.selectedQuestionIdx===null){
+          if(confirm("질문모음집을 선택하지않고 입장하시겠습니까?")){
+            this.propSelected = true
+            this.$emit('changeForm', this.propSelected)
+          }else{
+            return;
+          }
+        }else{
+          instance({
+            method: 'get',
+            url: '/api/qna/my/' + this.selectedQuestionIdx,
+            headers: this.getToken()
+            })
+            .then(res => {
+              // console.log(res)
+              this.selectedQuestionAnswerList = res.data
+              console.log(this.selectedQuestionAnswerList)
+                      
+            })
+            this.propSelected = true
+            this.$emit('changeForm', this.propSelected)
+            // this.firstSpeak()
+        }
+      }else {
+        this.propSelected = true
+        this.$emit('changeForm', this.propSelected)
+      }
     },
     next() {
       this.questionStop.push(this.formattedElapsedTime);
@@ -211,7 +228,6 @@ export default {
     this.setVoiceList()
     // console.log(this.voices)
     // this.getQuestionAnswerList()
-    
   }
 }
 </script>

@@ -6,6 +6,7 @@ import Question from '@/views/Question/QuestionPage.vue';
 import QuestionAnswer from '@/components/QuestionAnswerList.vue'
 import NotFoundPage from '@/views/NotFoundPage.vue';
 import Interview from '@/views/Question/InterviewPage.vue';
+import InvitePage from '@/views/Question/InvitePage.vue';
 // import LoginIntroduce from '@/views/LoginIntroduce.vue';
 const routes = [
     {
@@ -45,6 +46,13 @@ const routes = [
     //     path: '/loginintroduce',
     //     component: LoginIntroduce,
     // },
+
+    {
+        path: '/solomonjeob/interview/invite/:sessionId',
+        component: InvitePage,
+        props: true
+    },
+
     {
         path: '/:anything(.*)*', //  '/:catchAll(.*)*'
         component: NotFoundPage,
