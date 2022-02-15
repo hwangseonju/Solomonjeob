@@ -1,9 +1,10 @@
 <template>
   <div class="container-fluid">
-	
     <div class="row">
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3"
+        >
           <div id="main-container" class="container">
 				<div id="join" v-if="!session">
 					<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
@@ -31,18 +32,15 @@
 						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 					</div>
 					<div id="main-video" class="col-md-6">
-						비회원쪽
 						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 					</div>
 					<div id="video-container" class="col-md-6">
-						회원쪽
 						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 					</div>
 				</div>
 			</div>
         </div>
       </main>
-			
     </div>
   </div>
 </template>
@@ -298,7 +296,11 @@ export default {
 		let afterUrl = beforeUrl.split('/');
 		this.mySessionId = afterUrl[4];
 		// this.mySessionId = this.myUserName
-	}
+	},
+
+	beforeUnmount() {
+    	this.leaveSession();
+  	},
 
 }
 </script>
@@ -328,5 +330,4 @@ export default {
   background-color: blueviolet;
   color: white;
 }
-
 </style>

@@ -195,8 +195,8 @@ export default {
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
+							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
 							resolution: '300x300',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
@@ -228,13 +228,14 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 
-			this.$router.push('Home')
+      this.$router.push('Home') 
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
 
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
+			console.log("가상면접관 확인용 메소드쪽 길이 확인" + this.subscribers.length);
 		},
 
 		/**
@@ -314,7 +315,7 @@ export default {
 	created() {
 		this.mySessionId = "Session"+this.signinIdx
 		this.myUserName = this.nickname
-		console.log(this.nickname);
+		// this.mySessionId = this.myUserName
 		this.joinSession()
 		this.copyUrl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId
 	},
@@ -353,3 +354,4 @@ export default {
 }
 
 </style>
+
