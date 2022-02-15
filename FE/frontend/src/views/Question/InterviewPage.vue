@@ -11,13 +11,14 @@
 						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 					</div>
 					<div>
-						초대 URL<input type="text" v-model="copyUrl"> <input class="btn" type="button" id="copybtn" @click="copyURL" value="복사">
+						초대 URL<input type="text" v-model="copyUrl">
 					</div>
 					<div id="video-container" class="col-md-4">
 						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-			
-						<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
-						<span v-else>조용하네요</span>
+						<div>
+							<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
+							<span v-else>조용하네요</span>
+						</div>
 					</div>
 
 					<div>
@@ -33,12 +34,15 @@
 					</div>
 				</div>
 				<div v-if="selected">
-					<div>
-						<img src="@/assets/director.png" alt="">
-					</div>
 					<div id="video-container" class="col-md-6">
+						<div v-if="this.subscribers.length!==0">
+							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+						</div>
+						<div v-if="this.subscribers.length===0">
+							<img src="@/assets/director.png" alt="">
+						</div>
 						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+						<p>{{this.nickname}}</p>
 					</div>
 					<p>{{formattedElapsedTime}}</p>
 				</div>
@@ -111,7 +115,7 @@ export default {
 
 	methods: {
 		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname"]),
-		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION", "SET_NICKNAME"]),
+		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
 		changeForm(propSelected){
 			this.selected= propSelected
 		},
@@ -191,9 +195,9 @@ export default {
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
+							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
+							resolution: '300x300',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -224,6 +228,7 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 
+			this.$router.push('Home')
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
 
@@ -304,22 +309,19 @@ export default {
 		stopWatch() {
 			clearInterval(this.timer);
 		},
-		copyURL(sessionId) {
-			this.copyUrl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+sessionId;
-			this.copyUrl.select();
-			document.execCommand("copy");
-			this.copyUrl.eventUrlInput.blur();
-			alert("초대 url이 복사되었습니다 :)");
-		}
 	},
 
 	created() {
 		this.mySessionId = "Session"+this.signinIdx
 		this.myUserName = this.nickname
-		// this.mySessionId = this.myUserName
+		console.log(this.nickname);
 		this.joinSession()
-		this.copyURL(this.mySessionId)
-	}
+		this.copyUrl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId
+	},
+
+	beforeUnmount() { 
+		this.leaveSession(); 
+	},
 
 }
 </script>

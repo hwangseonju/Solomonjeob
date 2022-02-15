@@ -72,8 +72,8 @@ const store = createStore({
                 //   console.log(this.state.jwtToken)
                   context.commit("SET_IS_LOGIN", true);
 
-                  context.commit("SET_GET_USER", res.data["signinIdx"])
-                  context.commit("SET_NICKNAME", res.data["nickName"])
+                  context.commit("SET_GET_USER", res.data.signinIdx);
+                  context.commit("SET_NICKNAME", res.data.nickname);
                   console.log(res)
                   localStorage.setItem('jwt', token);
                 } else {
@@ -81,9 +81,7 @@ const store = createStore({
                 }
               })
               .catch(() => {});
-
         },
-
 
     },
     plugins: [

@@ -16,7 +16,7 @@
 							</p>
 							<p>
 								<label>Session</label>
-								<input v-model="mySessionId" class="form-control" type="text">
+								<input v-model="mySessionId" class="form-control" type="text" readonly>
 							</p>
 							<p class="text-center">
 								<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
@@ -31,9 +31,11 @@
 						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 					</div>
 					<div id="main-video" class="col-md-6">
-						<user-video :stream-manager="mainStreamManager"/>
+						비회원쪽
+						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 					</div>
 					<div id="video-container" class="col-md-6">
+						회원쪽
 						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 					</div>
 				</div>
@@ -292,8 +294,9 @@ export default {
 	},
 
 	created() {
-		this.mySessionId = this.$router.params.sessionId;
-		console.log("sessionid 확인용"+this.mySessionId);
+		let beforeUrl = window.location.pathname;
+		let afterUrl = beforeUrl.split('/');
+		this.mySessionId = afterUrl[4];
 		// this.mySessionId = this.myUserName
 	}
 
