@@ -15,6 +15,8 @@ import router from '@/router'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import store from '@/store.js'
+import '@/assets/css/app.css';
+
 const app = createApp(App)
 app.use(router)
 app.use(store).mount('#app')
