@@ -12,30 +12,28 @@
 						<h1>초대 링크!</h1>
 						<div class="form-group">
 							<p>
-								<label>Participant</label>
+								<label>Nickname</label>
 								<input v-model="myUserName" class="form-control" type="text" required>
 							</p>
-							<p>
-								<label>Session</label>
-								<input v-model="mySessionId" class="form-control" type="text" readonly>
-							</p>
 							<p class="text-center">
-								<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
+								<button class="btn btn-lg btn-success" @click="checkSession(mySessionId)">Join!</button>
 							</p>
 						</div>
 					</div>
 				</div>
 
-				<div id="session" v-if="session">
-					<div id="session-header">
-						<h1 id="session-title">{{ mySessionId }}</h1>
-						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-					</div>
-					<div id="main-video" class="col-md-6">
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-					</div>
-					<div id="video-container" class="col-md-6">
-						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+				<div v-if="subscribers.length!==0">
+					<div id="session" v-if="session">
+						<div id="session-header">
+							<h1 id="session-title">{{ mySessionId }}</h1>
+							<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+						</div>
+						<div id="main-video" class="col-md-6">
+							<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+						</div>
+						<div id="video-container" class="col-md-6">
+							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -48,12 +46,14 @@
 <script>
 //import myQuestionList from '@/components/interview/myQuestionList.vue';
 import axios from 'axios';
+import { instance } from '@/api/index.js'
 // import stopWatch from '@/components/interview/stopWatch.vue';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.get['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
 export default {
@@ -74,7 +74,7 @@ export default {
 			subscribers: [],
 			// mySessionId: 'SessionA',
 			mySessionId: '',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			myUserName: 'solomonjeob' + Math.floor(Math.random() * 100),
 			checkVideo: true,
 			checkAudio: false,
 			audioDetect: false,
@@ -135,6 +135,44 @@ export default {
 
 		},
 
+		checkSession(SessionId) {
+			console.log(SessionId);
+			let result = 0;
+
+			instance({
+				method: 'get',
+				url: `${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,
+				headers: {
+                            Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
+                            'Content-Type': 'application/json',
+                }
+			})
+			.then((res) => {
+				let total = parseInt(JSON.stringify(res.data.numberOfElements));
+				if(total!==0){
+					for(let i=0; i<total; i++){
+						if(JSON.stringify(res.data.content[i].id).replaceAll("\"", "")===SessionId){
+							result = parseInt(JSON.stringify(res.data.content[i].connections.numberOfElements))+1;
+							break;
+						}
+					}
+				}else{
+					result = 0;
+				}
+
+				if(result<=0){
+					alert("잘못된 초대 URL이거나 종료된 면접연습방입니다.");
+				}else if(result>4) {
+					alert("면접관 인원이 꽉 찼어요!");
+				}else{
+					this.joinSession();
+				}   
+			})
+			.catch(err => {
+				console.log(err);
+			})
+		},
+
 		joinSession () {
 			// --- Get an OpenVidu object ---
 			this.OV = new OpenVidu();
@@ -150,53 +188,53 @@ export default {
 				this.subscribers.push(subscriber);
 			});
 
-			// On every Stream destroyed...
-			this.session.on('streamDestroyed', ({ stream }) => {
-				const index = this.subscribers.indexOf(stream.streamManager, 0);
-				if (index >= 0) {
-					this.subscribers.splice(index, 1);
-				}
-			});
+				// On every Stream destroyed...
+				this.session.on('streamDestroyed', ({ stream }) => {
+					const index = this.subscribers.indexOf(stream.streamManager, 0);
+					if (index >= 0) {
+						this.subscribers.splice(index, 1);
+					}
+				});
 
-			// On every asynchronous exception...
-			this.session.on('exception', ({ exception }) => {
-				console.warn(exception);
-			});
+				// On every asynchronous exception...
+				this.session.on('exception', ({ exception }) => {
+					console.warn(exception);
+				});
 
-			// --- Connect to the session with a valid user token ---
+				// --- Connect to the session with a valid user token ---
 
-			// 'getToken' method is simulating what your server-side should do.
-			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
-				this.session.connect(token, { clientData: this.myUserName })
-					.then(() => {
+				// 'getToken' method is simulating what your server-side should do.
+				// 'token' parameter should be retrieved and returned by your own backend
+				this.getToken(this.mySessionId).then(token => {
+					this.session.connect(token, { clientData: this.myUserName })
+						.then(() => {
 
-						// --- Get your own camera stream with the desired properties ---
+							// --- Get your own camera stream with the desired properties ---
 
-						let publisher = this.OV.initPublisher(undefined, {
-							audioSource: undefined, // The source of audio. If undefined default microphone
-							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '640x480',  // The resolution of your video
-							frameRate: 30,			// The frame rate of your video
-							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-							mirror: false       	// Whether to mirror your local video or not
+							let publisher = this.OV.initPublisher(undefined, {
+								audioSource: undefined, // The source of audio. If undefined default microphone
+								videoSource: undefined, // The source of video. If undefined default webcam
+								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+								resolution: '640x480',  // The resolution of your video
+								frameRate: 30,			// The frame rate of your video
+								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+								mirror: false       	// Whether to mirror your local video or not
+							});
+
+							this.mainStreamManager = publisher;
+							this.publisher = publisher;
+
+							// --- Publish your stream ---
+
+							this.session.publish(this.publisher);
+						})
+						.catch(error => {
+							console.log('There was an error connecting to the session:', error.code, error.message);
 						});
+				});
 
-						this.mainStreamManager = publisher;
-						this.publisher = publisher;
-
-						// --- Publish your stream ---
-
-						this.session.publish(this.publisher);
-					})
-					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
-					});
-			});
-
-			window.addEventListener('beforeunload', this.leaveSession)
+				window.addEventListener('beforeunload', this.leaveSession)
 		},
 
 		leaveSession () {
@@ -265,7 +303,8 @@ export default {
 		createToken (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
+					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, 
+					{
 						auth: {
 							username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
@@ -295,12 +334,11 @@ export default {
 		let beforeUrl = window.location.pathname;
 		let afterUrl = beforeUrl.split('/');
 		this.mySessionId = afterUrl[4];
-		// this.mySessionId = this.myUserName
 	},
 
 	beforeUnmount() {
-    	this.leaveSession();
-  	},
+		this.leaveSession();
+	},
 
 }
 </script>
