@@ -11,7 +11,9 @@
 						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
 					</div>
 					<div>
-						초대 URL<input type="text" v-model="copyUrl">
+						<!--초대 URL<input type="text" v-model="copyUrl">-->
+						초대 URL<input type="text" v-model="copyUrl"/>
+						<input class="btn" type="button" @click="docopy" value="초대링크 복사"/>
 					</div>
 					<div id="video-container" class="col-md-4">
 						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
@@ -99,7 +101,8 @@ export default {
 			audioActive: false,
 			elapsedTime: 0,
 			timer: undefined,
-			copyUrl : ''
+			copyUrl : '',
+			//copyadd: window.location.href,
 
 		}
 	},
@@ -295,8 +298,8 @@ export default {
 					.then(response => response.data)
 					.then(data => resolve(data.token))
 					.catch(error => reject(error.response));
-			});
-		},
+					});
+			},
 
 		startWatch() {
 			this.timer = setInterval(() => {
@@ -310,7 +313,12 @@ export default {
 		stopWatch() {
 			clearInterval(this.timer);
 		},
-	},
+		docopy(){
+			const currenturl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId;
+			//alert("초대링크가 복사되었습니다.");
+			navigator.clipboard.writeText(currenturl);
+			}
+			},
 
 	created() {
 		this.mySessionId = "Session"+this.signinIdx
