@@ -24,7 +24,6 @@
       @removeQuestionAnswerList="removeQuestionAnswerList()"
       />
     <!-- </canvas> -->
-    
   </main>
 
 </template>

@@ -57,7 +57,7 @@ const routes = [
     {
         path: '/solomonjeob/interview/invite/:sessionId',
         component: InvitePage,
-        props: true
+        props: true,
     },
 
     {
