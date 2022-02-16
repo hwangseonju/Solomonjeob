@@ -33,30 +33,36 @@
 
 					</div>
 				</div>
+
+
+
 				<div v-if="selected">
 					<div id="video-container" class="col-md-6">
 						<div v-if="this.subscribers.length!==0">
 							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 						</div>
 						<div v-if="this.subscribers.length===0">
-							<img src="@/assets/director.png" alt="">
+							<img src="@/assets/director.png" alt="가상 면접관">
 						</div>
 						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 						<p>{{this.nickname}}</p>
 					</div>
 					<p>{{formattedElapsedTime}}</p>
 				</div>
+
+
+
 			</div>
         </div>
       </main>
-      <my-question-list
+      	<my-question-list
 			:selected="selected"
 			:formattedElapsedTime="formattedElapsedTime"
 			@changeForm="changeForm"
 			@stopWatch="stopWatch"
 			@startWatch="startWatch"
 			>
-			</my-question-list>
+		</my-question-list>
 			
     </div>
   </div>
@@ -100,11 +106,10 @@ export default {
 			elapsedTime: 0,
 			timer: undefined,
 			copyUrl : ''
-
 		}
 	},
 	computed: {
-		...mapState(["isLogin", "signinIdx",]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname"]),
 		formattedElapsedTime() {
       const date = new Date(null);
       date.setSeconds(this.elapsedTime / 1000);
@@ -114,7 +119,6 @@ export default {
 	},
 
 	methods: {
-		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname"]),
 		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
 		changeForm(propSelected){
 			this.selected= propSelected
@@ -195,8 +199,8 @@ export default {
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
-							publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-							publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
+							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
 							resolution: '300x300',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
@@ -235,7 +239,6 @@ export default {
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
-			console.log("가상면접관 확인용 메소드쪽 길이 확인" + this.subscribers.length);
 		},
 
 		/**
