@@ -30,7 +30,6 @@
       @removeQuestionAnswerList="checkremove()"
       />
     <!-- </canvas> -->
-    
   </main>
 
 </template>
