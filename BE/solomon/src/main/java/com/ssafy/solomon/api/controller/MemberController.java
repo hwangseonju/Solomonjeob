@@ -109,6 +109,7 @@ public class MemberController {
                         res.setHeader("jwt-auth-token", token);
 //            resultMap.put("signinId", memberDto.getMemberId());
                         resultMap.put("signinIdx", memberEntity.getMemberIdx());
+                        resultMap.put("nickname", memberEntity.getNickName());
 //                        resultMap.put("jwt-auth-token", token);
                         resultMap.put("status", true);
                         status = HttpStatus.ACCEPTED;
@@ -216,7 +217,7 @@ public ResponseEntity<Map<String, Object>> oauthKakao(
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=e35ccc21d2cf1759f526eef14ea4b921");  //본인이 발급받은 key
-            sb.append("&redirect_uri=http://localhost:8081");     // 본인이 설정해 놓은 경로
+            sb.append("&redirect_uri=https://i6c207.p.ssafy.io");     // 본인이 설정해 놓은 경로
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
