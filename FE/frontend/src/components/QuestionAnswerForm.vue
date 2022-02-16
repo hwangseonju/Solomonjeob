@@ -24,9 +24,9 @@
     <div class="col-12 li_style">
       <ul class="list-group">
         <question-answer
-          v-for="question in questionList"
+          v-for="(question, idx) in questionList"
           class="question_style"
-          :key="question"
+          :key="idx"
           :qnasTitle="question.qnasTitle"
           @removeQuestionList="checkremoveQuestionList(question.qnasId)"
           @editQuestion="editQuestion(question.qnasId, $event)"
@@ -141,7 +141,9 @@ export default {
         name: 'QuestionAnswer',
         params: {qnasId:qnasId, qnasTitle:qnasTitle}
       })
-    }
+    },
+    
+    
  
 
   },
@@ -171,6 +173,7 @@ export default {
 /* .quesinput{
   width: 70%;
 } */
+
 .listplus {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bolder;
