@@ -1,22 +1,29 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3"
-        >
-          <div id="main-container" class="container">
+<section class="flex-container">
+	<!-- <div class="position-absolute translate-middle-x">text</div> -->
+	<!-- position-absolute top-0 start-50 translate-middle -->
+	<div class="position-absolute top-30 start-50 translate-middle"><img src="@/assets/solomon_logo2.png" alt="Developer" class="img" style="width:150px; heigth:150px"/></div>
+	<div>
+		<br><br>
+	<!-- 왼쪽 img 삽입 -->
+	<div class="flex-item"><img src="@/assets/solomon_invite_img.png" alt="Developer" class="img "/></div>
+
+	<!-- 오른쪽 button & 글 삽입 -->
+	<div class="flex-item">
+        <div id="main-container" class="container">
 				<div id="join" v-if="!session">
-					<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
+					<!-- <div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div> -->
 					<div id="join-dialog" class="jumbotron vertical-center">
-						<h1>초대 링크!</h1>
+						<br>
 						<div class="form-group">
+							<h3>초대에 응하시겠습니까?</h3>
+							<br>
 							<p>
-								<label>Nickname</label>
+								<label>닉네임</label>
 								<input v-model="myUserName" class="form-control" type="text" required>
 							</p>
 							<p class="text-center">
-								<button class="btn btn-lg btn-success" @click="checkSession(mySessionId)">Join!</button>
+								<button class="btn" style="background-color:#6974ff; color:white;" @click="checkSession(mySessionId)">입장하기</button>
 							</p>
 						</div>
 					</div>
@@ -37,10 +44,9 @@
 					</div>
 				</div>
 			</div>
-        </div>
-      </main>
-    </div>
+			</div>
   </div>
+</section>
 </template>
 
 <script>
@@ -368,4 +374,11 @@ export default {
   background-color: blueviolet;
   color: white;
 }
+.flex-container{
+	display: flex;
+	justify-content: center;
+	vertical-align: middle;
+	padding-top: 10%;
+}
+
 </style>
