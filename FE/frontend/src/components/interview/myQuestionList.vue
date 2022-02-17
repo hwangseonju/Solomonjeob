@@ -39,14 +39,17 @@
       </ul>
     </div>
     <br>
-    <div class="text-center">
-      <button v-if="questionFinish == 0" @click="start">start</button>
-      <button v-if="questionFinish == selectedlist.length" @click="next">finish</button>
+    <div v-if="isLogin" class="text-center">
+        <button v-if="questionFinish == 0" @click="start" class="selectbtn button button1 col-10">
+          연습 시작
+        </button>
+        <button v-if="0 < questionFinish & questionFinish < selectedlist.length" @click="next" class="selectbtn button button2 col-10">
+          다음 질문 <img src="@/assets/next.png" style="width:25px;height:25px;">
+        </button>
+        <button v-if="questionFinish == selectedlist.length" @click="next" class="selectbtn button button1 col-10">
+          마지막 질문!
+        </button>
     </div>
-    <div id="time">
-      <button v-if="0 < questionFinish & questionFinish < selectedlist.length" @click="next"><i class="fas fa-chevron-square-right"></i></button>
-    </div>
-      <!--<button v-if="questionFinish > selectedQuestionAnswerList.length">나가기</button>-->
     
   </div>
 </template>
@@ -258,10 +261,10 @@ button {
     color: white;
 }
 .button {
-    background-color: #4CAF50; /* Green */
+    background-color: #5fbae8; /* Blue */
     border: none;
     color: white;
-    padding: 16px 32px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -273,14 +276,26 @@ button {
     border-radius: 15px;
 }
 .button1 {
-    background-color: #4CAF50;
+    background-color: #5fbae8;
     color: white;
     padding: auto;
+    font-size: 18px;
 }
 .button1:hover {
     background-color: white; 
     color: black; 
-    border: 2px solid #4CAF50;
+    border: 2px solid #5fbae8;
+}
+.button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #5fbae8;
+}
+.button2:hover {
+    background-color: #5fbae8;
+    color: white;
+    padding: auto;
+    font-size: 18px;
 }
 #time {
   display: inline;

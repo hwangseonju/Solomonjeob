@@ -31,17 +31,38 @@
 				</div>
 			</div>
 			<!--output page-->
-			<div class="" v-if="subscribers!==undefined && session">
-				<div>
-					<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-				</div>
-				<div>
-					<div class="flex-container">
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-					</div>
-					<div class="flex-container" id="my-comp-template">
-						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
-					</div>
+
+			<div class="flex-container" v-if="subscribers!==undefined && session">
+						<div class="container">
+							<div class="row">
+								<div class="col-4 text-center">
+									<h3>{{myUserName}}</h3>
+									<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+									<div class="mt-1 mb-3 d-flex justify-content-center">
+										<div class="setbtn m-4" @click="this.togglepublisherVideo">
+											<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
+											<span v-else><img class="soundimg" src="@/assets/video.png"></span>
+										</div>
+										<div class="setbtn m-4" @click="this.togglepublisherAudio">
+											<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
+											<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
+											<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
+										</div>
+										<div class="leavebtn m-4"  @click="leaveSession">
+											<i class="fas fa-times fa-lg"></i>
+										</div>
+									</div>
+								</div>
+								<div class="col-4 text-center" style="float:right;">
+									<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+								</div>
+									<my-question-list
+										style="float: right;"
+									>
+									</my-question-list>
+							<div>
+						</div>
+					</div>	
 				</div>
 			</div>
 		</div>
@@ -49,7 +70,7 @@
 </template>
 
 <script>
-//import myQuestionList from '@/components/interview/myQuestionList.vue';
+import myQuestionList from '@/components/interview/myQuestionList.vue';
 import axios from 'axios';
 import { instance } from '@/api/index.js'
 // import stopWatch from '@/components/interview/stopWatch.vue';
@@ -65,7 +86,7 @@ export default {
 
 	components: {
 		UserVideo,
-		//myQuestionList,
+		myQuestionList,
 		// stopWatch
 	},
 	data () {
@@ -221,8 +242,8 @@ export default {
 							let publisher = this.OV.initPublisher(undefined, {
 								audioSource: undefined, // The source of audio. If undefined default microphone
 								videoSource: undefined, // The source of video. If undefined default webcam
-								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+								publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
+								publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
 								resolution: '300x300',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
@@ -383,5 +404,35 @@ export default {
 	justify-content: center;
 	vertical-align: middle;
 }
-
+.leavebtn{
+	border-radius: 50%;
+	background: #e85848;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+.leavebtn:hover{
+	background: rgb(221, 34, 34);
+}
+.setbtn{
+	border-radius: 50%;
+	background: #68c433;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+.setbtn:hover{
+	background: green;
+	
+}
+.soundimg {
+	width: 27px;
+	height: 27px;
+}
+.setimg{
+	width: 35px;
+	height: 35px;
+}
 </style>

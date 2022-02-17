@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div>
 		<div class="align-items-center pt-3 pb-2 mb-3 ">
 			<div id="session" v-if="session && !selected">
 				<div id="session-header " class="d-flex justify-content-center m-4">
@@ -42,12 +42,12 @@
 			<div v-if="selected" class="flex-container">
 				<br>
 				<div class="row text-center">
-					<h1>TEST</h1>
+					<h1>면접 연습</h1>
 				</div>
 				<div class="row text-center">
 					<div>
 						<!--초대 URL <input type="text" v-model="copyUrl" style="width:300px;" readonly/>-->
-						<button class="btn-two blue rounded" type="button" @click="docopy"><i class="fas fa-clone"></i> 초대 URL 복사</button>
+						<button class="btn-two blue rounded" type="button" @click="docopy"><i class="fas fa-clone"></i> <b>초대 URL 복사</b></button>
 					</div>
 				</div>
 				<br>
@@ -68,14 +68,28 @@
 									<img class="col-md-8" src="@/assets/director.png" alt="가상 면접관">
 								</div>
 								<div style="font-size:30px;padding:20px;">
-									<img v-if="elapsedTime!==0" src="@/assets/movetime.gif" style="width:50px;height:50px;"/>
-									<img v-if="elapsedTime===0" src="@/assets/stoptime.png" style="width:50px;height:50px;"/>
+									<img v-if="checkstop" src="@/assets/movetime.gif" style="width:50px;height:50px;"/>
+									<img v-if="!checkstop" src="@/assets/stoptime.png" style="width:50px;height:50px;"/>
 									{{formattedElapsedTime}}
 								</div>
 								<div>
 									<div class="mx-auto card text-center" style="width: 310px;height: 340px;padding:5px;">
 										<user-video class="card-img-top" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)" />
-										<div class="card-text text-center">{{this.nickname}}</div>
+										<div class="card-text text-center"><b>{{this.nickname}}</b></div>
+									</div>
+									<div class="mt-1 mb-3 d-flex justify-content-center">
+										<div class="setbtn m-4" @click="this.togglepublisherVideo">
+											<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
+											<span v-else><img class="soundimg" src="@/assets/video.png"></span>
+										</div>
+										<div class="setbtn m-4" @click="this.togglepublisherAudio">
+											<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
+											<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
+											<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
+										</div>
+										<div class="leavebtn m-4"  @click="leaveSession">
+											<i class="fas fa-times fa-lg"></i>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -85,7 +99,7 @@
 						style="float: right;"
 						:formattedElapsedTime="formattedElapsedTime"
 						@changeForm="changeForm"
-						stopWatch="stopWatch"
+						@stopWatch="stopWatch"
 						@startWatch="startWatch"
 					>
 					</my-question-list>
@@ -109,7 +123,6 @@ const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
 // const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 // const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
-
 	components: {
 		UserVideo,
 		myQuestionList,
@@ -133,17 +146,18 @@ export default {
 			audioActive: false,
 			elapsedTime: 0,
 			timer: undefined,
-			copyUrl : ''
+			copyUrl : '',
+			checkstop : false
 		}
 	},
 	computed: {
 		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname", "selected"]),
-		formattedElapsedTime() {
-      const date = new Date(null);
-      date.setSeconds(this.elapsedTime / 1000);
-      const utc = date.toUTCString();
-      return utc.substr(utc.indexOf(":") - 2, 8);
-    }
+			formattedElapsedTime() {
+				const date = new Date(null);
+				date.setSeconds(this.elapsedTime / 1000);
+				const utc = date.toUTCString();
+				return utc.substr(utc.indexOf(":") - 2, 8);
+			}
 	},
 
 	methods: {
@@ -332,6 +346,7 @@ export default {
 		},
 
 		startWatch() {
+			this.checkstop = true;
 			this.timer = setInterval(() => {
 				this.elapsedTime += 1000;
 			}, 1000);
@@ -342,6 +357,7 @@ export default {
 		// },
 		stopWatch() {
 			clearInterval(this.timer);
+			this.checkstop = false;
 		},
 
 		docopy(){
@@ -427,7 +443,7 @@ export default {
 	display: inline-block;
 	border: none;
 	border-bottom-color: rgba(0,0,0,0.34);
-	text-shadow:0 1px 0 rgba(0,0,0,0.15);
+	
 	box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset, 
 				      0 2px 0 -1px rgba(0,0,0,0.13), 
 				      0 3px 0 -1px rgba(0,0,0,0.08), 
@@ -438,6 +454,6 @@ export default {
 	box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
 	position: relative;
 }
-.blue   {background: #6698cb;}
+.blue   {background: #51bef5;}
 </style>
 
