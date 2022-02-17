@@ -7,7 +7,7 @@ import QuestionAnswer from '@/components/QuestionAnswerList.vue'
 import NotFoundPage from '@/views/NotFoundPage.vue';
 import Interview from '@/views/Question/InterviewPage.vue';
 import InvitePage from '@/views/Question/InvitePage.vue';
-import VideoDownload from '@/views/Question/videoDownload.vue';
+// import VideoDownload from '@/views/Question/videoDownload.vue';
 const routes = [
     {
         path: '/',
