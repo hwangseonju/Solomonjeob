@@ -15,7 +15,7 @@
                 <router-link class="nav-link" to="/question" @click="checkLogin">내질문모음집</router-link>
               </li>
               <!-- <li class="nav-item">
-                <a class="nav-link" href="#">고객센터</a>
+                <router-link class="nav-link" to="/videoDownload">녹화영상</router-link>
               </li> -->
               <li class="nav-item" v-if="!isLogin">
                 <router-link class="nav-link" to="/login" >로그인</router-link>
@@ -46,9 +46,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(["isLogin"])
+      ...mapState(["isLogin"]),
+
   },
   methods: {
+
     ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER", "SET_JWT_TOKEN"]),
     logout() {
       this.SET_IS_LOGIN(false);
