@@ -24,11 +24,11 @@
 
 ------
 
-| Name     | 이주용                                                  | 김도연                                                  | 김신아                                                  | 노건우                                                  | 황선주                                                  |
-| -------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| Profile  | ![](C:\Users\multicampus\Desktop\readme\pic\이주용.jpg) | ![](C:\Users\multicampus\Desktop\readme\pic\김도연.png) | ![](C:\Users\multicampus\Desktop\readme\pic\김신아.jpg) | ![](C:\Users\multicampus\Desktop\readme\pic\노건우.jpg) | ![](C:\Users\multicampus\Desktop\readme\pic\황선주.jpg) |
-| Position | 팀장 & Frontend & UI/UX                                 | Backend                                                 | Backend                                                 | Frontend & UI/UX                                        | Backend & WebRTC                                        |
-| Git      | @[leejuyong12](https://github.com/leejuyong12)          | @[kid-owo](https://github.com/kid-owo)                  | @[dodssockii](https://github.com/dodssockii)            | @[rogonu](https://github.com/rogonu)                    | @[hwangseonju](https://github.com/hwangseonju)          |
+| Name     | 이주용                                         | 김도연                                 | 김신아                                       | 노건우                               | 황선주                                         |
+| -------- | ---------------------------------------------- | -------------------------------------- | -------------------------------------------- | ------------------------------------ | ---------------------------------------------- |
+| Profile  | ![](./Img/이주용.jpg)                          | ![](./Img/김도연.png)                  | ![](./Img/김신아.jpg)                        | ![](./Img/노건우.jpg)                | ![](./Img/황선주.jpg)                          |
+| Position | 팀장 & Frontend & UI/UX                        | Backend                                | Backend                                      | Frontend & UI/UX                     | Backend & WebRTC                               |
+| Git      | @[leejuyong12](https://github.com/leejuyong12) | @[kid-owo](https://github.com/kid-owo) | @[dodssockii](https://github.com/dodssockii) | @[rogonu](https://github.com/rogonu) | @[hwangseonju](https://github.com/hwangseonju) |
 
 
 
@@ -111,25 +111,25 @@
 
 #### Notion
 
-![](C:\Users\multicampus\Desktop\readme\pic\Notion.png)
+![](./Img/Notion.png)
 
 
 
 #### Jira
 
-![](C:\Users\multicampus\Desktop\readme\pic\Jira.png)
+![](./Img/Jira.png)
 
 
 
 #### Burndown Chart
 
-![](C:\Users\multicampus\Desktop\readme\pic\BurndownChart.png)
+![](./Img/BurndownChart.png)
 
 
 
 #### ERD
 
-![](C:\Users\multicampus\Desktop\readme\pic\ERD.png)
+![](./Img/ERD.png)
 
 
 
@@ -183,6 +183,8 @@
   ```
 
   본인의 환경에 맞게 설정
+
+</div>
 
 </details>
 
