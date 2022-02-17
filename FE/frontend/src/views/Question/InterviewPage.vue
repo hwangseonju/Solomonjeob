@@ -77,10 +77,10 @@ import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
-const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
+// const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
 
 	components: {

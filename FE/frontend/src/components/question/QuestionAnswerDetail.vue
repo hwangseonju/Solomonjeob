@@ -3,7 +3,7 @@
 
     <li class="align-items-center list-group-item form_style">
       
-      <div class=" border-1  shadow-none" v-if="!isEditing">
+      <div class=" border-1  shadow-none question_answer" v-if="!isEditing">
         <span class="title_style">질문 : {{ qnaAnswer }}</span>
       </div>
       <form v-else class="flex-grow-1" @submit.prevent="finishEditing()">
@@ -130,12 +130,18 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 .title_style {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
 
 }
 .content_style {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
 }
 .box {
   

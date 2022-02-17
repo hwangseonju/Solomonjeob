@@ -87,12 +87,18 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 .navbar-nav > li {
   padding-left:25px;
   padding-right:25px;
   /* border-bottom: 1px solid #666; */
-  font-size: 120%;
-  font-family: 'Cafe24Ohsquareair';
+  font-size: 130%;
+  font-family: 'Pretendard-Regular';
   font-weight: bolder;
 }
 .navbar-nav .nav-item a:hover {
@@ -106,7 +112,7 @@ export default {
   height: 50%;
 }
 .main {
-  padding-left: 17%;
+  padding-left: 15%;
   padding-right: 15%;
   padding-top: 1%;
 }
