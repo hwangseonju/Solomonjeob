@@ -1,17 +1,18 @@
 <template>
   <app-header></app-header>
-  
-  <div class="container container_style">
-    <div class="row">
-      <div class="col-3">
-        <question-answer-form></question-answer-form>
-      </div>
-      <div class="col-9">
-        <router-view :key="$route.fullPath"></router-view>
-      </div>
+    <div class="container all_container_style">
       
+      <div class="row">
+        <div class="col-3">
+          <question-answer-form></question-answer-form>
+        </div>
+        <div class="col-9">
+          <router-view :key="$route.fullPath"></router-view>
+        </div>
+        
+      </div>
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -36,6 +37,7 @@ export default {
 </script>
 
 <style scoped>
+
 #QuestionPage {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 
@@ -43,8 +45,13 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.container_style {
+.all_container_style {
   padding-top: 5%;
   padding-bottom: 5%;
+  background-color: #f1f0f0;
+  border-radius: 5px 5px;
+  height: 100%;
+
 }
+
 </style>

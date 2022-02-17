@@ -1,7 +1,6 @@
 <template>
   <div v-if="qnaId">
 
-
     <li class="align-items-center list-group-item form_style">
       
       <div class=" border-1  shadow-none" v-if="!isEditing">
@@ -12,7 +11,7 @@
           type="text"
           class="form-control"
           v-model="newAnswer"
-          @blur="finishEditing()"
+          @enter="finishEditing()"
           ref="newQues"
         />
       </form>
@@ -88,8 +87,10 @@ export default {
     finishEditing() {
       this.isEditing = false;
       this.$emit("editQuestionAnswer",[this.newAnswer,this.newContent]);
+
       // console.log(1)
     },
+
     // finishEditing() {
     //   this.isEditing = false;
     //   this.editQuestionAnswer()

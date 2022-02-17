@@ -2,24 +2,25 @@
 	<section  class="flex-container flex-end">
         <div class="flex-item text-all">
             <div class="text">면접 연습하고 싶을 때, <br>편하게 연습할 수 있도록 </div>
-            <div class="text_1"><h1>당신의 면접을 도와드립니다</h1></div>
+            <div class="text_1" ><h1>당신의 면접을 도와드립니다</h1></div>
+            <div class="btn_place"><button class="scroll_style w-btn" @click="scrolldown">이용방법</button></div>
 
         </div>
         <div class="flex-item"><img src="@/assets/developer.svg" alt="Developer" class="img "/></div>
-        
     </section>
 
+
     <section class="container container_text">
-        <h1 class="container_manual">솔로몬접을 사용해보세요!</h1>
+        <h1 class="container_manual">솔로몬접을 이용해보세요!</h1>
     </section>
-	<section  class="container">
+	<section  class="container manual_style">
         <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="card h-100">
             <img src="@/assets/list.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block" >
             <div class="card-body kopub_text">
-                <h5 class="card-title">질문 리스트 만들기</h5>
-                <p class="card-text">나만의 면접 질문 리스트를 만들어 보세요</p>
+                <h5 >질문 리스트 만들기</h5>
+                <p >나만의 면접 질문 리스트를 만들어 보세요</p>
             </div>
             </div>
         </div>
@@ -27,8 +28,8 @@
             <div class="card h-100">
             <img src="@/assets/interview.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block" >
             <div class="card-body kopub_text">
-                <h5 class="card-title">면접 연습하기</h5>
-                <p class="card-text">면접 연습을 해보세요</p>
+                <h5>면접 연습하기</h5>
+                <p>내가 작성한 질문으로 면접 연습을 해보세요</p>
             </div>
             </div>
         </div>
@@ -37,7 +38,7 @@
             <img src="@/assets/thumbup.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block " >
             <div class="card-body kopub_text">
                 <h5 class="card-title">피드백 받기</h5>
-                <p class="card-text">피드백을 받아 부족한 점을 개선해보세요</p>
+                <p class="card-text">초대한 사람에게 피드백을 받아 부족한 점을 개선해보세요</p>
             </div>
             </div>
         </div>
@@ -68,6 +69,16 @@ export default {
 			// theme: '',
 		};
 	},
+    methods : {
+       scrolldown() {
+           window.scroll({ top: 800, left: 0, behavior: 'smooth' });
+       },
+       scrollup() {
+           window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+       },
+
+
+    }
 
 
 };
@@ -222,20 +233,21 @@ export default {
     margin-top: 5%
 }
 .container_text {
-    font-family: 'YanoljaYacheR';
+    font-family: 'KoPubDotumMedium';
     color: rgb(75, 137, 220);
     text-align: center;
 }
 .container_manual{
-    font-size: 500%;
-    padding-top: 10%;
+    font-size: 300%;
+    padding-top: 9%;
+    font-family: 'Noto Sans KR', sans-serif;
+
 }
 .kopub_text {
-    font-family: 'KoPubDotumMedium';
+    font-family: 'Noto Sans KR', sans-serif;
     text-align: center;
 
 }
-
 
 .img {
     width: 70%;
@@ -260,25 +272,25 @@ export default {
         }
         .flex-container.flex-end{justify-content: flex-end;}
         .text{
-            font-family: 'KoPubDotumMedium';
+            font-family: 'Noto Sans KR', sans-serif;
             font-size: 200%;
-            padding-left: 35%;
-            text-align: center;
-            padding-right: 15%;
+            padding-left: 30%;
+            text-align: right;
+            padding-right: 10%;
             vertical-align: middle;
-            padding-top: 20%;
+            padding-top: 15%;
             animation: fadein 5s;
             -moz-animation: fadein 5s; /* Firefox */
             -webkit-animation: fadein 5s; /* Safari and Chrome */
             -o-animation: fadein 5s; /* Opera */
             }
         .text_1{
-            font-family: 'KoPubDotumMedium';
+            font-family: 'Noto Sans KR', sans-serif;
             font-size: 150%;
             font-weight: bolder;
             color: rgb(75, 137, 220);
             text-align: right;
-            padding-right: 7%;
+            padding-right: 3%;
             vertical-align: middle;
             padding-top: 10%;
             animation: fadeup 3s;
@@ -295,6 +307,14 @@ export default {
             border: 2px solid black;
             margin-block: 20%;
         }
+        .btn_style {
+            background-color: rgb(97, 97, 235);
+            color: white;
+            font-family: 'Noto Sans KR', sans-serif;
+            border: 0px;
+  
+        }
+
 @keyframes fadeup {
     from {
         opacity: 0;
@@ -351,5 +371,42 @@ main {
 .fade-in-box {
   display: inline-block;
   padding: 10px;
+}
+.manual_style {
+    padding-bottom: 10%;
+}
+.w-btn {
+    font-family: 'Noto Sans KR', sans-serif;
+    position: relative;
+    border: 3px solid rgb(53,126,255);
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+    color: rgb(53,126,255);
+    font-size: 110%;
+    
+    /* background-color: #6aafe6;
+    color: white; */
+}
+.scroll_style:hover {
+    background-color: rgb(53,126,255);
+    color: white;
+}
+
+.down_style {
+    color: rgb(53,126,255);
+    cursor: pointer;
+}
+.scroll_style {
+    font-family: 'Noto Sans KR', sans-serif;
+    float: right;
+    color: rgb(53,126,255);
+}
+.btn_place {
+    padding-top: 5%;
+    padding-right: 22%;
 }
 </style>

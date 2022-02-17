@@ -1,6 +1,6 @@
 <template>
   <main >
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
       <h1 class="h2_style">{{ this.qnasTitle }}</h1>
       <!-- <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
@@ -9,16 +9,17 @@
       </div> -->
     </div>
       <div class="flex-container">
-        <ul class="d-flex d-flex_style">
-          <li class="item" v-for="(qna,index) in this.questionAnswerList" :key="(qna,index)"  >
-            <button class="button_style" @click="moveQuestionAnswerDetail(qna.qnaAnswer,qna.qnaContent, qna.qnaId)">{{ index + 1 }}</button>
-          </li>
-        </ul>
         <div>
           <div class="btn-group me-2">
             <button @click="insertQuestionAnswer" type="button" class="btn btn-sm plus_style"><i class="fas fa-plus"></i></button>
           </div>
         </div>
+        <ul class="d-flex d-flex_style">
+          <li class="item" v-for="(qna,index) in this.questionAnswerList" :key="(qna,index)"  >
+            <button class="button_style" @click="moveQuestionAnswerDetail(qna.qnaAnswer,qna.qnaContent, qna.qnaId)">{{ index + 1 }}</button>
+          </li>
+        </ul>
+
       </div>
       <br>
     <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"> -->
@@ -54,11 +55,14 @@ export default {
     }
   },
 
+  
+
     computed : {
       ...mapState(["isLogin", "signinIdx", "jwtToken"]),
 
   },
-  methods : {
+
+    methods : {
     getQuestionAnswerList() {
       instance({
         method: 'get',
@@ -86,7 +90,7 @@ export default {
       })
       .catch(err => {
         console.log(err)
-        alert('실패')
+        alert('질문모음집에서 추가해주세요')
       })
     },
     editQuestionAnswer(newvalue) {

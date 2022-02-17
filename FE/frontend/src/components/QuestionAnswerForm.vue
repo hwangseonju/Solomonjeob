@@ -17,16 +17,17 @@
       </ul>
     </div>
   </nav> -->
-  <div class="container">
+  <div class="container container_style">
     <div class="row mb-3">
-      <button type="button" class="btn btn-light listplus" @click="insertQuestionList">질문모음집추가</button>
+      <p class="p_style">질문모음집</p>
+      <button type="button" class="btn btn-light listplus" @click="insertQuestionList"><i class="fas fa-plus"></i></button>
     </div>
     <div class="col-12 li_style">
       <ul class="list-group">
         <question-answer
-          v-for="(question, idx) in questionList"
+          v-for="question in questionList"
           class="question_style"
-          :key="idx"
+          :key="question"
           :qnasTitle="question.qnasTitle"
           @removeQuestionList="checkremoveQuestionList(question.qnasId)"
           @editQuestion="editQuestion(question.qnasId, $event)"
@@ -35,6 +36,7 @@
       </ul>
     </div>
   </div>
+
 
 </template>
 
@@ -124,8 +126,9 @@ export default {
       })
       .then(() => {
         // console.log(res)
-        // this.$router.go()
         this.getQuestionList()
+        this.$router.go()
+
       })
     },
     checkremoveQuestionList(number) {
@@ -142,7 +145,24 @@ export default {
         params: {qnasId:qnasId, qnasTitle:qnasTitle}
       })
     },
-    
+    // clickcheck () {
+    //   const menuWrap = document.querySelector('.list-group');
+ 
+    //   menuWrap.addEventListener('click', e => {
+    //       const selected = e.target;
+    //       this.select(menuWrap, selected);
+    //       console.log(1111)
+    //       console.log(e.target)
+    //   })
+
+
+    // },
+    // select(ulEl, liEl){
+    //     Array.from(liEl).forEach(
+    //         v => v.classList.remove('selected')
+    //     )
+    //     if(liEl) liEl.classList.add('selected');
+    // }
     
  
 
@@ -173,7 +193,13 @@ export default {
 /* .quesinput{
   width: 70%;
 } */
+.p_style {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 120%;
 
+}
 .listplus {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bolder;
@@ -188,17 +214,32 @@ export default {
 }
 
 .question_style:hover {
-  background-color: rgb(75, 137, 220);
+  background-color: rgb(90, 156, 241);
   cursor: pointer;
   color: white;
   font-size: 110%;
 }
 .question_style:focus {
-  background-color: rgb(75, 137, 220);
+  background-color: rgb(90, 156, 241);
   color: white;
   font-size: 110%;
 }
 .li_style {
   padding-right: 8%;
 }
+.container_style {
+  border-radius: 5px 5px;
+  padding-bottom: 10%;
+  padding-top: 10%;
+  background-color: lightgrey;
+}
+.list-group li{
+    padding: 10px;}
+    .list-group li.selected{
+        background-color: #e26262;
+        color:#fff;
+        font-weight: 600;
+    }
+
+
 </style>
