@@ -8,10 +8,25 @@
 						<div>환경설정</div>
 					</h2>
 				</div>
-				<div class="container d-flex justify-content-center">
-					<div >
-						<user-video  :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+				<div class="container d-flex justify-content-center align-items-center">
+					<div>
+						<user-video class="mb-5" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+						<div class="mt-1 mb-3 d-flex justify-content-center">
+							<div class="setbtn m-4" @click="this.togglepublisherVideo">
+								<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
+								<span v-else><img class="soundimg" src="@/assets/video.png"></span>
+							</div>
+							<div class="setbtn m-4" @click="this.togglepublisherAudio">
+								<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
+								<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
+								<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
+							</div>
+							<div class="leavebtn m-4"  @click="leaveSession">
+								<i class="fas fa-times fa-lg"></i>
+							</div>
+						</div>
 					</div>
+					
 					<div class="col-3 mx-5">
 						<my-question-list
 							:formattedElapsedTime="formattedElapsedTime"
@@ -23,20 +38,7 @@
 					</div>
 				</div>
 
-				<div class="mt-1 mb-3 d-flex justify-content-center">
-					<div class="setbtn m-4" @click="this.togglepublisherVideo">
-						<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
-						<span v-else><img class="soundimg" src="@/assets/video.png"></span>
-					</div>
-					<div class="setbtn m-4" @click="this.togglepublisherAudio">
-						<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
-						<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
-						<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
-					</div>
-					<div class="leavebtn m-4"  @click="leaveSession">
-						<i class="fas fa-times fa-lg"></i>
-					</div>
-				</div>
+
 
 			</div>
 			<div v-if="selected" class="flex-container">
@@ -243,7 +245,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '600x600',  // The resolution of your video 640x480
+							resolution: '300x300',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not

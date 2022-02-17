@@ -1,6 +1,6 @@
 <template>
 	<video autoplay v-if="!this.selected" />  
-	<video width="300" height="250" autoplay v-else></video>
+	<video width="300" height="300" autoplay v-else></video>
 </template>
 
 <script>

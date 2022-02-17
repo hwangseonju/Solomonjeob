@@ -56,10 +56,13 @@
 								<div class="col-4 text-center" style="float:right;">
 									<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 								</div>
-									<my-question-list
+									<div class="col-4">
+										<my-question-list
 										style="float: right;"
-									>
-									</my-question-list>
+										>
+										</my-question-list>
+									</div>
+
 							<div>
 						</div>
 					</div>	
