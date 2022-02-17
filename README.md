@@ -150,7 +150,7 @@
 
 - 설치 환경
 
-  -> AWS EC2 Linux, Docker, Docker-compose
+  -> AWS EC2 Linux, Docker, Docker-compose, IntelliJ IDEA 2021.3.1, Visual Studio Code
 
 <details>
     <summary>1. Java8 버전 설치</summary>
@@ -256,8 +256,10 @@
   $sudo chmod +x /usr/local/bin/docker-compose
   ```
   
-    </div>
-</details>
+    
+
+  </div>
+  </details>
 
 
 <details>
@@ -345,12 +347,15 @@
   $curl ifconfig.me
   ```
 
+
+
 </div>
 </details>
 
 <details>
-<summary>4. Nginx 설치 및 세팅</summary>
+<summary>4. Nginx 설치 및 설정</summary>
 <div>
+
 
 - Nginx 설치 후 버전 확인
 
@@ -440,10 +445,10 @@
 </div>
 </details>
 
-
 <details>
-<summary>5. Openvidu 설치 및 세팅</summary>
+<summary>5. Openvidu 설치 및 설정</summary>
 <div>
+
 
 - Openvidu Port 확보
 
