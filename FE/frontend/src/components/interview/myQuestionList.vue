@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!selected" class="col-6 col-md-3">
-    <h3 class="text-center">질문 모음집</h3>
-    <div style="height: 600px; overflow: auto; background-color:#dde1eb;">
+  <div v-if="!selected" class="col-12">
+    <!-- <h3 class="text-center">질문 모음집</h3> -->
+    <div style="height: 514px; overflow: auto; background-color:#dde1eb;">
       <div class="list-group qnasList" v-for="qnas in this.questionList" :key="qnas">
         <div class="btn-group">
           <button type="button" 
@@ -17,9 +17,13 @@
         </ul>
       </div>
     </div>
-    <button class="button button1 col-10" type="button" @click="submitChecked()">
-        선택 완료
-    </button>
+    <br>
+      <div class="d-flex justify-content-center">
+        <button class="selectbtn button button1 col-10" type="button" @click="submitChecked()">
+          선택 완료
+        </button>
+      </div>
+      
   </div>
 
   <div v-if="selected" id="sidebarMenu" class="col-6 col-md-3" >
