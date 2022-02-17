@@ -29,7 +29,7 @@
           :qnasTitle="question.qnasTitle"
           @removeQuestionList="removeQuestionList(question.qnasId)"
           @editQuestion="editQuestion(question.qnasId, $event)"
-          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId)"
+          @moveQuestionAnswerList="moveQuestionAnswerList(question.qnasId, question.qnasTitle)"
         />
       </ul>
     </div>
@@ -128,10 +128,11 @@ export default {
 
       })
     },
-    moveQuestionAnswerList(qnasId) {
+    moveQuestionAnswerList(qnasId, qnasTitle) {
       this.$router.push({
         name: 'QuestionAnswer',
-        params: {qnasId:qnasId}
+        params: {qnasId:qnasId,
+        qnasTitle: qnasTitle}
       })
     }
  

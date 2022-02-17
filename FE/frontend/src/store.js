@@ -14,6 +14,8 @@ const store = createStore({
             jwtToken: '',
             // audioDetect: '',
             nickname: '',
+            selected: false,
+            selectedlist: []
             
 
 
@@ -43,7 +45,14 @@ const store = createStore({
         },
        SET_NICKNAME(state, nickname) {
            state.nickname = nickname;
-       }
+       },
+       SET_SELECTED(state, selected) {
+        state.selected = selected;
+        },
+        SET_SELECTED_LIST(state, selectedlist) {
+            state.selectedlist = selectedlist;
+            },
+
 
 
         // toggleVideo(state, videoActive) {   // 토글 시도

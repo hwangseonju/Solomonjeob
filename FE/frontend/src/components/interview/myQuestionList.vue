@@ -1,49 +1,55 @@
 <template>
-  <nav v-if="!selected" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3">
-      <ul class="list-group ">
-        <div v-if="this.questionList.length===0">
-          <li class="list-group-item">
-            질문모음집이 없습니다.
-            <br>
-            내질문 모음집을 통해 면접 예상 질문을 등록해보세요 :)
-          </li>
-        </div>
-        <div v-if="this.questionList.length!==0">
-           <li v-for="qnas in this.questionList" :key="qnas" class="list-group-item">
-            <div class="box" >
-              <input class="form-check-input"  type="radio" name="radio" @click="checkedQuestion(qnas.qnasId)">
-                {{ qnas.qnasTitle }}
-              <button type="button" @click="getQuestionAnswerList(qnas.qnasId)" class="btn-light">o</button>
-            </div>
-            <div v-if="qnas.qnasId == this.qnasId">
-              <div v-for="qna in this.questionAnswerList" :key="qna" class="list-group-item">
-                {{ qna.qnaAnswer }}
-              </div>
-            </div>
-          </li>
-        </div>    
-      </ul>
-    </div>
-    <button  @click="submitChecked()">선택완료</button>
-  </nav>
-  <nav v-if="propSelected" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3">
-      <ul class="list-group ">
-        <li v-for="(sqna,index) in this.selectedQuestionAnswerList" :key="(sqna,index)" class="list-group-item">
-          <div class="box" >
-            {{ sqna.qnaAnswer }}
-            {{ questionStop[index] }}
+    <div v-if="!selected"  class="d-md-block collapse">
+      <div class="">
+        <ul class="list-group">
+          <div v-if="this.questionList.length===0">
+            <li class="list-group-item text-white bg-dark align-items-center">
+              질문모음집이 없습니다.
+              <br>
+              내질문 모음집을 통해 면접 예상 질문을 등록해보세요 :)
+            </li>
           </div>
-        </li>
-        
-      </ul>
+          <div v-if="this.questionList.length!==0">
+            <li v-for="qnas in this.questionList" :key="qnas" class="list-group-item text-white bg-dark align-items-center">
+              <div class="box align-items-center" >
+                <input class="form-check-input align-items-center m-1"  type="radio" name="radio" @click="checkedQuestion(qnas.qnasId)">
+                  {{ qnas.qnasTitle }}
+                <button type="button" @click="getQuestionAnswerList(qnas.qnasId)" class="btn-light">
+                  <i class="fas fa-solid fa-angle-down"></i>
+                </button>  
+                
+                
+                
+              </div>
+              <div v-if="qnas.qnasId == this.qnasId">
+                <div v-for="qna in this.questionAnswerList" :key="qna" class="list-group-item text-white bg-dark align-items-center">
+                  {{ qna.qnaAnswer }}
+                </div>
+              </div>
+            </li>
+          </div>    
+        </ul>
+      </div>
+      <button  @click="submitChecked()">선택완료</button>
     </div>
-    <button v-if="questionFinish == 0" @click="start">start</button>
-    <button v-if="0 < questionFinish & questionFinish < selectedQuestionAnswerList.length" @click="next">next</button>
-    <button v-if="questionFinish == selectedQuestionAnswerList.length" @click="next">finish</button>
-    <button v-if="questionFinish > selectedQuestionAnswerList.length" >나가기</button>
-  </nav>
+    <nav v-if="selected" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="list-group ">
+          <li v-for="(sqna,index) in this.selectedlist" :key="(sqna,index)" class="list-group-item">
+            <div class="box" >
+              {{ sqna.qnaAnswer }}
+              {{ questionStop[index] }}
+            </div>
+          </li>
+          
+        </ul>
+      </div>
+      <button v-if="questionFinish == 0" @click="start">start</button>
+      <button v-if="0 < questionFinish & questionFinish < selectedlist.length" @click="next">next</button>
+      <button v-if="questionFinish == selectedlist.length" @click="next">finish</button>
+      <button v-if="questionFinish > selectedlist.length" >나가기</button>
+    </nav>
+  
 </template>
 
 <script >
@@ -54,7 +60,7 @@ import {  mapState, mapMutations } from 'vuex'
 export default {
   emits:[],
   props:{
-    selected: {},
+  
     formattedElapsedTime: {}
 
   },
@@ -66,9 +72,8 @@ export default {
       qnasId: 0,
       questionList:[],
       questionAnswerList:[],
-      selectedQuestionAnswerList:[],
+      // selectedQuestionAnswerList:[],
       selectedQuestionIdx: null,
-      propSelected: this.selected,
       propFormattedElapsedTime: this.formattedElapsedTime,
       questionStop:[],
       questionFinish: 0,
@@ -78,11 +83,11 @@ export default {
       }
   },
   computed : {
-      ...mapState(["isLogin", "signinIdx",]),
+      ...mapState(["isLogin", "signinIdx", "selected", "selectedlist"]),
 
   },
   methods : {
-      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID",]),
+      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", "jwtToken","SET_SELECTED_LIST"]),
     setVoiceList() {
       this.voices = window.speechSynthesis.getVoices();
       },
@@ -123,13 +128,7 @@ export default {
       utterThis.rate = 1; //속도
       window.speechSynthesis.speak(utterThis);
     },
-    getToken: function () {
-      const token = localStorage.getItem('jwt')
-      const config = {
-        'jwt-auth-token': token
-      }
-      return config
-    },
+
     getMemberIdx() {
       this.memberIdx = this.signinIdx
     },
@@ -139,7 +138,7 @@ export default {
         method: 'get',
         url: '/api/qnas/my/' + this.memberIdx,
         data: {qnasMemberId:memberIdx , qnasTitle:'질문모음집'},
-        headers: this.getToken()
+        headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(res => {
         console.log(res)
@@ -154,7 +153,7 @@ export default {
         instance({
           method: 'get',
           url: '/api/qna/my/' + qnasId,
-          headers: this.getToken()
+          headers: {'jwt-auth-token': this.jwtToken}
         })
         .then(res => {
           console.log(res)
@@ -166,6 +165,7 @@ export default {
         this.questionAnswerList=[]
       }
     },
+
     checkedQuestion(qnasId) {
       this.selectedQuestionIdx = qnasId
     },
@@ -173,8 +173,7 @@ export default {
       if(this.questionList.length!==0){
         if(this.selectedQuestionIdx===null){
           if(confirm("질문모음집을 선택하지않고 입장하시겠습니까?")){
-            this.propSelected = true
-            this.$emit('changeForm', this.propSelected)
+            this.$emit('changeForm')
           }else{
             return;
           }
@@ -182,34 +181,32 @@ export default {
           instance({
             method: 'get',
             url: '/api/qna/my/' + this.selectedQuestionIdx,
-            headers: this.getToken()
+            headers: {'jwt-auth-token': this.jwtToken}
             })
             .then(res => {
               // console.log(res)
-              this.selectedQuestionAnswerList = res.data
-              console.log(this.selectedQuestionAnswerList)
+              this.$store.commit("SET_SELECTED_LIST", res.data)
+              // console.log(this.selectedQuestionAnswerList)
                       
             })
-            this.propSelected = true
-            this.$emit('changeForm', this.propSelected)
+            this.$emit('changeForm')
             // this.firstSpeak()
         }
       }else {
-        this.propSelected = true
-        this.$emit('changeForm', this.propSelected)
+        this.$emit('changeForm')
       }
     },
     next() {
       this.questionStop.push(this.formattedElapsedTime);
       this.questionFinish += 1
-      if (this.questionFinish  == this.selectedQuestionAnswerList.length + 1) {
+      if (this.questionFinish  == this.selectedlist.length + 1) {
         this.$emit('stopWatch')}
       // console.log(text)
       this.speak()
     },
     speak() {
       var speechidx = this.speakIdx
-      var text = this.selectedQuestionAnswerList[speechidx].qnaAnswer
+      var text = this.selectedlist[speechidx].qnaAnswer
       console.log(text)
       this.speech(text)
       
@@ -238,5 +235,8 @@ export default {
 }
 button {
   margin-left: auto;
+}
+.ul {
+  background-color: gray;
 }
 </style>
