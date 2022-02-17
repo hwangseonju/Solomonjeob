@@ -1,7 +1,7 @@
 <template>
   <app-header></app-header>
   
-  <div class="container container_style">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-3">
         <question-answer-form></question-answer-form>
