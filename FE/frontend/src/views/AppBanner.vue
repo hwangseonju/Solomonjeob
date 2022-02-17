@@ -1,43 +1,60 @@
 <template>
 	<section  class="flex-container flex-end">
-        <div class="flex-item text-all">
-            <div class="text">면접 연습하고 싶을 때, <br>편하게 연습할 수 있도록 </div>
-            <div class="text_1"><h1>당신의 면접을 도와드립니다</h1></div>
+        <div class="flex-item">
+            <div class="left_place">
+                <div class="text">
+                    <p class="solo_style">SOLO </p> 
+                    <p>&nbsp; 준비해서</p>
+
+                </div>
+                <div class="text">
+                    <p class="solo_style">&nbsp;솔로몬</p> 
+                    <p>&nbsp;처럼 답변말하기</p>
+                </div>
+                <div class="btn_place"><button class="scroll_style w-btn" @click="scrolldown">이용방법</button></div>
+            </div>
+
 
         </div>
         <div class="flex-item"><img src="@/assets/developer.svg" alt="Developer" class="img "/></div>
-        
     </section>
 
-    <section class="container container_text">
-        <h1 class="container_manual">솔로몬접을 사용해보세요!</h1>
-    </section>
-	<section  class="container">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-            <img src="@/assets/list.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block" >
+
+	<section  class="container_text manual_style">
+        <h1 class="container_manual">면접 연습을 해보세요!</h1>
+        <br>
+        <br>
+        <div class="row all_img">
+        <div class="col-4">
+            <div class="card card_first">
+            <img src="@/assets/list.gif" class="card-img-top" style="height: 50%; width:70%; padding: 10%; margin-left: auto; margin-right: auto; display: block" >
+            <br>
             <div class="card-body kopub_text">
-                <h5 class="card-title">질문 리스트 만들기</h5>
-                <p class="card-text">나만의 면접 질문 리스트를 만들어 보세요</p>
+                <h5 class="card_title">질문 리스트 만들기</h5>
+                <br>
+                <p class="card_content">상단의 내질문모음집을 클릭하여 <br> 나만의 질문 리스트를 만들어보세요</p>
             </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card h-100">
-            <img src="@/assets/interview.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block" >
+        <div class="col-4">
+            <div class="card card_second">
+            <img src="@/assets/interview.gif" class="card-img-top" style="height: 50%; width:70%; padding: 10%; margin-left: auto; margin-right: auto; display: block" >
+            <br>
             <div class="card-body kopub_text">
-                <h5 class="card-title">면접 연습하기</h5>
-                <p class="card-text">면접 연습을 해보세요</p>
+                <h5 class="card_title">면접 연습하기</h5>
+                <br>
+                <p class="card_content">상단의 면접 연습하기를 클릭하여 <br>  나만의 면접 연습을 해보세요</p>
             </div>
             </div>
         </div>
-        <div class="col">
-            <div class="card h-100">
-            <img src="@/assets/thumbup.gif" class="card-img-top" style="width:60%; margin-left: auto; margin-right: auto; display: block " >
+        <div class="col-4">
+            <div class="card card_third">
+            <img src="@/assets/thumbup.gif" class="card-img-top" style="height: 50%; width:70%; padding: 10%; margin-left: auto; margin-right: auto; display: block " >
+            <br>
             <div class="card-body kopub_text">
-                <h5 class="card-title">피드백 받기</h5>
-                <p class="card-text">피드백을 받아 부족한 점을 개선해보세요</p>
+                <h5 class="card_title">피드백 받기</h5>
+                <br>
+                <p class="card_content">면접 연습에 참여할 지인을 초대하여 <br> 면접 연습 후 피드백을 받아보세요</p>
             </div>
             </div>
         </div>
@@ -68,6 +85,19 @@ export default {
 			// theme: '',
 		};
 	},
+    methods : {
+       scrolldown() {
+        //    window.scroll({ top: 1100, left: 0, behavior: 'smooth' });
+        const element1 = document.querySelector('.container_text');
+        const elementTop1 = element1.getBoundingClientRect().top;
+        window.scroll({ top: elementTop1, left: 0, behavior: 'smooth'});
+       },
+       scrollup() {
+           window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+       },
+
+
+    }
 
 
 };
@@ -90,128 +120,16 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
-
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 .footer_style {
-    font-family: 'KoPubDotumMedium';
+    font-family: 'Pretendard-Regular';
 
 
-}
-.fighting {
-    padding-top: 20%;
-}
-.fighting_style {
-    top: 60%;
-    left: 20%;
-    right: 20%;
-    color: white;
-    position:absolute;
-    z-index: 0;
-    font-family: YanoljaYacheR;
-    font-size: 500%;
-}
-.clock {
-    top: 30%;
-    left:10%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: up-down 2s infinite ease-in-out alternate;
-
-}
-.growup {
-    top: 80%;
-    left:35%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: shake 2s infinite ease-in-out alternate;
-
-}
-.mic{
-    top: 40%;
-    left:30%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: shake 2s infinite ease-in-out alternate;
-
-}
-.handshake {
-    top: 70%;
-    left:15%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: up-down 2s infinite ease-in-out alternate;
-
-}
-.laptop {
-    top: 25%;
-    left:45%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: up-down 2s infinite ease-in-out alternate;
-
-}
-.book{
-    top: 40%;
-    left:60%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: shake 2s infinite ease-in-out alternate;
-
-}
-.light {
-    top: 70%;
-    left:55%;
-
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-    animation: up-down 2s infinite ease-in-out alternate;
-
-}
-.man {
-    top: 30%;
-    right:10%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-}
-.woman {
-    top: 32%;
-    left:3%;
-    position:absolute;
-    /* display: block; */
-    z-index: 1;
-
-}
-@keyframes up-down {
-    from{
-        transform: translatey(0px);
-    }
-    to{
-        transform: translatey(-20px);
-    }
-}
-@keyframes shake {
-    20% {
-        transform: rotate(8deg);
-    }
-    40% {
-        transform: rotate(-6deg);
-    }
-    60% {
-        transform: rotate(3deg);
-    }
-    80% {
-        transform: rotate(-3deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
 }
 
 
@@ -222,20 +140,28 @@ export default {
     margin-top: 5%
 }
 .container_text {
-    font-family: 'YanoljaYacheR';
-    color: rgb(75, 137, 220);
+    /* background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
+    background-blend-mode: screen; */
+    /* background-color: #cfe2fc; */
+    /* background-color: #79a2ff; */
+    background-color: #a4bdf7;
+    font-family: 'Pretendard-Regular';
+    color: black;
     text-align: center;
+    padding-right: 10%;
+    padding-left: 10%;
 }
 .container_manual{
-    font-size: 500%;
-    padding-top: 10%;
+    font-size: 300%;
+    padding-bottom: 5%;
+    font-weight: bolder;
+    font-family: 'Pretendard-Regular';
+    color: black;
 }
-.kopub_text {
-    font-family: 'KoPubDotumMedium';
-    text-align: center;
-
+.manual_style {
+    padding-top: 3%;
+    padding-bottom: 10%;
 }
-
 
 .img {
     width: 70%;
@@ -257,28 +183,67 @@ export default {
 
 .flex-container{
             display: flex;
+            /* background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); */
+            /* background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%); */
+            /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
+            /* background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); */
+
+            padding-bottom: 9%;
         }
         .flex-container.flex-end{justify-content: flex-end;}
         .text{
-            font-family: 'KoPubDotumMedium';
-            font-size: 200%;
-            padding-left: 35%;
-            text-align: center;
-            padding-right: 15%;
+            display: inline-flex;
+            font-family: 'Pretendard-Regular';
+            font-size: 250%;
+            padding-left: 30%;
+            text-align: right;
+            padding-right: 10%;
             vertical-align: middle;
-            padding-top: 20%;
             animation: fadein 5s;
             -moz-animation: fadein 5s; /* Firefox */
             -webkit-animation: fadein 5s; /* Safari and Chrome */
             -o-animation: fadein 5s; /* Opera */
             }
         .text_1{
-            font-family: 'KoPubDotumMedium';
+            font-family: 'Pretendard-Regular';
+            
             font-size: 150%;
             font-weight: bolder;
             color: rgb(75, 137, 220);
             text-align: right;
-            padding-right: 7%;
+            padding-right: 3%;
+            vertical-align: middle;
+            padding-top: 10%;
+            animation: fadeup 3s;
+            animation-delay: 2s;
+            -moz-animation: fadeup 3s; /* Firefox */
+            -webkit-animation: fadeup 3s; /* Safari and Chrome */
+            -o-animation: fadeup 3s; /* Opera */
+        }
+        .text_2 {
+            
+            font-family: 'Pretendard-Regular';
+            font-size: 150%;
+            font-weight: bolder;
+            color: rgb(75, 137, 220);
+            text-align: right;
+            padding-right: 3%;
+            vertical-align: middle;
+            padding-top: 10%;
+            animation: fadeup 3s;
+            animation-delay: 2s;
+            -moz-animation: fadeup 3s; /* Firefox */
+            -webkit-animation: fadeup 3s; /* Safari and Chrome */
+            -o-animation: fadeup 3s; /* Opera */
+        }
+        .text_3 {
+            
+            font-family: 'Pretendard-Regular';
+            font-size: 150%;
+            font-weight: bolder;
+            color: rgb(75, 137, 220);
+            text-align: right;
+            padding-right: 3%;
             vertical-align: middle;
             padding-top: 10%;
             animation: fadeup 3s;
@@ -295,6 +260,14 @@ export default {
             border: 2px solid black;
             margin-block: 20%;
         }
+        .btn_style {
+            background-color: rgb(97, 97, 235);
+            color: white;
+            font-family: 'Pretendard-Regular';
+            border: 0px;
+  
+        }
+
 @keyframes fadeup {
     from {
         opacity: 0;
@@ -342,14 +315,123 @@ main {
 }
 
 
-        .flex-item{
-            width: 100%;
-            height: 100%;
-            padding-top: 5%;
+.flex-item{
+    width: 100%;
+    height: 100%;
+    padding-top: 5%;
 
-        }
+}
 .fade-in-box {
   display: inline-block;
   padding: 10px;
+}
+
+.w-btn {
+    font-family: 'Pretendard-Regular';
+    position: relative;
+    background-color: white;
+    border: 2px solid #6974FF;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bolder;
+    transition: 0.25s;
+    color: #6974FF;
+    font-size: 150%;
+    
+}
+.scroll_style:hover {
+    background-color: #6974FF;
+    color: white;
+}
+
+.down_style {
+    color: rgb(53,126,255);
+    cursor: pointer;
+}
+.scroll_style {
+    font-family: 'Pretendard-Regular';
+    color: #6974FF;
+    animation: fadeup 3s;
+    animation-delay: 2s;
+    -moz-animation: fadeup 3s; /* Firefox */
+    -webkit-animation: fadeup 3s; /* Safari and Chrome */
+    -o-animation: fadeup 3s; /* Opera */
+}
+.btn_place {
+    padding-top: 5%;
+    padding-left: 18%;
+}
+.solo_style {
+    font-weight: bolder;
+    color: #6974FF;
+
+}
+.left_place {
+    padding-top: 15%;
+    text-align: center;
+}
+.all_img {
+    padding:0%;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card_style {
+    height: 200%;
+}
+.card_first {
+    width: 80%;
+    height: 110%;
+    border-radius: 10px;
+    margin-left: auto;
+    
+}
+.card_second {
+    width: 80%;
+    height: 110%; 
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+
+ 
+}
+.card_third {
+    width: 80%;
+    height: 110%;  
+    border-radius: 10px;
+
+}
+.card_first:hover {
+    transform: scale( 1.1 );
+    transition: 0.5s;
+    box-shadow: 5px 5px grey;
+
+}
+.card_second:hover {
+    transform: scale( 1.1 );
+    transition: 0.5s;
+    box-shadow: 5px 5px grey;
+}
+.card_third:hover {
+    transform: scale( 1.1 );
+    transition: 0.5s;
+    box-shadow: 5px 5px grey;
+
+}
+.card_title {
+    font-family: 'Pretendard-Regular';
+    text-align: center;
+    font-weight: bolder;
+    font-size: 170%;
+}
+.card_content {
+    font-family: 'Pretendard-Regular';
+    text-align: center;
+    font-size: 120%;
+    padding-top: 5%;
+    
+
 }
 </style>

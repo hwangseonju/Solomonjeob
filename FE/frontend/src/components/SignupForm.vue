@@ -15,7 +15,7 @@
               </div>
 
           </div>
-          <div >
+          <div>
               <input class="id_style" placeholder="비밀번호" type="password" v-model="credentials.memberPwd"/>    
           </div>
           <p class="pwlengthcheck" v-if="credentials.memberPwd != '' && (0 < (credentials.memberPwd).length && (credentials.memberPwd).length < 8) ">비밀번호는 최소 8자리 이상 입력해주세요</p>
@@ -28,7 +28,7 @@
           <div>
               <input class="name_style" placeholder="닉네임" v-model="credentials.nickName"/>    
           </div>
-        <button :disabled="credentials.memberPwd != '' && (0 < (credentials.memberPwd).length && (credentials.memberPwd).length < 8) || idresult == '이미 사용중인 아이디입니다.' || idresult == '이메일 양식에 맞게 입력해주세요' || idresult == '' || (credentials.memberPwd !== credentials.passwordConfirmation)" class="btn" @click.prevent="signup">회원 가입</button>
+        <button :disabled="credentials.memberPwd != '' && (0 < (credentials.memberPwd).length && (credentials.memberPwd).length < 8) || idresult == '이미 사용중인 이메일입니다.' || idresult == '이메일 양식에 맞게 입력해주세요'  " class="btn" @click.prevent="signup">회원 가입</button>
       </form>
     </div>
   </div>
@@ -78,6 +78,15 @@ export default {
       } else if (!this.credentials.nickName) {
         msg = "닉네임을 입력해주세요"
         err = false;
+      } else if (this.idresult == '') {
+        msg = "중복확인을 완료해주세요"
+        err = false;
+      } else if (this.idresult == '이미 사용중인 이메일입니다.') {
+        msg = "중복확인을 완료해주세요"
+        err = false;
+      } else if (this.credentials.memberPwd != this.credentials.passwordConfirmation) {
+        msg = "비밀번호가 일치하지 않습니다";
+        err = false
       }
     if (!err) alert(msg);
     else {
@@ -101,12 +110,12 @@ export default {
           url: "/api/members/check/" + this.credentials.memberId,
         }).then((data) => {
           if (data.data == "fail") {  // 반대로 되어있음
-            this.idresult = "사용가능한 아이디 입니다!";
+            this.idresult = "사용가능한 이메일입니다!";
             if (!this.isUseremailValid) {
               this.idresult = "이메일 양식에 맞게 입력해주세요"
             }
           } else{
-            this.idresult = "이미 사용중인 아이디입니다.";
+            this.idresult = "이미 사용중인 이메일입니다.";
           }
         });
       }
@@ -226,9 +235,11 @@ export default {
   margin-right: 15%;
 }
 .duplicatecheck:hover {
+  font-family: 'Noto Sans KR', sans-serif;
   color: rgb(75, 137, 220);
   text-decoration: underline;
   text-underline-position: under;
+  font-weight: bolder;
 }
 .duplicateresult {
   color: rgb(75, 137, 220);

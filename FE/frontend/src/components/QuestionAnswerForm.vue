@@ -1,32 +1,18 @@
 <template>
-  <!-- <nav >
-    <div class="position-sticky pt-3">
-      <ul class="nav flex-column">
-        <button type="button" class="btn btn-light" @click="insertQuestionList">질문추가</button>
-        <li v-for="question in this.questionList" :key="question" class="nav-item row">
-          <div @click="moveQuestionAnswerList(question.qnasId)">          
-            <input class="quesinput" type="text" :disabled="disabled != question.qnasId" v-model="question.qnasTitle">
-            <button  @click="editQuestion(question.qnasId, question.qnasTitle)">
-              <span class="fa fa-edit"></span>
-            </button>
-            <button @click="removeQuestionList(question.qnasId)">
-              <span class="fa fa-trash"></span>
-            </button>
-          </div> 
-        </li>
-      </ul>
-    </div>
-  </nav> -->
-  <div class="container">
+  <div class="container container_style">
     <div class="row mb-3">
-      <button type="button" class="btn btn-light listplus" @click="insertQuestionList">질문모음집추가</button>
+      <p class="p_style">질문모음집</p>
+      <div class="btn_place">
+        <button type="button" class="btn btn-light listplus" @click="insertQuestionList"><i class="fas fa-plus"></i></button>
+      </div>
+
     </div>
     <div class="col-12 li_style">
       <ul class="list-group">
         <question-answer
-          v-for="(question, idx) in questionList"
+          v-for="question in questionList"
           class="question_style"
-          :key="idx"
+          :key="question"
           :qnasTitle="question.qnasTitle"
           @removeQuestionList="checkremoveQuestionList(question.qnasId)"
           @editQuestion="editQuestion(question.qnasId, $event)"
@@ -36,11 +22,12 @@
     </div>
   </div>
 
+
 </template>
 
 <script >
 import { instance } from '@/api/index.js'
-import {  mapState, mapMutations } from 'vuex'
+import {  mapState, mapMutations, mapActions } from 'vuex'
 import QuestionAnswer from '@/components/question/QuestionAnswer.vue'
 export default {
 
@@ -57,12 +44,12 @@ export default {
     }
   },
   computed : {
-      ...mapState(["isLogin", "signinIdx", "jwtToken"]),
+      ...mapState(["isLogin", "signinIdx", "jwtToken", 'memberIdx', 'questionList']),
 
   },
   methods : {
-      ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", "SET_JWT_TOKEN"]),
-
+    ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER_ID", "SET_JWT_TOKEN"]),
+    ...mapActions(['getQuestionList', 'insertQuestionList', 'editQuestion', 'removeQuestionList']),
     getMemberIdx() {
       this.memberIdx = this.signinIdx
     },
@@ -73,7 +60,7 @@ export default {
       instance({
         method: 'get',
         url: '/api/qnas/my/' + this.memberIdx,
-        data: {qnasMemberId:memberIdx , qnasTitle:'질문모음집'},
+        data: {qnasMemberId:memberIdx , qnasTitle:'제목'},
         headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(res => {
@@ -84,7 +71,7 @@ export default {
       instance({
         method: 'post',
         url: '/api/qnas',
-        data: {qnasMemberId:this.memberIdx , qnasTitle:'질문모음집'},
+        data: {qnasMemberId:this.memberIdx , qnasTitle:'제목'},
         headers: {'jwt-auth-token': this.jwtToken}
       })
       .then(() => {
@@ -124,8 +111,9 @@ export default {
       })
       .then(() => {
         // console.log(res)
-        // this.$router.go()
         this.getQuestionList()
+        this.$router.go()
+
       })
     },
     checkremoveQuestionList(number) {
@@ -142,7 +130,6 @@ export default {
         params: {qnasId:qnasId, qnasTitle:qnasTitle}
       })
     },
-    
     
  
 
@@ -170,35 +157,61 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 /* .quesinput{
   width: 70%;
 } */
-
-.listplus {
-  font-family: 'Noto Sans KR', sans-serif;
+.p_style {
+  font-family: 'Pretendard-Regular';
   font-weight: bolder;
+  text-align: center;
+  font-size: 120%;
+
+}
+.listplus {
+  font-family: 'Pretendard-Regular';
+  font-weight: bolder;
+  width: 100%;
   
 
 }
 .listplus:hover {
   color: rgb(75, 137, 220);
 }
+
 .question_style {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
 }
 
 .question_style:hover {
-  background-color: rgb(75, 137, 220);
+  background-color: rgb(90, 156, 241);
+  /* background-color: #1572A1; */
   cursor: pointer;
   color: white;
-  font-size: 110%;
 }
 .question_style:focus {
-  background-color: rgb(75, 137, 220);
+  background-color: rgb(90, 156, 241);
   color: white;
   font-size: 110%;
 }
 .li_style {
   padding-right: 8%;
 }
+.container_style {
+  border-radius: 5px 5px;
+  padding-bottom: 10%;
+  padding-top: 10%;
+  background-color: #EEEEEE;
+  /* background-color: lightgrey; */
+  /* background-color: #9AD0EC; */
+
+}
+
+
+
 </style>

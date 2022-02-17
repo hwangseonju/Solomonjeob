@@ -1,6 +1,6 @@
 <template>
   <main >
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
       <h1 class="h2_style">{{ this.qnasTitle }}</h1>
       <!-- <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
@@ -9,16 +9,19 @@
       </div> -->
     </div>
       <div class="flex-container">
-        <ul class="d-flex d-flex_style">
-          <li class="item" v-for="(qna,index) in this.questionAnswerList" :key="(qna,index)"  >
-            <button class="button_style" @click="moveQuestionAnswerDetail(qna.qnaAnswer,qna.qnaContent, qna.qnaId)">{{ index + 1 }}</button>
-          </li>
-        </ul>
         <div>
           <div class="btn-group me-2">
             <button @click="insertQuestionAnswer" type="button" class="btn btn-sm plus_style"><i class="fas fa-plus"></i></button>
           </div>
         </div>
+        <ul class="d-flex d-flex_style">
+          <li class="item" v-for="(qna,index) in this.questionAnswerList" :key="(qna,index)"  >
+            <button class="button_style" @click="moveQuestionAnswerDetail(qna.qnaAnswer,qna.qnaContent, qna.qnaId)">{{ index + 1 }}</button>
+
+          </li>
+
+        </ul>
+
       </div>
       <br>
     <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"> -->
@@ -54,11 +57,14 @@ export default {
     }
   },
 
+  
+
     computed : {
       ...mapState(["isLogin", "signinIdx", "jwtToken"]),
 
   },
-  methods : {
+
+    methods : {
     getQuestionAnswerList() {
       instance({
         method: 'get',
@@ -86,7 +92,7 @@ export default {
       })
       .catch(err => {
         console.log(err)
-        alert('실패')
+        alert('질문모음집에서 추가해주세요')
       })
     },
     editQuestionAnswer(newvalue) {
@@ -200,6 +206,12 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 ul {
   list-style: none;
 }
@@ -209,12 +221,12 @@ ul {
     flex-wrap: wrap;
 }
 .h2_style {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
 }
 .plus_style {
   border: 0.1px solid;
   /* background-color: #F8F9FA; */
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
   background-color: grey;
   color: white;
   padding: 0%;
@@ -240,7 +252,7 @@ ul {
   border: 1px solid grey;
   min-width: 32.25px;
   max-width: 100%;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard-Regular';
 }
 .button_style:hover {
   background-color: rgb(75, 137, 220);

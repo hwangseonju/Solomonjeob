@@ -19,11 +19,11 @@
         </div>
         <br>
       </form>
-        <div class="snsbtn">
+        <!-- <div class="snsbtn">
           <a href="https://kauth.kakao.com/oauth/authorize?client_id=e35ccc21d2cf1759f526eef14ea4b921&redirect_uri=https://i6c207.p.ssafy.io/api/members/login/oauth_kakao&response_type=code">
             <img  src="@/assets/kakao.png">
           </a>
-        </div>
+        </div> -->
     </div>
   </div>
 

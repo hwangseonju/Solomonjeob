@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white main">
     <div class="container-fluid">
-      <router-link to="/Home"> <img src="@/assets/solomon_logo2.png" class="img"> </router-link>
+      <router-link to="/Home"> <img src="@/assets/logo_semibold.png" class="img"> </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -15,7 +15,7 @@
                 <router-link class="nav-link" to="/question" @click="checkLogin">내질문모음집</router-link>
               </li>
               <!-- <li class="nav-item">
-                <a class="nav-link" href="#">고객센터</a>
+                <router-link class="nav-link" to="/videoDownload">녹화영상</router-link>
               </li> -->
               <li class="nav-item" v-if="!isLogin">
                 <router-link class="nav-link" to="/login" >로그인</router-link>
@@ -46,9 +46,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(["isLogin"])
+      ...mapState(["isLogin"]),
+
   },
   methods: {
+
     ...mapMutations(["SET_IS_LOGIN", "SET_GET_USER", "SET_JWT_TOKEN"]),
     logout() {
       this.SET_IS_LOGIN(false);
@@ -59,7 +61,7 @@ export default {
       // this.SET_JWT_TOKEN('');
       // location.reload();  //추가
       alert('로그아웃되었습니다');
-      this.$router.push('Login')
+      this.$router.replace('/')
     },
     checkLogin() {
       if (!this.isLogin) {
@@ -81,13 +83,25 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
+@font-face {
+    font-family: 'Cafe24Ohsquareair';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202@1.0/Cafe24Ohsquareair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 .navbar-nav > li {
   padding-left:25px;
   padding-right:25px;
   /* border-bottom: 1px solid #666; */
-  font-size: 120%;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 500;
+  font-size: 130%;
+  font-family: 'Pretendard-Regular';
+  font-weight: bolder;
 }
 .navbar-nav .nav-item a:hover {
   color: rgb(75, 137, 220);
