@@ -2,6 +2,14 @@
 
 
 
+### 목차
+
+------
+
+[TOC]
+
+
+
 ### 🖌️ 솔로몬접 소개
 
 ------
@@ -130,7 +138,7 @@
 | 구분           | 링크                                                         |
 | -------------- | ------------------------------------------------------------ |
 | Notion         | [notion](https://feline-pluto-dd6.notion.site/393ec2193d8d4ec2976a198e5b00a699) |
-| Documents      | ppt 다운 링크                                                |
+| Documents      | ppt                                                          |
 | Git Convention | [notion-convention](https://feline-pluto-dd6.notion.site/branch-commit-convention-bc49a8657c5b4a9abfa97a9df1d98c89) |
 | WireFrame      | [Oven](https://ovenapp.io/view/xq832UXEkW43RQMdULxiaBkPIe0sGuVc/) |
 
@@ -645,15 +653,10 @@ bootjar를 이용하여 빌드 하면 build 폴더가 생성된다.
 
 #### Back-end
 
-- [보러가기:heavy_check_mark:](./BE/README.md)
+- [보러가기 :heavy_check_mark:](./BE/README.md)
 
 #### Front-end
 
-- [보러가기:heavy_check_mark:](./FE/README.md)
+- [보러가기 :heavy_check_mark:](./FE/README.md)
 
   
-
-### ©️ Copyright
-
-------
-
