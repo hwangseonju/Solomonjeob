@@ -27,7 +27,7 @@
 | Name     | 이주용                                         | 김도연                                 | 김신아                                       | 노건우                               | 황선주                                         |
 | -------- | ---------------------------------------------- | -------------------------------------- | -------------------------------------------- | ------------------------------------ | ---------------------------------------------- |
 | Profile  | ![](./Img/이주용.jpg)                          | ![](./Img/김도연.png)                  | ![](./Img/김신아.jpg)                        | ![](./Img/노건우.jpg)                | ![](./Img/황선주.jpg)                          |
-| Position | 팀장 & Frontend & UI/UX                        | Backend                                | Backend                                      | Frontend & UI/UX                     | Backend & WebRTC                               |
+| Position | 팀장 & Frontend                                | Backend                                | Backend                                      | Frontend                             | Backend                                        |
 | Git      | @[leejuyong12](https://github.com/leejuyong12) | @[kid-owo](https://github.com/kid-owo) | @[dodssockii](https://github.com/dodssockii) | @[rogonu](https://github.com/rogonu) | @[hwangseonju](https://github.com/hwangseonju) |
 
 
