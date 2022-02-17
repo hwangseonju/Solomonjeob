@@ -1,4 +1,4 @@
-![](C:\Users\multicampus\Desktop\readme\pic\solomon_banner.png)
+![](./Img/solomon_banner.png)
 
 
 
@@ -60,7 +60,7 @@
 
 ##### Architecture
 
-![](C:\Users\multicampus\Desktop\readme\pic\architecture.png)
+![](./Img/architecture.png)
 
 
 
@@ -648,11 +648,11 @@ bootjar를 이용하여 빌드 하면 build 폴더가 생성된다.
 
 #### Back-end
 
-- [보러가기:heavy_check_mark:](./BE/readm.md)
+- [보러가기:heavy_check_mark:](./BE/README.md)
 
 #### Front-end
 
-- [보러가기:heavy_check_mark:](./FE/readme.md)
+- [보러가기:heavy_check_mark:](./FE/README.md)
 
   
 
