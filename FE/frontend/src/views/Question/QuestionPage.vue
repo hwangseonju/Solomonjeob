@@ -1,7 +1,18 @@
 <template>
   <app-header></app-header>
+
   <br>
     <div class="container all_container_style">
+
+  
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <question-answer-form></question-answer-form>
+      </div>
+      <div class="col-9">
+        <router-view :key="$route.fullPath"></router-view>
+      </div>
       
       <div class="row">
         <div class="col-3">

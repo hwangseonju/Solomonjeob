@@ -110,6 +110,7 @@ export default {
         })
         .then((res) => {
           console.log(res)
+          this.getQuestionAnswerList()
           this.qnaAnswer = res.data.qnaAnswer
           this.qnaContent =res.data.qnaContent
         })
