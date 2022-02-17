@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white main">
     <div class="container-fluid">
-      <router-link to="/Home"> <img src="@/assets/solomon_logo2.png" class="img"> </router-link>
+      <router-link to="/Home"> <img src="@/assets/logo_semibold.png" class="img"> </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

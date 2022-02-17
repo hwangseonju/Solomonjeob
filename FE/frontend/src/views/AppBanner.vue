@@ -21,7 +21,7 @@
 
 
 	<section  class="container_text manual_style">
-        <h1 class="container_manual">솔로몬접을 이용해보세요!</h1>
+        <h1 class="container_manual">면접 연습을 해보세요!</h1>
         <br>
         <br>
         <div class="row all_img">
@@ -43,7 +43,7 @@
             <div class="card-body kopub_text">
                 <h5 class="card_title">면접 연습하기</h5>
                 <br>
-                <p class="card_content">상단의 면접연습하기를 클릭하여 <br>  나만의 면접 연습을 해보세요</p>
+                <p class="card_content">상단의 면접 연습하기를 클릭하여 <br>  나만의 면접 연습을 해보세요</p>
             </div>
             </div>
         </div>
@@ -87,7 +87,10 @@ export default {
 	},
     methods : {
        scrolldown() {
-           window.scroll({ top: 1000, left: 0, behavior: 'smooth' });
+        //    window.scroll({ top: 1100, left: 0, behavior: 'smooth' });
+        const element1 = document.querySelector('.container_text');
+        const elementTop1 = element1.getBoundingClientRect().top;
+        window.scroll({ top: elementTop1, left: 0, behavior: 'smooth'});
        },
        scrollup() {
            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -139,7 +142,9 @@ export default {
 .container_text {
     /* background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
     background-blend-mode: screen; */
-    background-color: #cfe2fc;
+    /* background-color: #cfe2fc; */
+    /* background-color: #79a2ff; */
+    background-color: #a4bdf7;
     font-family: 'Pretendard-Regular';
     color: black;
     text-align: center;
@@ -148,11 +153,13 @@ export default {
 }
 .container_manual{
     font-size: 300%;
-    padding-top: 9%;
+    padding-bottom: 5%;
     font-weight: bolder;
     font-family: 'Pretendard-Regular';
+    color: black;
 }
 .manual_style {
+    padding-top: 3%;
     padding-bottom: 10%;
 }
 
@@ -181,13 +188,13 @@ export default {
             /* background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%); */
             /* background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); */
 
-            padding-bottom: 8%;
+            padding-bottom: 9%;
         }
         .flex-container.flex-end{justify-content: flex-end;}
         .text{
             display: inline-flex;
             font-family: 'Pretendard-Regular';
-            font-size: 160%;
+            font-size: 250%;
             padding-left: 30%;
             text-align: right;
             padding-right: 10%;
@@ -325,13 +332,13 @@ main {
     background-color: white;
     border: 2px solid #6974FF;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 25px;
     border-radius: 15px;
     text-decoration: none;
     font-weight: bolder;
     transition: 0.25s;
     color: #6974FF;
-    font-size: 100%;
+    font-size: 150%;
     
 }
 .scroll_style:hover {
