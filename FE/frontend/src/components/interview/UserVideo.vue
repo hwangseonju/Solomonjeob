@@ -2,7 +2,6 @@
 <div v-if="streamManager">
 	<ov-video :stream-manager="streamManager"/>
 	<!-- <div><p>면접자 : {{ clientData }}</p></div> -->
-
 </div>
 </template>
 

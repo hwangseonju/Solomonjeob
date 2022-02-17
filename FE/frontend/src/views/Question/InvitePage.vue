@@ -1,52 +1,51 @@
 <template>
-<section class="flex-container">
-	<!-- <div class="position-absolute translate-middle-x">text</div> -->
-	<!-- position-absolute top-0 start-50 translate-middle -->
-	<div class="position-absolute top-30 start-50 translate-middle"><img src="@/assets/solomon_logo2.png" alt="Developer" class="img" style="width:150px; heigth:150px"/></div>
-	<div>
-		<br><br>
-	<!-- 왼쪽 img 삽입 -->
-	<div class="flex-item"><img src="@/assets/solomon_invite_img.png" alt="Developer" class="img "/></div>
-
-	<!-- 오른쪽 button & 글 삽입 -->
-	<div class="flex-item">
-        <div id="main-container" class="container">
-				<div id="join" v-if="!session">
-					<!-- <div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div> -->
-					<div id="join-dialog" class="jumbotron vertical-center">
-						<br>
-						<div class="form-group">
-							<h3>초대에 응하시겠습니까?</h3>
+	<section class="container-fluid">
+		<br>
+		<br>
+		<!--title-->
+		<div class="text-center">
+			<img class="img" src="@/assets/solomon_logo2.png" alt="Developer" style="width:150px; heigth:150px"/>
+		</div>
+		<!--content-->
+		<div>
+			<!--input page-->
+			<div class="flex-container" id="join" v-if="!session">
+				<div class="flex-item"><img src="@/assets/solomon_invite_img.png" alt="Developer" class="img "/></div>
+				<div class="flex-item">
+					<div id="main-container" class="container">
+						<div id="join-dialog" class="jumbotron vertical-center">
 							<br>
-							<p>
-								<label>닉네임</label>
-								<input v-model="myUserName" class="form-control" type="text" required>
-							</p>
-							<p class="text-center">
-								<button class="btn" style="background-color:#6974ff; color:white;" @click="checkSession(mySessionId)">입장하기</button>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div v-if="subscribers.length!==0">
-					<div id="session" v-if="session">
-						<div id="session-header">
-							<h1 id="session-title">{{ mySessionId }}</h1>
-							<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-						</div>
-						<div id="main-video" class="col-md-6">
-							<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-						</div>
-						<div id="video-container" class="col-md-6">
-							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+							<div class="form-group">
+								<h3>초대에 응하시겠습니까?</h3>
+								<br>
+								<p>
+									<label>닉네임</label>
+									<input v-model="myUserName" class="form-control" type="text" required>
+								</p>
+								<p class="text-center">
+									<button class="btn" style="background-color:#6974ff; color:white;" @click="checkSession(mySessionId)">입장하기</button>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!--output page-->
+			<div class="" v-if="subscribers!==undefined && session">
+				<div>
+					<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+				</div>
+				<div>
+					<div class="flex-container">
+						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+					</div>
+					<div class="flex-container" id="my-comp-template">
+						<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+					</div>
+				</div>
 			</div>
-  </div>
-</section>
+		</div>
+	</section>
 </template>
 
 <script>
@@ -194,6 +193,7 @@ export default {
 				this.subscribers.push(subscriber);
 			});
 
+
 				// On every Stream destroyed...
 				this.session.on('streamDestroyed', ({ stream }) => {
 					const index = this.subscribers.indexOf(stream.streamManager, 0);
@@ -201,6 +201,7 @@ export default {
 						this.subscribers.splice(index, 1);
 					}
 				});
+
 
 				// On every asynchronous exception...
 				this.session.on('exception', ({ exception }) => {
@@ -222,7 +223,7 @@ export default {
 								videoSource: undefined, // The source of video. If undefined default webcam
 								publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
 								publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-								resolution: '640x480',  // The resolution of your video
+								resolution: '300x300',  // The resolution of your video
 								frameRate: 30,			// The frame rate of your video
 								insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 								mirror: false       	// Whether to mirror your local video or not
@@ -377,10 +378,10 @@ export default {
   color: white;
 }
 .flex-container{
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	vertical-align: middle;
-	padding-top: 10%;
 }
 
 </style>

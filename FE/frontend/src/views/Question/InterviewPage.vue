@@ -1,71 +1,101 @@
 <template>
-  <div class="container-fluid">
-	
-    <div class="row">
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
-          <div id="main-container" class="container">
-				<div id="session" v-if="session && !selected">
-					<div id="session-header">
-						<h1 id="session-title">{{ mySessionId }}</h1>
-						<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+	<div class="container">
+		<div class="align-items-center pt-3 pb-2 mb-3 ">
+			<div id="session" v-if="session && !selected">
+				<div id="session-header " class="d-flex justify-content-center m-4">
+					<h2 id="session-title" class="d-flex justify-content-center">
+						<img class="setimg" src="@/assets/gear.png"> &nbsp;
+						<div>SETTING</div>
+					</h2>
+				</div>
+				<div class="container d-flex justify-content-center">
+					<div >
+						<user-video  :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 					</div>
-					<div>
-						초대 URL<input type="text" v-model="copyUrl">
-					</div>
-					<div id="video-container" class="col-md-4">
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-						<div>
-							<span v-if="this.audioDetect">{{ this.myUserName }} 이 말하는 중입니다.</span>
-							<span v-else>조용하네요</span>
-						</div>
-					</div>
-
-					<div>
-
-						<span v-if="this.checkVideo"><i @click="this.togglepublisherVideo" class="fas fa-video-slash"></i></span>
-						<span v-else><i @click="this.togglepublisherVideo" class="fas fa-video"></i></span>
-
-						<br>
-						<span v-if="this.audioActive"><i @click="this.togglepublisherAudio" class="fas fa-volume-up"></i></span>
-
-						<span v-else><i @click="this.togglepublisherAudio" class="fas fa-volume-mute"></i></span>
-
+					<div class="col-3">
+						<my-question-list
+							:formattedElapsedTime="formattedElapsedTime"
+							@changeForm="changeForm"
+							@stopWatch="stopWatch"
+							@startWatch="startWatch"
+							>
+						</my-question-list>
 					</div>
 				</div>
 
-
-
-				<div v-if="selected">
-					<div id="video-container" class="col-md-6">
-						<div v-if="this.subscribers.length!==0">
-							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
-						</div>
-						<div v-if="this.subscribers.length===0">
-							<img src="@/assets/director.png" alt="가상 면접관">
-						</div>
-						<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
-						<p>{{this.nickname}}</p>
+				<div class="mt-5 d-flex justify-content-center">
+					<div class="setbtn m-4" @click="this.togglepublisherVideo">
+						<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
+						<span v-else><img class="soundimg" src="@/assets/video.png"></span>
 					</div>
-					<p>{{formattedElapsedTime}}</p>
+					<div class="setbtn m-4" @click="this.togglepublisherAudio">
+						<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
+						<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
+						<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
+					</div>
+					<div class="leavebtn m-4"  @click="leaveSession">
+						<i class="fas fa-times fa-lg"></i>
+					</div>
+				
+
+					
 				</div>
-
-
 
 			</div>
-        </div>
-      </main>
-      	<my-question-list
-			:selected="selected"
-			:formattedElapsedTime="formattedElapsedTime"
-			@changeForm="changeForm"
-			@stopWatch="stopWatch"
-			@startWatch="startWatch"
-			>
-		</my-question-list>
-			
-    </div>
-  </div>
+			<div v-if="selected" class="flex-container">
+				<br>
+				<div class="row text-center">
+					<h1>TEST</h1>
+				</div>
+				<div class="row text-center">
+					<div>
+						<!--초대 URL <input type="text" v-model="copyUrl" style="width:300px;" readonly/>-->
+						<button class="btn-two blue rounded" type="button" @click="docopy"><i class="fas fa-clone"></i> 초대 URL 복사</button>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-8 text-center ">
+						<div id="video-container" class="container">
+							<div class="row">
+								<!--<div v-if="this.subscribers.length!==0" class="flex-container mx-auto card text-center" style="width: 310px;height: 340px;padding:5px;">
+										<user-video class="flex-container card-img-top" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)" />
+										<div class="card-text text-center">면접관</div>
+								</div>-->
+								<div v-if="this.subscribers.length!==0">
+									<div id="my-comp-template" >
+										<user-video class="card-img-top" style="display:inline;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)" />
+									</div>
+								</div>
+								<div v-if="this.subscribers.length===0">
+									<img class="col-md-8" src="@/assets/director.png" alt="가상 면접관">
+								</div>
+								<div style="font-size:30px;padding:20px;">
+									<img v-if="elapsedTime!==0" src="@/assets/movetime.gif" style="width:50px;height:50px;"/>
+									<img v-if="elapsedTime===0" src="@/assets/stoptime.png" style="width:50px;height:50px;"/>
+									{{formattedElapsedTime}}
+								</div>
+								<div>
+									<div class="mx-auto card text-center" style="width: 310px;height: 340px;padding:5px;">
+										<user-video class="card-img-top" :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)" />
+										<div class="card-text text-center">{{this.nickname}}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<my-question-list
+						style="float: right;"
+						:formattedElapsedTime="formattedElapsedTime"
+						@changeForm="changeForm"
+						stopWatch="stopWatch"
+						@startWatch="startWatch"
+					>
+					</my-question-list>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -77,10 +107,10 @@ import UserVideo from '@/components/interview/UserVideo.vue';
 import {  mapMutations, mapState } from 'vuex';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-// const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
-// const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://i6c207.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "Ss2o0l7o";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
 
 	components: {
@@ -91,7 +121,6 @@ export default {
 	data () {
 		return {
 			questionStop:[],
-			selected : false,
 			OV: undefined,
 			session: undefined,
 			mainStreamManager: undefined,
@@ -111,7 +140,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname"]),
+		...mapState(["isLogin", "signinIdx", "vidieoActive",  "session", "nickname", "selected"]),
 		formattedElapsedTime() {
       const date = new Date(null);
       date.setSeconds(this.elapsedTime / 1000);
@@ -121,9 +150,9 @@ export default {
 	},
 
 	methods: {
-		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION"]),
-		changeForm(propSelected){
-			this.selected= propSelected
+		...mapMutations(["SET_VIDEO", "SET_AUDIO", "toggleVideo", "toggleAudio", "SET_AUDIO_DETECT", "SET_SESSION", "SET_SELECTED","SET_SELECTED_LIST"]),
+		changeForm(){
+			this.$store.commit("SET_SELECTED", true);
 		},
 		speechDetect() {
 			this.session.on('publisherStartSpeaking', () => {
@@ -203,7 +232,7 @@ export default {
 							videoSource: undefined, // The source of video. If undefined default webcam
 							publishAudio: false,  	// Whether you want to start publishing with your audio unmuted or not
 							publishVideo: false,  	// Whether you want to start publishing with your video enabled or not
-							resolution: '300x300',  // The resolution of your video 640x480
+							resolution: '650x400',  // The resolution of your video 640x480
 							frameRate: 30,			// The frame rate of your video
 							insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
 							mirror: false       	// Whether to mirror your local video or not
@@ -233,8 +262,10 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
+			this.$store.commit("SET_SELECTED", false)
+			this.$store.commit("SET_SELECTED_LIST", [])
 
-      this.$router.push('Home') 
+     		this.$router.push('Home') 
 			window.removeEventListener('beforeunload', this.leaveSession);
 		},
 
@@ -315,6 +346,11 @@ export default {
 		stopWatch() {
 			clearInterval(this.timer);
 		},
+
+		docopy(){
+			const currenturl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId;
+			navigator.clipboard.writeText(currenturl);
+		}
 	},
 
 	created() {
@@ -333,6 +369,37 @@ export default {
 </script>
 
 <style scoped>
+.leavebtn{
+	border-radius: 50%;
+	background: #e85848;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+.leavebtn:hover{
+	background: rgb(221, 34, 34);
+}
+.setbtn{
+	border-radius: 50%;
+	background: #68c433;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+.setbtn:hover{
+	background: green;
+	
+}
+.soundimg {
+	width: 27px;
+	height: 27px;
+}
+.setimg{
+	width: 35px;
+	height: 35px;
+}
 .btn_interview {
   font-weight: bolder;
   color: blueviolet;
@@ -357,6 +424,23 @@ export default {
   background-color: blueviolet;
   color: white;
 }
-
+.btn-two {
+	color: white;	
+	padding: 10px 25px;
+	display: inline-block;
+	border: none;
+	border-bottom-color: rgba(0,0,0,0.34);
+	text-shadow:0 1px 0 rgba(0,0,0,0.15);
+	box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset, 
+				      0 2px 0 -1px rgba(0,0,0,0.13), 
+				      0 3px 0 -1px rgba(0,0,0,0.08), 
+				      0 3px 13px -1px rgba(0,0,0,0.21);
+}
+.btn-two:active {
+	top: 1px;
+	box-shadow: 0 1px 0 rgba(255,255,255,0.89),0 1px rgba(0,0,0,0.05) inset;
+	position: relative;
+}
+.blue   {background: #6698cb;}
 </style>
 
