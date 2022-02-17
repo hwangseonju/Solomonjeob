@@ -1,7 +1,7 @@
 <template>
   <div v-if="!selected" class="col-12">
-    <!-- <h3 class="text-center">질문 모음집</h3> -->
-    <div style="height: 514px; overflow: auto; background-color:#dde1eb;">
+    <h3 class="text-center">질문 모음집</h3>
+    <div style="height: 472px; overflow: auto; background-color:#dde1eb;">
       <div class="list-group qnasList" v-for="qnas in this.questionList" :key="qnas">
         <div class="btn-group">
           <button type="button" 

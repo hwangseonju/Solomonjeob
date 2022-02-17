@@ -5,7 +5,7 @@
 				<div id="session-header " class="d-flex justify-content-center m-4">
 					<h2 id="session-title" class="d-flex justify-content-center">
 						<img class="setimg" src="@/assets/gear.png"> &nbsp;
-						<div>SETTING</div>
+						<div>환경설정</div>
 					</h2>
 				</div>
 				<div class="container d-flex justify-content-center">
