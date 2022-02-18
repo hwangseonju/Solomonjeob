@@ -4,7 +4,7 @@
 		<br>
 		<!--title-->
 		<div class="text-center">
-			<img class="img" src="@/assets/solomon_logo2.png" alt="Developer" style="width:150px; heigth:150px"/>
+			<img class="img" src="@/assets/logo_semibold.png" alt="Developer" style="width:150px; heigth:150px"/>
 		</div>
 		<!--content-->
 		<div>
@@ -370,9 +370,6 @@ export default {
 	beforeUnmount() {
 			this.leaveSession();
     },
-
-
-
 }
 </script>
 

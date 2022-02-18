@@ -67,7 +67,7 @@
 									</div>
 								</div>
 								<div v-if="this.subscribers.length===0">
-									<img class="col-md-8" src="@/assets/director.png" alt="가상 면접관">
+									<img class="col-md-8" src="@/assets/interviewww.jpg" alt="가상 면접관">
 								</div>
 								<div style="font-size:30px;padding:20px;">
 									<img v-if="checkstop" src="@/assets/movetime.gif" style="width:50px;height:50px;"/>
@@ -80,16 +80,21 @@
 										<div class="card-text text-center"><b>{{this.nickname}}</b></div>
 									</div>
 									<div class="mt-1 mb-3 d-flex justify-content-center">
-										<div class="setbtn m-4" @click="this.togglepublisherVideo">
+										<div class="setbtn m-3" @click="this.togglepublisherVideo">
 											<span v-if="this.checkVideo"><img class="soundimg" src="@/assets/novideo.png"></span>
 											<span v-else><img class="soundimg" src="@/assets/video.png"></span>
 										</div>
-										<div class="setbtn m-4" @click="this.togglepublisherAudio">
+										<div class="setbtn m-3" @click="this.togglepublisherAudio">
 											<span v-if="this.audioActive && !this.audioDetect"><img class="soundimg" src="@/assets/audio.png"></span>
 											<span v-if="!this.audioActive"><img src="@/assets/noaudio.png"></span>
 											<span v-if="this.audioDetect && this.audioDetect"><img class="soundimg" src="@/assets/audio.gif"></span>
 										</div>
-										<div class="leavebtn m-4"  @click="leaveSession">
+										<div class="recordbtn m-3">
+											<span v-if="this.checkrecord===0" @click="videorecordstart(mySessionId)"><img class="soundimg" src="@/assets/recordstart.png"></span>
+											<span v-if="this.checkrecord===1" @click="videorecordend(mySessionId)"><img class="soundimg" src="@/assets/recording.gif"></span>
+											<a v-if="this.checkrecord===2" :href="videourl" target="_blank"><img class="soundimg" src="@/assets/seerecord.png"></a>
+										</div>
+										<div class="leavebtn m-3"  @click="leaveSession">
 											<i class="fas fa-times fa-lg"></i>
 										</div>
 									</div>
@@ -97,14 +102,14 @@
 							</div>
 						</div>
 					</div>
-					<my-question-list
-						style="float: right;"
-						:formattedElapsedTime="formattedElapsedTime"
-						@changeForm="changeForm"
-						@stopWatch="stopWatch"
-						@startWatch="startWatch"
-					>
-					</my-question-list>
+						<my-question-list
+							style="float: right;"
+							:formattedElapsedTime="formattedElapsedTime"
+							@changeForm="changeForm"
+							@stopWatch="stopWatch"
+							@startWatch="startWatch"
+						>
+						</my-question-list>
 				</div>
 			</div>
 		</div>
@@ -149,7 +154,9 @@ export default {
 			elapsedTime: 0,
 			timer: undefined,
 			copyUrl : '',
-			checkstop : false
+			checkstop : false,
+			checkrecord : 0,
+			videourl : '',
 		}
 	},
 	computed: {
@@ -365,7 +372,31 @@ export default {
 		docopy(){
 			const currenturl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId;
 			navigator.clipboard.writeText(currenturl);
-		}
+		},
+
+		videorecordstart(sessionid){
+			this.checkrecord = 1;
+            this.mySessionId = sessionid;
+            axios
+			.post(`${OPENVIDU_SERVER_URL}/openvidu/api/recordings/start`,{session:`${sessionid}`}, {
+                auth: {
+                    username: 'OPENVIDUAPP',
+                    password: OPENVIDU_SERVER_SECRET,
+                },
+            }).then((res => { console.log(res.data) }));
+
+        },
+		
+		videorecordend(sessionid){
+			this.checkrecord = 2;
+            axios
+			.post(`${OPENVIDU_SERVER_URL}/openvidu/api/recordings/stop/${sessionid}`,{session:`${sessionid}`}, {
+                    auth: {
+                        username: 'OPENVIDUAPP',
+                        password: OPENVIDU_SERVER_SECRET,
+                    },
+                }).then((res => { console.log(res.data) }));
+        	}
 	},
 
 	created() {
@@ -374,6 +405,7 @@ export default {
 		// this.mySessionId = this.myUserName
 		this.joinSession()
 		this.copyUrl = "https://i6c207.p.ssafy.io/solomonjeob/interview/invite/"+this.mySessionId
+		this.videourl = "https://i6c207.p.ssafy.io/videodownload/"+this.mySessionId
 	},
 
 	beforeUnmount() { 
@@ -406,6 +438,17 @@ export default {
 .setbtn:hover{
 	background: green;
 	
+}
+.recordbtn {
+	border-radius: 50%;
+	background: #cfc9c8;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+.recordbtn:hover {
+	background: #a6a1a1;
 }
 .soundimg {
 	width: 27px;
