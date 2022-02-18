@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     // member sign up
-     public MemberEntity insertMember(MemberDto memberDto) {
+     public MemberEntity insertMember(MemberDto memberDto) throws MessagingException {
          EmailAuthEntity email = emailAuthRepository.save(
                  EmailAuthEntity.builder()
                          .email(memberDto.getMemberId())
@@ -37,7 +38,39 @@ public class MemberService {
         MemberEntity member = memberDto.toEntity();
         memberRepository.save(member);
 
-        emailSendService.sendEmail(email.getEmail(), email.getAuthToken());
+         StringBuffer emailcontent = new StringBuffer();
+         emailcontent.append("<!DOCTYPE html>");
+         emailcontent.append("<html>");
+         emailcontent.append("<head>");
+         emailcontent.append("</head>");
+         emailcontent.append("<body>");
+         emailcontent.append(
+                 " <div" 																																																	+
+                         "	style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 600px; height: 600px; border-top: 4px solid #62b0ec; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">"		+
+                         "	<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">"																															+
+                         "		<span style=\"font-size: 15px; margin: 0 0 10px 3px;\"><b>SOLOMONJEOB</b></span><br />"																													+
+                         "		<span style=\"color: #62b0ec\">회원가입 인증</span> 메일입니다."																																				+
+                         "	</h1>\n"																																																+
+                         "	<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">"																													+
+                         member.getNickName()																																																+
+                         "		님 안녕하세요 :D<br />"																																													+
+                         "		솔로몬접에 가입해 주셔서 진심으로 감사드립니다.<br />"																																						+
+                         "		아래 <b style=\"color: #62b0ec\">'메일 인증'</b> 버튼을 클릭하여 회원가입을 완료해 주세요.<br />"																													+
+                         "		감사합니다."																																															+
+                         "	</p>"																																																	+
+                         "	<a style=\"color: #FFF; text-decoration: none; text-align: center;\""																																	+
+                         "	href=\"https://i6c207.p.ssafy.io/api/members/email/auth?email=" + email.getEmail() + "&authToken=" + email.getAuthToken() + "\" target=\"_blank\">"														+
+                         "		<p"																																																	+
+                         "			style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #62b0ec; line-height: 45px; vertical-align: middle; font-size: 16px;\">"							+
+                         "			메일 인증</p>"																																														+
+                         "	</a>"																																																	+
+                         "	<div style=\"border-top: 4px solid #62b0ec; padding: 5px;\"></div>"																																		+
+                         " </div>"
+         );
+         emailcontent.append("</body>");
+         emailcontent.append("</html>");
+
+        emailSendService.sendEmail(email.getEmail(), emailcontent.toString());
         return member;
     }
 
