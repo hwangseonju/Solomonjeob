@@ -18,12 +18,13 @@
       </div>
     </div>
     <br>
+    <div v-if="isLogin" class="text-center">
       <div class="d-flex justify-content-center">
         <button class="selectbtn button button1 col-10" type="button" @click="submitChecked()">
           선택 완료
         </button>
       </div>
-      
+    </div>  
   </div>
 
   <div v-if="selected" id="sidebarMenu" class="col-6 col-md-3" >
