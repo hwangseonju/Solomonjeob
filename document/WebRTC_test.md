@@ -22,7 +22,7 @@ WebRTC (STUN, TURN 서버)
 - WebRTC 개념 및 사용법
   
      : 여러가지 목적으로 사용될 수 있으며, Media Capture and Streams API와 상당히 많은 부분이 겹친다. 이 둘은 서로 상호작용을 하면서 웹에 강력한 멀티미디어 기능을 제공한다.
-        
+     
     두 피어 간의 커넥션은 [RTCPeerConnection](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection) 인터페이스를 통해 이루어진다. 커넥션이 이루어지고 열리면, 미디어 스트림들([MediaStream](https://www.gitbook.com/?utm_source=legacy&utm_medium=redirect&utm_campaign=close_legacy#))과 데이터 채널([RTCDataChannel](https://www.gitbook.com/?utm_source=legacy&utm_medium=redirect&utm_campaign=close_legacy#))들을 커넥션에 연결할 수 있다.
     
     미디어 스트림들은 미디어 정보를 가지는 다수의 트랙들로 구성될 수 있다. [MediaStreamTrack](https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack) 인터페이스 object를 베이스로 하는 트랙은 음성, 영상 및 텍스트(제목 또는 챕터 이름 조차도 포함 가능하다)를 포함하는 다양한 미디어 데이터의 타입 중 하나를 포함할 수 있다.
@@ -156,6 +156,59 @@ Ubuntu : Ubuntu 16.04.7 LTS (Xenial Xerus)
     
     - How to install Coturn?
     
+
+![18.PNG](./photo/WebRTC_test/18.png)
+
+- 설치를 하면 자동으로 실행되기 때문에 stop 해줘야한다.
+
+  ![19_coturn자동실행이라멈춰야함.PNG](./photo/WebRTC_test/19_coturn자동실행이라멈춰야함.png)
+
+  파일 설정에 들어가기 앞서
+
+  본인의 외부 ip주소를 알아야한다.
+
+  private ip : ifconfig
+
+  public ip : hostname -I
+
+  를 통해 얻도록 한다.
+
+  ```jsx
+  sudo vi /etc/turnserver.conf
+  ```
+
+  ![Untitled](./photo/WebRTC_test/Untitled 3.png)
+
+  ```
+  간략한 주석들 설명
+  
+  # turnserver의 포트입니다.
+  listening-port=3478
+  # tls 포트입니다.
+  tls-listening-port=5349
+  # 외부IP를 넣어줍니다.(공유기 사용시 WAN상의 외부IP를 넣어줍니다.)
+  external-ip=123.123.126.123
+  # 로그를 뽑을 수 있으니 주석을 해제하였습니다.
+  verbose
+  # 이것도 주석해제
+  fingerprint
+  # 인증방식 주석해제
+  lt-cred-mech
+  # turnserver 도메인 네임입니다.
+  server-name=test.com
+  # 릴름은 원하는 네임명으로 해줍니다.
+  realm=testname
+  # turn 로그인 계정(id:guest, pw:ssafy123)
+  user=guest:ssafy123
+  ```
+
+  ```jsx
+  /etc/kurento...
+  ```
+
+  
+
+
 - Check your installation
   
     KMD server를 시작한 후 잘 실행되고 있는지 확인한다.

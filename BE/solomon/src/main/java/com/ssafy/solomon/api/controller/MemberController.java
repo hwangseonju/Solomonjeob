@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -44,7 +46,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원 가입", notes = "일반 회원 가입")
     @PostMapping("/signup/member")
-    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) throws MessagingException {
         MemberEntity result = memberService.insertMember(memberDto);
         if(result.getMemberId()==memberDto.getMemberId()) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -52,12 +54,39 @@ public class MemberController {
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "이메일 중복 체크", notes = "회원가입 시 이메일 중복 체크")
+    @ApiOperation(value = "이메일 인증", notes = "회원가입 시 이메일 인증")
     @GetMapping("/email/auth")
-    public ResponseEntity<String> emailCheck(@ModelAttribute EmailAuthDto emailAuthDto) throws Exception {
+    public ResponseEntity emailCheck(@ModelAttribute EmailAuthDto emailAuthDto) throws Exception {
         memberService.checkEmail(emailAuthDto);
         ////System.out.println("여기");
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        String message = "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "\t<head>\n" +
+                "\t\t<meta charset=\"utf-8\">\n" +
+                "\t\t<title> solomonjeob </title>\n" +
+                "\t</head>\n" +
+                "\t<body>\n" +
+                "\t\t<div style=\"font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 600px; height: 600px; border-top: 4px solid #62b0ec; margin: 100px auto; padding: 30px 0; box-sizing: border-box;\">\n" +
+                "\t\t\t<h1 style=\"margin: 0; padding: 0 5px; font-size: 28px; font-weight: 400;\">\n" +
+                "\t\t\t<span style=\"font-size: 15px; margin: 0 0 10px 3px;\"><b>SOLOMONJEOB</b></span><br />\n" +
+                "\t\t\t<span style=\"color: #62b0ec\">메일 인증이 완료되었습니다.</span>\n" +
+                "\t\t\t</h1>\n" +
+                "\t\t\t<p style=\"font-size: 16px; line-height: 26px; margin-top: 50px; padding: 0 5px;\">\n" +
+                "\t\t\t솔로몬접과 함께 취뽀하러 가보실까요?\n" +
+                "\t\t\t<a style=\"color: #FFF; \n" +
+                "\t\t\ttext-decoration: none; \n" +
+                "\t\t\ttext-align: center;\" \n" +
+                "\t\t\thref=\"http://i6c207.p.ssafy.io\" \n" +
+                "\t\t\ttarget=\"_blank\">\n" +
+                "                <p style=\"display: inline-block; width: 210px; height: 45px; margin: 30px 5px 40px; background: #62b0ec; line-height: 45px; vertical-align: middle; text-align: center; font-size: 16px;\">솔로몬접 GO</p>\n" +
+                "            </a>\n" +
+                "\t\t\t<div style=\"border-top: 4px solid #62b0ec; padding: 5px;\"></div>\n" +
+                "\t\t</div>\n" +
+                "\t</body>\n" +
+                "</html>\n" +
+                "\n";
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
     @ApiOperation(value = "아이디 중복 체크", notes = "회원가입시 아이디 중복 체크")
@@ -108,6 +137,7 @@ public class MemberController {
                         res.setHeader("jwt-auth-token", token);
 //            resultMap.put("signinId", memberDto.getMemberId());
                         resultMap.put("signinIdx", memberEntity.getMemberIdx());
+                        resultMap.put("nickname", memberEntity.getNickName());
 //                        resultMap.put("jwt-auth-token", token);
                         resultMap.put("status", true);
                         status = HttpStatus.ACCEPTED;
@@ -215,7 +245,7 @@ public ResponseEntity<Map<String, Object>> oauthKakao(
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=e35ccc21d2cf1759f526eef14ea4b921");  //본인이 발급받은 key
-            sb.append("&redirect_uri=http://localhost:8081");     // 본인이 설정해 놓은 경로
+            sb.append("&redirect_uri=https://i6c207.p.ssafy.io");     // 본인이 설정해 놓은 경로
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
