@@ -26,6 +26,8 @@
 
 ------
 
+![시작페이지](./Img/솔로몬접_시작페이지.png)
+
 ![내질문모음집](./Img/image-20220218114400182.png)
 
 ![환경설정](./Img/image-20220218114543222.png)
@@ -91,6 +93,7 @@
 - bootstrap-vue @2.21.2
 - Openvidu-bowser @2.20.0 : WebRTC 라이브러리
 - eslint & prettier @6.7.2 : 협업을 위한 formatter 라이브러리
+- Vuex @4.0.2
 
 </div>
 </details>
@@ -130,7 +133,7 @@
 | 구분           | 링크                                                         |
 | -------------- | ------------------------------------------------------------ |
 | Notion         | [notion](https://feline-pluto-dd6.notion.site/393ec2193d8d4ec2976a198e5b00a699) |
-| Documents      | ppt                                                          |
+| Documents      | [PPT](./exec/광주_2반_C207_발표자료.pdf)                     |
 | Git Convention | [notion-convention](https://feline-pluto-dd6.notion.site/branch-commit-convention-bc49a8657c5b4a9abfa97a9df1d98c89) |
 | WireFrame      | [Oven](https://ovenapp.io/view/xq832UXEkW43RQMdULxiaBkPIe0sGuVc/) |
 
